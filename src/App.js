@@ -16,9 +16,7 @@ import constants from "../src/constants";
 import PaymentSuccess from "./Pages/Dashboard/PaymentSuccess";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 const AuthContext = createContext("");
-
 function App() {
-
   const loc = useLocation()
   console.log("location:" + loc.pathname)
   const navigate = useNavigate();
@@ -26,7 +24,9 @@ function App() {
     LoggedUserData: "",
     status: false,
   });
+
   const [loading, setloading] = useState(true);
+  const [pageLoaded, setpageLoaded] = useState(true);
   console.log(authState.LoggedUserData);
   useEffect(() => {
     const script = document.createElement("script");
@@ -38,6 +38,7 @@ function App() {
     };
   }, []);
   useEffect(() => {
+    setpageLoaded(false)
     console.log("requesting")
     axios
       .get(`https://${constants.host}:3003/signin/verifyToken`, {
@@ -74,9 +75,10 @@ function App() {
               LoggedUserData: response.data.userData,
               status: true,
             });
-            console.log("completed")
+
           }
         }
+        setpageLoaded(true)
       });
   }, []);
   return (
@@ -116,18 +118,20 @@ function App() {
         ) : (
           <Route
             path="/dashboard"
-            element={<SignIn />}
+            element={<Navigate replace to="/signin" />}
           />
         )}
-        <Route
-          path="*"
-          element={
-            <p className="h1 mx-auto">
-              {" "}
-              404 Error <br /> page not found
-            </p>
-          }
-        />
+        {
+          authState.status ? <Route
+            path="*"
+            element={
+              <p className="h1 mx-auto">
+                {" "}
+                404 Error <br /> page not found
+              </p>
+            }
+          /> : null
+        }
       </Routes>
     </AuthContext.Provider>
   );

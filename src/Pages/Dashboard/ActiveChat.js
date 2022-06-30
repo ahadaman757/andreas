@@ -9,8 +9,7 @@ import React, {
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import { FaUser } from "react-icons/fa";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { HiOutlineScissors, HiClock } from "react-icons/hi";
-import { IoIosCloseCircleOutline, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { AiFillSave, AiFillInfoCircle } from "react-icons/ai";
 import styles from "./styles.module.css";
 import colors from "../../../src/assets/Constants/ui_constants";
@@ -47,7 +46,12 @@ const asyncLocalStorage = {
     return localStorage.getItem(key);
   },
 };
-function ActiveChat() {
+
+
+function ActiveChat(props) {
+
+  const loc = useLocation()
+  console.log(loc.pathname)
   const [othersChat, setothersChat] = useState(false);
   const [customerID, setcustomerID] = useState("");
   const [chatData, setchatData] = useState("");
@@ -60,6 +64,8 @@ function ActiveChat() {
   const [chatEnd, setchatEnd] = useState(false);
   const [loading, setLoading] = useState(false);
   // handle lead form
+
+
   const formik = useFormik({
     initialValues: {
       agent: loggedAgent,
