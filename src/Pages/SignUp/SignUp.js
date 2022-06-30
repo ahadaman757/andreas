@@ -8,13 +8,17 @@ import { Navigate, useNavigate } from "react-router-dom";
 import constants from "../../constants";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import PrivacyModal from "../../Components/UI/Modal/PrivacyModal";
 function SignUp() {
   const navigate = useNavigate();
   const [serverError, setserverError] = useState("");
   const [AccountCreation, setAccountCreation] = useState(false)
   const [codeGenerating, setcodeGenerating] = useState(false)
   const [verificationCode, setverificationCode] = useState();
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const handleClose = () => {
+    setShowPrivacyModal(!showPrivacyModal)
+  }
   const SignupSchema = Yup.object().shape({
     fname: Yup.string()
       .min(5, "Too Short!")
@@ -100,8 +104,6 @@ function SignUp() {
 
     setcodeGenerating(true)
     axios.post('https://192.163.206.200:3003/users/generateCode', { email: formik.values.email, codeLength: length }).then(response => {
-      console.log(response)
-      console.log("success:" + response + "end")
       setverificationCode(response.data.code)
       if (response.data.success)
         toast.success(`Code sent to your Email`, {
@@ -115,8 +117,6 @@ function SignUp() {
         });
       setcodeGenerating(false)
     }).catch(error => {
-      console.log(error)
-      console.log("failed")
       toast.error(`Error:${error}`, {
         position: "top-center",
         autoClose: 5000,
@@ -130,9 +130,9 @@ function SignUp() {
     })
     // return result;
   }
-  console.log(codeGenerating)
   return (
     <Fragment>
+      <PrivacyModal open={showPrivacyModal} handleClose={handleClose} />
       <div className={`container-fluid  ${styles.back}  d-flex  `}>
         <div className="container d-flex">
           <div className={`row  ${styles.row} `}>
@@ -157,8 +157,10 @@ function SignUp() {
                     </div>
                   </div>
                   <ul className={`${styles.terms} d-flex text-white`}>
-                    <li className="me-3">Privacy & Terms</li>
-                    <li>Contact Us</li>
+                  <li className="me-3" onClick={() => {
+                    setShowPrivacyModal(!showPrivacyModal);
+                  }} style={{cursor: 'pointer'}}>Privacy & Terms</li>
+                    {/* <li>Contact Us</li> */}
                   </ul>
                 </div>
               </div>
