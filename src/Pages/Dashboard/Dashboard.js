@@ -45,13 +45,6 @@ const OwnerDashboard = () => {
             <div className={`${styles.live_now} p-3`}>
               <div className="d-flex justify-content-between">
                 <h1 className="h4 fw-bold">Live now</h1>
-                <button className={` px-2 ${styles.live_now_btn}`}>
-                  <span>
-                    {" "}
-                    <AiOutlineCalendar />{" "}
-                  </span>
-                  Live Now
-                </button>
               </div>
               <LiveVisitorsChart />
             </div>
@@ -162,13 +155,6 @@ const AgentDashboard = () => {
             <div className={`${styles.live_now} p-3`}>
               <div className="d-flex justify-content-between">
                 <h1 className="h4 fw-bold">Leads Stats</h1>
-                <button className={` px-2 ${styles.live_now_btn}`}>
-                  <span>
-                    {" "}
-                    <AiOutlineCalendar />{" "}
-                  </span>
-                  Live Now
-                </button>
               </div>
               <LiveVisitorsChart />
             </div>
