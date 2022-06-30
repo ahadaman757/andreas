@@ -58,6 +58,7 @@ function ActiveChat() {
   const [companies, setCompanies] = useState([]);
   const [loggedAgent, setloggedAgent] = useState("");
   const [chatEnd, setchatEnd] = useState(false);
+  const [loading, setLoading] = useState(false);
   // handle lead form
   const formik = useFormik({
     initialValues: {
@@ -70,9 +71,9 @@ function ActiveChat() {
       agent_id: authState.LoggedUserData.id,
     },
     onSubmit: (values) => {
+      setLoading(true);
       values.agent = loggedAgent;
       values.company_url = chatData.origin;
-      console.log(JSON.stringify(values, null, 2));
       const date = new Date();
       const month = date.getMonth() + 1;
       const inputDate = date.getFullYear() + "-" + month + "-" + date.getDate();
@@ -90,6 +91,7 @@ function ActiveChat() {
                 chat: JSON.stringify(allMessages),
               })
               .catch((error) => {
+                setLoading(false);
                 if (error) {
                   toast.error(`Error:Lead Not Added`, {
                     position: "top-center",
@@ -103,7 +105,10 @@ function ActiveChat() {
                 }
               })
               .then((addLeadResponse) => {
+                setLoading(false);
+                
                 if (addLeadResponse.data.status) {
+                  formik.resetForm()
                   toast.success("🦄 Lead Added", {
                     position: "top-center",
                     autoClose: 5000,
@@ -473,12 +478,13 @@ function ActiveChat() {
                               </label>
                               <input
                                 type="text"
-                                placeholder="Customer Name"
+                                placeholder="John Doe."
                                 className="form-control"
                                 id="customer_name"
                                 name="customer_name"
                                 onChange={formik.handleChange}
                                 value={formik.values.customer_name}
+                                disabled={loading}
                               />
                             </div>
                             <div className="mb-3">
@@ -490,12 +496,13 @@ function ActiveChat() {
                               </label>
                               <input
                                 type="email"
-                                placeholder="Customer Email"
+                                placeholder="john@gmail.com"
                                 className="form-control"
                                 id="email"
                                 name="email"
                                 onChange={formik.handleChange}
                                 value={formik.values.email}
+                                disabled={loading}
                               />
                             </div>
                             <div className="mb-3">
@@ -507,31 +514,29 @@ function ActiveChat() {
                               </label>
                               <input
                                 type="phone"
-                                placeholder="Customer Mobile Number"
+                                placeholder="+1 456 ... ...."
                                 className="form-control"
                                 id="phone"
                                 name="phone"
                                 onChange={formik.handleChange}
                                 value={formik.values.phone}
+                                disabled={loading}
                               />
-                            </div>
-                            <div className="mb-3">
-                              <p className="mb-0">Visitor navigated to</p>
-                              <a className="blue-link" href="">
-                                https://linke123here/chat/210402098
-                              </a>
                             </div>
                           </Card.Body>
                           <Card.Footer className="d-flex justify-content-between">
-                            <Button style={{ border: 0 }} variant="secondary">
+                            <Button type="button" style={{ border: 0 }} variant="secondary" onClick={() => {
+                              formik.resetForm()
+                            }}>
                               Cancel
                             </Button>
                             <button
                               type="submit"
                               className={`text-decoration-none ${styles.payment_save_btn}`}
                               variant="secondary"
+                              disabled={loading}
                             >
-                              Done
+                              { loading === true ? 'Adding, Please wait...' : "Add Lead" }
                             </button>
                           </Card.Footer>
                         </form>
