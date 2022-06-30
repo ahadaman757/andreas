@@ -1,0 +1,39 @@
+.loginForm{
+    background: #FFFFFF;
+    border: 1px solid #161C2D;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 40px rgba(22, 28, 45, 0.08);
+    border-radius: 8px;
+    /* padding: 1rem; */
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    
+}
+.loginForm_header{
+    border-bottom:1px solid #161C2D;
+}
+.formHeader_text{
+    font-size: 24px;
+    font-weight: 400;
+}
+.formText{
+    font-size: 16px;
+    font-weight: 300;
+    color:#161C2D;
+    line-height: 24px;
+}
+
+.loginBtn_txt{
+    font-weight: 500;
+}
+.input{
+    border: 1px solid #DBDBDB;
+}
+.formError{
+    color: red;
+    font-size: 16px;
+  }
+  .successmsg{
+      color: #1BA260;
+      font-size: 16px;
+  }

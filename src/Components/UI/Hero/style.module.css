@@ -1,0 +1,21 @@
+.section{
+    position: relative;
+   display: flex;
+min-height: 100%;
+}
+.dashboard_right_img{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    border-top-left-radius: 50%;
+    border-top: 10px solid white;
+    border-left: 10px solid white;
+}
+.dashboard_left_btn{
+    background: linear-gradient(90deg, #1BA260 0%, #2FDD92 100%);
+    border: 0px;
+    padding:8px 16px 8px 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+}
