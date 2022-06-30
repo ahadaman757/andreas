@@ -146,11 +146,9 @@ function Messaging() {
                         </th>
                         <th>User Name</th>
                         <th>Messages</th>
-                        <th>Time</th>
                         <th>Agent</th>
                         <th>Date</th>
                         <th>Activity</th>
-                        <th>Chat</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -167,12 +165,11 @@ function Messaging() {
                           <tr key={chat.id}>
                             <td>
                               <span className="badge badge-curious-bold">
-                                T
+                              {chat.id}
                               </span>
                             </td>
                             <td>{chat.customer_id}</td>
                             <td>{`${chat.count} Messages`}</td>
-                            <td>9 min</td>
                             <td>
                               <span className="badge badge-grey-light-bold ">
                                 {chat.agent_name}
@@ -193,9 +190,6 @@ function Messaging() {
                                 src={require("../../assets/Images/chatimg.png")}
                                 alt=""
                               />
-                            </td>
-                            <td>
-                              <input type="checkbox" />
                             </td>
                           </tr>
                         );
