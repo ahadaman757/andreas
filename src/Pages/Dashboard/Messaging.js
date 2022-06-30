@@ -27,6 +27,13 @@ function Messaging() {
     }
     return 0;
   }
+  const getAllList = () =>  {
+    axios.get(`https://192.163.206.200:3003/chats/getallchats`).then(response => {
+      setchatList((pre) => {
+        return [...response.data]
+      })
+    })
+  }
   const sortListDescending = () => {
     let sortList = chatList.sort((a, b) => {
       let da = new Date(a.created_date),
@@ -45,8 +52,10 @@ function Messaging() {
         setchatList(pre => [...list])
         break;
       default:
-        alert('other')
+        getAllList()
+        // alert('other')
       // code block
+      break;
     }
   }
   return (
@@ -55,18 +64,6 @@ function Messaging() {
       <div className="container-fluid  px-1 px-md-2 ps-lg-4 pe-lg-5 ">
         <div className="row px-1  py-2">
           <div className="col-12 col-xl-11">
-            {/* <div className="contianer-fluid card">
-                            <div className="row  py-2">
-                                <div className="col-md-7 align-items-center ms-auto d-flex justify-content-between ">
-                                    <span className='ms-1' >
-                                        Monday 01:12 AM
-                                    </span>
-                                    <button className="btn-primary-light me-2">
-                                        New Ticket
-                                    </button>
-                                </div>
-                            </div>
-                        </div> */}
             <div className="container-fluid mx-0 mx-md-3">
               <div className="row d-flex flex-wrap align-items-center my-3">
                 <div
@@ -95,20 +92,6 @@ function Messaging() {
                       <i className="fas text-white fa-search"></i>
                     </span>
                   </div>
-                  {/* <div className="d-flex mx-auto flex-wrap" style={{ gap: 40 }} >
-                                        <div className='d-flex flex-wrap align-items-center' style={{ gap: 8 }}>
-                                            <img className='messaging-tick-img' src={require('../../assets/Images/selects.png')} />
-                                            <span className='text-grey'>
-                                                Chats
-                                            </span>
-                                        </div>
-                                        <div className='d-flex flex-wrap align-items-center' style={{ gap: 8 }}>
-                                            <img className='messaging-tick-img' src={require('../../assets/Images/selects.png')} />
-                                            <span className='text-grey'>
-                                                Tickets
-                                            </span>
-                                        </div>
-                                    </div> */}
                 </div>
                 <div
                   className="col-md-5 d-flex flex-grow-1 justify-content-end align-items-center"
@@ -116,8 +99,9 @@ function Messaging() {
                 >
                   <span className="text-grey me-2">
                     {/* <MdKeyboardArrowDown className="ms-1" /> */}
+                    <label>Sort by:</label>
                     <select onChange={(e) => handlesortBy(e)} defaultValue='default' className={`ms-1 ${styles.sortBydropdown}`} name="sortby" id="sortBy">
-                      <option value="default">sort by</option>
+                      <option value="default">All</option>
                       <option onSelect={sortListDescending} value="date">Date</option>
                       <option value="status">Activity</option>
                     </select>
@@ -160,7 +144,6 @@ function Messaging() {
                       }).map((chat) => {
                         const chat_started = new Date(chat.created_date)
                         let showDate = chat_started.toLocaleDateString()
-                        // console.log(dayWrapper)
                         return (
                           <tr key={chat.id}>
                             <td>
