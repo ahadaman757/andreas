@@ -3,7 +3,7 @@ import Home from "../src/Pages/Home/Home";
 import SignIn from "../src/Pages/SignIn/SignIn";
 import SignUp from "../src/Pages/SignUp/SignUp";
 import MainDashboard from "./Pages/Dashboard/main";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import DashboardContent from "./Pages/Dashboard/Dashboard";
 import Monitor from "./Pages/Dashboard/Monitor";
 import ActiveChat from "./Pages/Dashboard/ActiveChat";
@@ -14,8 +14,14 @@ import Setting from "./Pages/Dashboard/Setting";
 import UserManagement from "./Pages/Dashboard/UserManagement";
 import constants from "../src/constants";
 import PaymentSuccess from "./Pages/Dashboard/PaymentSuccess";
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
 const AuthContext = createContext("");
+
 function App() {
+
+  const loc = useLocation()
+  console.log("location:" + loc.pathname)
+  const navigate = useNavigate();
   const [authState, setAuthState] = useState({
     LoggedUserData: "",
     status: false,
@@ -32,6 +38,7 @@ function App() {
     };
   }, []);
   useEffect(() => {
+    console.log("requesting")
     axios
       .get(`https://${constants.host}:3003/signin/verifyToken`, {
         headers: {
@@ -67,6 +74,7 @@ function App() {
               LoggedUserData: response.data.userData,
               status: true,
             });
+            console.log("completed")
           }
         }
       });
@@ -103,11 +111,12 @@ function App() {
             <Route path="setting" element={<Setting />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="paymentSuccess" element={<PaymentSuccess />} />
+
           </Route>
         ) : (
           <Route
             path="/dashboard"
-            element={<p className="h1">Please login First</p>}
+            element={<SignIn />}
           />
         )}
         <Route
