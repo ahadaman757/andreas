@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import axios from "axios";
 import { tConvert } from '../../helpers/helperFunctions'
+import { fireEvent } from "@testing-library/react";
 function Monitor() {
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
@@ -22,6 +23,7 @@ function Monitor() {
   const { authState, setAuthState } = useContext(AuthContext);
   const [fetchingDataUnanswered, setfetchingUnanswered] = useState(false)
   const [fetchingDataActive, setfetchingActive] = useState(false)
+  const [eventFired, seteventFired] = useState('')
   // get all unansered users from database
   const unAnsweredUsers = () => {
     setfetchingUnanswered(true)
@@ -30,8 +32,23 @@ function Monitor() {
       setfetchingUnanswered(false)
     });
   };
+  useEffect(() => {
+    const myArray = UnAnsweredCustomer.filter(function (obj) {
+      console.log(obj)
+      console.log("id:" + eventFired)
+      return obj.customer_id != eventFired;
+    });
+    setUnAnsweredCustomer([...myArray])
+
+
+  }, [eventFired])
+
+
   // get all active users from database
   const ActiveUsers = () => {
+    socket.on("chat with id joined", (id) => {
+      seteventFired(id)
+    })
     setfetchingActive(true)
     axios.get(`https://${constants.host}:3003/chats/active`).then((res) => {
       setActiveCustomer([...res.data]);

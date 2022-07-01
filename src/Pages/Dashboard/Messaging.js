@@ -1,8 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useContext } from "react";
 import styles from "./styles.module.css";
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import axios from "axios";
+import { AuthContext } from "../../App";
 function Messaging() {
+  const { authState, setAuthState } = useContext(AuthContext);
   //end
   const [search, setSearch] = React.useState('');
   const handleSearch = (event) => {
@@ -12,12 +14,12 @@ function Messaging() {
   const [searchItem, setsearchItem] = useState("")
   // GET All CHAT DATA FROM DATABASE
   useEffect(() => {
-    axios.get(`https://192.163.206.200:3003/chats/getallchats`).then(response => {
+    axios.post(`https://192.163.206.200:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type, company_url: authState.LoggedUserData.company_url }).then(response => {
       setchatList((pre) => {
         return [...response.data]
       })
     })
-  }, [])
+  }, [authState])
   function compare(a, b) {
     if (a.is_end < b.is_end) {
       return -1;
@@ -27,8 +29,8 @@ function Messaging() {
     }
     return 0;
   }
-  const getAllList = () =>  {
-    axios.get(`https://192.163.206.200:3003/chats/getallchats`).then(response => {
+  const getAllList = () => {
+    axios.post(`https://192.163.206.200:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type }).then(response => {
       setchatList((pre) => {
         return [...response.data]
       })
@@ -54,8 +56,8 @@ function Messaging() {
       default:
         getAllList()
         // alert('other')
-      // code block
-      break;
+        // code block
+        break;
     }
   }
   return (
@@ -148,7 +150,7 @@ function Messaging() {
                           <tr key={chat.id}>
                             <td>
                               <span className="badge badge-curious-bold">
-                              {chat.id}
+                                {chat.id}
                               </span>
                             </td>
                             <td>{chat.customer_id}</td>

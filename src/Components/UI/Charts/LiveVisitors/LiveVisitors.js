@@ -49,7 +49,7 @@ function PageViews(props) {
 
 
     })
-  }, [])
+  }, [authState])
 
   const [chartoptions, setchartOptions] = useState({
     plotOptions: {

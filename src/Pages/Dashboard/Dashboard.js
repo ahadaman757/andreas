@@ -21,12 +21,12 @@ const OwnerDashboard = () => {
     axios.post(`https://${constants.host}:3003/chats/leads_by_id`, { id: authState.LoggedUserData.id, client_status: 'owner' }).then(res => {
       settotalLeads(res.data)
     })
-  }, [])
+  }, [authState])
   useEffect(() => {
     axios.post(`https://${constants.host}:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'owner' }).then(res => {
       settotalChats(res.data)
     })
-  }, [])
+  }, [authState])
   console.log(tbody)
   return (
     <Fragment>
@@ -130,13 +130,20 @@ const AgentDashboard = () => {
   useEffect(() => {
     axios.post(`https://${constants.host}:3003/chats/leads_by_id`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
       settotalLeads(res.data)
+    }).then(() => {
+      if (!totalChats) {
+        console.log("total chat zero")
+        axios.post(`https://${constants.host}:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
+          console.log("res.data:" + res.data)
+          settotalChats(res.data)
+        })
+      }
     })
-  }, [])
-  useEffect(() => {
-    axios.post(`https://${constants.host}:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
-      settotalChats(res.data)
-    })
-  }, [])
+
+
+
+  }, [authState])
+
 
   return (
     <Fragment>

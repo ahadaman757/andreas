@@ -157,9 +157,9 @@ function SignUp() {
                     </div>
                   </div>
                   <ul className={`${styles.terms} d-flex text-white`}>
-                  <li className="me-3" onClick={() => {
-                    setShowPrivacyModal(!showPrivacyModal);
-                  }} style={{cursor: 'pointer'}}>Privacy & Terms</li>
+                    <li className="me-3" onClick={() => {
+                      setShowPrivacyModal(!showPrivacyModal);
+                    }} style={{ cursor: 'pointer' }}>Privacy & Terms</li>
                     {/* <li>Contact Us</li> */}
                   </ul>
                 </div>
