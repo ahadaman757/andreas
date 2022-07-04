@@ -10,7 +10,6 @@ var LeftMessageFailed = document.createElement('img')
 var LeftMessageSent = document.createElement('img')
 var LoadingInfo = document.createElement('span')
 
-
 LeftMessageSent.src = 'https://i.ibb.co/q1MbjKz/message-sent-icon-10.png'
 LeftMessageFailed.src = 'https://i.ibb.co/W3rgsT4/image-error-icon-17.png'
 tooltipText.innerHTML = "We are online"
@@ -18,6 +17,7 @@ tooltip.appendChild(tooltipText)
 var tooltipIcon = document.createElement('img')
 tooltipIcon.src = "https://twemoji.maxcdn.com/v/13.0.1/72x72/1f44b.png"
 tooltip.appendChild(tooltipIcon)
+
 audio.src = "https://192.163.206.200:3003/images/tone.mp3";
 try {
   var socket = io(`https://192.163.206.200:3003`, {

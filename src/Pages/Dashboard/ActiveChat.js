@@ -19,8 +19,8 @@ import { AiFillWindows, AiFillPrinter, AiFillAndroid } from "react-icons/ai";
 import { MdOutlineContentCut } from "react-icons/md";
 import { BsClock } from "react-icons/bs";
 import { FaUserPlus } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
-import socket from "../../helpers/socket";
+import { useLocation, useNavigate } from "react-router-dom";
+import { socket } from "../../App";
 import { AuthContext } from "../../App";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
@@ -31,6 +31,7 @@ import Tab from "react-bootstrap/Tab";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import { tConvert } from "../../helpers/helperFunctions";
+
 import "./styles.css";
 import { useFormik } from "formik";
 import constants from "../../constants";
@@ -46,9 +47,8 @@ const asyncLocalStorage = {
     return localStorage.getItem(key);
   },
 };
-
-
 function ActiveChat(props) {
+  const navigate = useNavigate();
   const loc = useLocation()
   console.log(loc.pathname)
   const [othersChat, setothersChat] = useState(false);
@@ -63,8 +63,6 @@ function ActiveChat(props) {
   const [chatEnd, setchatEnd] = useState(false);
   const [loading, setLoading] = useState(false);
   // handle lead form
-
-
   const formik = useFormik({
     initialValues: {
       agent: loggedAgent,
@@ -111,7 +109,6 @@ function ActiveChat(props) {
               })
               .then((addLeadResponse) => {
                 setLoading(false);
-
                 if (addLeadResponse.data.status) {
                   formik.resetForm()
                   toast.success("🦄 Lead Added", {
@@ -148,6 +145,7 @@ function ActiveChat(props) {
       setloggedAgent(curretUser);
       if (chatData.served_by != authState.LoggedUserData.id) {
         setothersChat(true);
+        // navigate("/dashboard/monitor");
       } else {
         setothersChat(false);
       }
@@ -234,8 +232,9 @@ function ActiveChat(props) {
     LoadMessagesHandler();
   }, [customerID]);
   useEffect(() => {
-    chatarea.current.scrollTop =
-      chatarea.current.scrollHeight - chatarea.current.clientHeight;
+    if (!othersChat)
+      chatarea.current.scrollTop =
+        chatarea.current.scrollHeight - chatarea.current.clientHeight;
   });
   useEffect(() => {
     const companyOptions = [];
@@ -257,7 +256,6 @@ function ActiveChat(props) {
     socket.on("NEW MESSAGE", (msg, id) => {
       console.log("socket.id" + socket.id)
       const time = new Date()
-
       console.log("new message arrived")
       asyncLocalStorage.getItem("selected_customer").then(response => {
         console.log("response:" + response)
@@ -267,13 +265,15 @@ function ActiveChat(props) {
             return [...pre, { message: msg, date: time, id: msg, source: "customer", id: time },]
           })
       })
-
       // LoadMessagesHandler()
     });
   }, [socket])
   socket.on("LEAVE ROOM", () => {
     setchatEnd(true);
   });
+  if (othersChat) {
+    return <h1>Already joined by other</h1>
+  }
 
   return (
     <Fragment>
@@ -312,6 +312,7 @@ function ActiveChat(props) {
                         key={message.date}
                         agentName={agentName}
                         message={message.message}
+                        time={message.date}
                       />
                     );
                   }
@@ -603,11 +604,36 @@ const MessageBoxClient = memo((props) => {
   );
 });
 const MessageBoxAgent = (props) => {
+  const { time } = props;
+  const localtime = new Date(time);
+  const messageTime =
+    localtime.getHours() +
+    ":" +
+    localtime.getMinutes() +
+    ":" +
+    localtime.getSeconds();
+  const converted = tConvert(messageTime);
+  const messageDate =
+    localtime.getDate() +
+    "  " +
+    localtime.toLocaleString("default", { month: "long" }) +
+    " " +
+    localtime.getFullYear();
   return (
     <div className="msg mt-4 pt-15 dotted-border-top">
-      <div className="d-flex">
-        <div className="d-flex align-items-center" style={{ gap: 15 }}>
+      <div className="d-flex align-items-center justify-content-between" style={{ gap: 15, flexGrow: 1 }}>
+        <div>
           <span className="font-500">{props.agentName}</span>
+        </div>
+        <div className="d-flex flex-column " >
+
+          <span style={{ color: '#1BA260' }}>
+            {messageDate}
+          </span>
+
+          <span
+            style={{ color: '#1BA260' }}
+          >{converted}</span>
         </div>
       </div>
       <p className="mt-2 font-16 fw-300">{props.message} </p>

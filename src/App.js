@@ -9,14 +9,27 @@ import Monitor from "./Pages/Dashboard/Monitor";
 import ActiveChat from "./Pages/Dashboard/ActiveChat";
 import Messaging from "./Pages/Dashboard/Messaging";
 import axios from "axios";
+import useSound from 'use-sound'
 import Loading from "../src/Pages/Loading/Loading";
 import Setting from "./Pages/Dashboard/Setting";
 import UserManagement from "./Pages/Dashboard/UserManagement";
 import constants from "../src/constants";
 import PaymentSuccess from "./Pages/Dashboard/PaymentSuccess";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import { io } from "socket.io-client";
+import mySound from './assets/audio/Message Tone.mp3'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+var socket = io(`https://${constants.host}:3003`, {
+  transports: ["websocket"],
+  extraHeaders: {
+    "my-custom-header": "abcd",
+  },
+});
+
 const AuthContext = createContext("");
 function App() {
+  const [playSound] = useSound(mySound)
   const loc = useLocation()
   console.log("location:" + loc.pathname)
   const navigate = useNavigate();
@@ -28,6 +41,23 @@ function App() {
   const [loading, setloading] = useState(true);
   const [pageLoaded, setpageLoaded] = useState(true);
   console.log(authState.LoggedUserData);
+  useEffect(() => {
+
+    socket.onAny(e => {
+
+
+      toast.success(`${e}`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
+  }, [socket])
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "../../chat-module/chat.js";
@@ -81,8 +111,12 @@ function App() {
         setpageLoaded(true)
       });
   }, []);
+
+
   return (
+
     <AuthContext.Provider value={{ authState, setAuthState }}>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         {!authState.status ? (
@@ -137,4 +171,4 @@ function App() {
   );
 }
 export default App;
-export { AuthContext };
+export { AuthContext, socket };

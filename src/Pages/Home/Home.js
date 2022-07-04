@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Navbar from "../../Components/UI/Header/Header";
 import Constant from "../../assets/Constants/ui_constants";
 import Hero from "../../Components/UI/Hero/Hero";
@@ -7,9 +7,13 @@ import { RightShape } from "../../Components/UI/MiniComponents/MiniComponent";
 import Footer from "../../Components/UI/Footer/Footer";
 import { NavLink } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
+import useSound from 'use-sound'
+import mySound from '../../assets/audio/Message Tone.mp3'
+import { socket } from '../../App'
 const Policy = () => {
   const [show, setShow] = useState(false);
   const [propmtPolicy, setpropmtPolicy] = useState(true)
+
 
   const handleClose = () => {
     setShow(false)
@@ -128,6 +132,19 @@ const FeatureSection = (props) => {
   );
 };
 function Home() {
+
+  const [playSound] = useSound(mySound)
+  useEffect(() => {
+
+    console.log("socket:" + socket)
+    socket.on("NEW MESSAGE", (msg, id) => {
+      console.log("socket.id" + socket.id)
+      alert("new message")
+
+
+    });
+  }, [socket])
+
   return (
     <Fragment>
       <Policy />
@@ -157,6 +174,10 @@ function Home() {
               detail={`This is a thorough tracking tool that gives you a better understanding of your website visitors acitivty.`}
               img="3"
             />
+            <button onClick={() => playSound()}>
+              Play Sound
+            </button>
+
           </div>
         </div>
 

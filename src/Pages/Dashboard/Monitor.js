@@ -10,7 +10,7 @@ import constants from '../../constants'
 import { DiLinux } from "react-icons/di";
 import { AiFillWindows } from "react-icons/ai";
 import { BsFillEyeSlashFill } from "react-icons/bs";
-import socket from "../../helpers/socket";
+import { socket } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import axios from "axios";
