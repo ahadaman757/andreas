@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState, useEffect } from "react";
+import React, { Fragment, useContext, useState, useEffect, memo } from "react";
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import styles from "./styles.module.css";
 import {
@@ -16,6 +16,7 @@ import { AuthContext } from "../../App";
 import axios from "axios";
 import { tConvert } from '../../helpers/helperFunctions'
 import { fireEvent } from "@testing-library/react";
+import { useCallback } from "react";
 function Monitor() {
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
@@ -32,7 +33,9 @@ function Monitor() {
       setUnAnsweredCustomer([...res.data]);
       setfetchingUnanswered(false)
       console.log("axios received")
-    });
+    }).catch(error => {
+      console.log("catch eror:" + error)
+    })
   };
   useEffect(() => {
     const myArray = UnAnsweredCustomer.filter(function (obj) {
@@ -104,12 +107,14 @@ function Monitor() {
   //   );
   // });
   // map all the unanswered customers
+
   const UnAnsweredList = UnAnsweredCustomer.map((customer) => {
     if (authState.LoggedUserData.account_type == 'client') {
       if (authState.LoggedUserData.company_url !== customer.origin) {
         return null
       }
     }
+
     return (
       <ListCard
         newMessage={customer.new_message}
@@ -214,7 +219,7 @@ const StatusCard = (props) => {
   const [listShow, setlistShow] = useState(true);
   const LIST = props.list ? props.list : <p>no users</p>;
   return (
-    <div className="row mb-3" onClick={props.clickHandler}>
+    <div className="row mb-3" >
       <div className={`card ${styles.status_header}`}>
         <div className="d-flex align-items-center my-2">
           <div className="d-flex flex-grow-1">
@@ -247,23 +252,26 @@ const StatusCard = (props) => {
     </div>
   );
 };
-const ListCard = (props) => {
+const ListCard = memo((props) => {
   const createdDate = new Date(props.created_date)
   const time = tConvert(createdDate.toLocaleTimeString())
   const date = createdDate.toLocaleDateString()
   const createddate = date + " " + time
   return (
-    <div className="card border-top-0 rounded-0" onClick={props.clickHandler}>
+    <div className="card border-top-0 rounded-0" onClick={useCallback(() => {
+      console.log("popsid:" + props.id)
+      return props.clickHandler
+    }, [props.id])}>
       <div
         className="d-flex py-2 flex-wrap  align-items-center justify-content-between"
         style={{ gap: 10 }}
       >
-        <button type="button" class="btn btn-light-blue position-relative">
+        <button type="button" className="btn btn-light-blue position-relative">
           T
           {
-            props.newMessage ? <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            props.newMessage ? <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {props.newMessage}
-              <span class="visually-hidden">unread messages</span>
+              <span className="visually-hidden">unread messages</span>
             </span> : null
           }
         </button>
@@ -291,4 +299,4 @@ const ListCard = (props) => {
       </div>
     </div>
   );
-};
+});

@@ -61,7 +61,7 @@ function MainDashboard() {
         } else setsideNav("d-block");
       }}
     >
-      <div className="container-fluid p-0 ">
+      <div className="container-fluid bg-grey p-0 ">
         <div className="row flex-nowrap m-0 ">
           <div
             className={` ${sideNav}  ${expand ? "expand" : null
@@ -120,7 +120,7 @@ function MainDashboard() {
                     src={SVGS.ActiveChat}
                   />
                   <span className="col-8">Active Chat</span>
-                </NavLink>:null
+                </NavLink> : null
               }
               <NavLink
                 className={({ isActive }) =>
@@ -214,7 +214,7 @@ function MainDashboard() {
             </div>
           </div>
           <div
-            className={` ${sideNav + "_outlet"}  ${expand ? "outlet_expand" : "outlet_closed"
+            className={`bg-grey  ${sideNav + "_outlet"}  ${expand ? "outlet_expand" : "outlet_closed"
               }  col px-0 bg-grey`}
             style={{ height: "100vh !important" }}
           >
