@@ -234,7 +234,7 @@ function Home() {
                 <Button title="Current Plan" type="primaryFullWidth" />
               ) : (
                 <form
-                  action="http://${constants.host}:3003/create-checkout-session1"
+                  action="http://${constants.host}:3001/create-checkout-session1"
                   method="POST"
                 >
                   <Button title="Subscribe Now" type="primaryFullWidth" />

@@ -139,7 +139,7 @@ const DashboardHeader = memo(function DashboardHeader(props) {
                       authState.LoggedUserData.image ? <img
                         style={{ width: 50, height: 50 }}
                         className="rounded-circle align-middle m-2"
-                        src={`https://${constants.host}:3003/images/${authState.LoggedUserData.image}`}
+                        src={`https://${constants.host}:3001/images/${authState.LoggedUserData.image}`}
 
                       /> : <img
                         style={{ width: 50, height: 50 }}

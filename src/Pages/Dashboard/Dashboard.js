@@ -18,12 +18,12 @@ const OwnerDashboard = () => {
   const [totalChats, settotalChats] = useState(0)
   const tbody = useRef()
   useEffect(() => {
-    axios.post(`https://${constants.host}:3003/chats/leads_by_id`, { id: authState.LoggedUserData.id, client_status: 'owner' }).then(res => {
+    axios.post(`https://${constants.host}:3001/chats/leads_by_id`, { id: authState.LoggedUserData.id, client_status: 'owner' }).then(res => {
       settotalLeads(res.data)
     })
   }, [authState])
   useEffect(() => {
-    axios.post(`https://${constants.host}:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'owner' }).then(res => {
+    axios.post(`https://${constants.host}:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'owner' }).then(res => {
       settotalChats(res.data)
     })
   }, [authState])
@@ -128,12 +128,12 @@ const AgentDashboard = () => {
   const [totalLeads, settotalLeads] = useState(0)
   const [totalChats, settotalChats] = useState(0)
   useEffect(() => {
-    axios.post(`https://${constants.host}:3003/chats/leads_by_id`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
+    axios.post(`https://${constants.host}:3001/chats/leads_by_id`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
       settotalLeads(res.data)
     }).then(() => {
       if (!totalChats) {
         console.log("total chat zero")
-        axios.post(`https://${constants.host}:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
+        axios.post(`https://${constants.host}:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: 'agent' }).then(res => {
           console.log("res.data:" + res.data)
           settotalChats(res.data)
         })
@@ -266,7 +266,7 @@ const ClientDashboard = () => {
   useEffect(() => {
     setLeadsLoading(true);
     axios
-      .post(`https://${constants.host}:3003/getleads`, {
+      .post(`https://${constants.host}:3001/getleads`, {
         c_name: authState.LoggedUserData.c_name,
       })
       .then((response) => {
@@ -277,7 +277,7 @@ const ClientDashboard = () => {
       });
   }, [reload]);
   useEffect(() => {
-    axios.post(`https://${constants.host}:3003/users/remaining-leads`, {
+    axios.post(`https://${constants.host}:3001/users/remaining-leads`, {
       c_name: authState.LoggedUserData.c_name
     }).catch(error => {
       alert(error)

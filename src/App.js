@@ -20,7 +20,7 @@ import { io } from "socket.io-client";
 import mySound from './assets/audio/Message Tone.mp3'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-var socket = io(`https://${constants.host}:3003`, {
+var socket = io(`https://${constants.host}:3001`, {
   transports: ["websocket"],
   extraHeaders: {
     "my-custom-header": "abcd",
@@ -44,17 +44,43 @@ function App() {
   useEffect(() => {
 
     socket.onAny(e => {
+      switch (e) {
+        case 'new Message':
+          return null
+          break;
+        case 'room joined':
+          return null
+          break;
+        case 'NEW USER':
+          toast.success(`Message from New Customer`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          break;
+        case 'NEW MESSAGE':
+          toast.success(`New Message from Customer`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          break;
+        default:
+        // code block
+      }
+      if (e == 'new Message')
+        return null
+      if (e == 'room joined')
+        return null
 
-
-      toast.success(`${e}`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
     })
   }, [socket])
 
@@ -71,7 +97,7 @@ function App() {
     setpageLoaded(false)
     console.log("requesting")
     axios
-      .get(`https://${constants.host}:3003/signin/verifyToken`, {
+      .get(`https://${constants.host}:3001/signin/verifyToken`, {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },

@@ -18,9 +18,9 @@ var tooltipIcon = document.createElement('img')
 tooltipIcon.src = "https://twemoji.maxcdn.com/v/13.0.1/72x72/1f44b.png"
 tooltip.appendChild(tooltipIcon)
 
-audio.src = "https://192.163.206.200:3003/images/tone.mp3";
+audio.src = "https://192.163.206.200:3001/images/tone.mp3";
 try {
-  var socket = io(`https://192.163.206.200:3003`, {
+  var socket = io(`https://192.163.206.200:3001`, {
     transports: ["websocket"],
     withCredentials: true,
     extraHeaders: {
@@ -340,7 +340,7 @@ const fetchChatData = (ID) => {
   chatMessages.id = "chat_msg_area"
   var chatmsgarea = document.getElementById("chat_msg_area")
   chatmsgarea.innerHTML += '<span class="ld">Loading Chat </span>'
-  fetch("https://192.163.206.200:3003/chats/chat", {
+  fetch("https://192.163.206.200:3001/chats/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -363,7 +363,7 @@ const fetchChatData = (ID) => {
         })
         // load all messages
         const LoadMessageID = { id: ID };
-        fetch("https://192.163.206.200:3003/chats/messages", {
+        fetch("https://192.163.206.200:3001/chats/messages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -425,7 +425,7 @@ const checkChat = () => {
     const join = response ?? false;
     if (join) {
       if (response !== null)
-        chatHeaderLeftImage.src = `https://192.163.206.200:3003/images/${response}`;
+        chatHeaderLeftImage.src = `https://192.163.206.200:3001/images/${response}`;
     }
   });
 };
@@ -595,7 +595,7 @@ socket.on("room joined", (data) => {
   if (!agentJoined) {
     localStorage.setItem("image", data.image);
     if (data.image !== null)
-      chatHeaderLeftImage.src = `https://192.163.206.200:3003/images/${data.image}`;
+      chatHeaderLeftImage.src = `https://192.163.206.200:3001/images/${data.image}`;
     else
       chatHeaderLeftImage.src = `https://www.providesupport.com/blog/wp-content/uploads/2013/04/operator-picture-300x300.png`;
     agentJoined = true;

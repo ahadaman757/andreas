@@ -82,13 +82,13 @@ function ActiveChat(props) {
       const inputDate = date.getFullYear() + "-" + month + "-" + date.getDate();
       // check whether to add leads or not
       axios
-        .post(`https://${constants.host}:3003/users/remaining-leads`, {
+        .post(`https://${constants.host}:3001/users/remaining-leads`, {
           c_name: values.c_name,
         })
         .then((res) => {
           if (res.data[0].remaining_leads > 0) {
             axios
-              .post(`https://${constants.host}:3003/chats/addleads`, {
+              .post(`https://${constants.host}:3001/chats/addleads`, {
                 ...values,
                 date: inputDate,
                 chat: JSON.stringify(allMessages),
@@ -155,7 +155,7 @@ function ActiveChat(props) {
   const LoadMessagesHandler = () => {
     if (customerID)
       axios
-        .post(`https://${constants.host}:3003/chats/messages`, { id: customerID })
+        .post(`https://${constants.host}:3001/chats/messages`, { id: customerID })
         .then((response) => {
           const messages = response.data;
           // push all messages from database to all messages state
@@ -163,7 +163,7 @@ function ActiveChat(props) {
         })
         .then(() => {
           axios
-            .post(`https://${constants.host}:3003/chats/markchatRead`, {
+            .post(`https://${constants.host}:3001/chats/markchatRead`, {
               id: customerID,
             })
             .then((res) => {
@@ -178,7 +178,7 @@ function ActiveChat(props) {
       message: currentAgentMessage,
     });
     axios
-      .post(`https://${constants.host}:3003/chats/addmessage`, {
+      .post(`https://${constants.host}:3001/chats/addmessage`, {
         id: customerID,
         message: currentAgentMessage,
       })
@@ -192,7 +192,7 @@ function ActiveChat(props) {
       setcustomerID(value);
       // Get record for   about the chat
       axios
-        .post(`https://${constants.host}:3003/chats/chat`, { id: value })
+        .post(`https://${constants.host}:3001/chats/chat`, { id: value })
         .then((response) => {
           setchatData(response.data[0]);
           if (response.data[0].is_end) {
@@ -213,7 +213,7 @@ function ActiveChat(props) {
   useEffect(() => {
     chatData &&
       axios
-        .post(`https://${constants.host}:3003/chats/agent`, {
+        .post(`https://${constants.host}:3001/chats/agent`, {
           id: chatData.served_by,
         })
         .then((res) => {
@@ -238,7 +238,7 @@ function ActiveChat(props) {
   });
   useEffect(() => {
     const companyOptions = [];
-    axios.get(`https://${constants.host}:3003/chats/companies`).then((res) => {
+    axios.get(`https://${constants.host}:3001/chats/companies`).then((res) => {
       res.data.map((company) => {
         companyOptions.push({ value: company.c_name, label: company.c_name });
       });
@@ -271,9 +271,7 @@ function ActiveChat(props) {
   socket.on("LEAVE ROOM", () => {
     setchatEnd(true);
   });
-  if (othersChat) {
-    return <h1>Already joined by other</h1>
-  }
+
 
   return (
     <Fragment>

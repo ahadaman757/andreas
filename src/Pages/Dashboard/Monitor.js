@@ -19,17 +19,19 @@ import { fireEvent } from "@testing-library/react";
 function Monitor() {
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
-  const [ServedCustomer, setServedCustomer] = useState([]);
+  // const [ServedCustomer, setServedCustomer] = useState([]);
   const { authState, setAuthState } = useContext(AuthContext);
   const [fetchingDataUnanswered, setfetchingUnanswered] = useState(false)
   const [fetchingDataActive, setfetchingActive] = useState(false)
   const [eventFired, seteventFired] = useState('')
   // get all unansered users from database
-  const unAnsweredUsers = () => {
+  const unAnsweredUsers = (cancelToken) => {
+
     setfetchingUnanswered(true)
-    axios.get(`https://${constants.host}:3003/chats/unanswered`).then((res) => {
+    axios.get(`https://${constants.host}:3001/chats/unanswered`, { cancelToken: cancelToken }).then((res) => {
       setUnAnsweredCustomer([...res.data]);
       setfetchingUnanswered(false)
+      console.log("axios received")
     });
   };
   useEffect(() => {
@@ -39,61 +41,68 @@ function Monitor() {
       return obj.customer_id != eventFired;
     });
     setUnAnsweredCustomer([...myArray])
-
-
   }, [eventFired])
-
-
   // get all active users from database
-  const ActiveUsers = () => {
-    socket.on("chat with id joined", (id) => {
-      seteventFired(id)
-    })
-    setfetchingActive(true)
-    axios.get(`https://${constants.host}:3003/chats/active`).then((res) => {
-      setActiveCustomer([...res.data]);
-      setfetchingActive(false)
-    });
-
-  };
+  // const ActiveUsers = () => {
+  //   socket.on("chat with id joined", (id) => {
+  //     seteventFired(id)
+  //   })
+  //   setfetchingActive(true)
+  //   axios.get(`https://${constants.host}:3001/chats/active`).then((res) => {
+  //     setActiveCustomer([...res.data]);
+  //     setfetchingActive(false)
+  //   });
+  // };
   useEffect(() => {
-
-    ActiveUsers();
-    unAnsweredUsers();
-
+    const ourRequest = axios.CancelToken.source() // <-- 1st step
+    // ActiveUsers();
+    console.log("useefect empty")
+    unAnsweredUsers(ourRequest.token);
+    return () => {
+      console.log("unmounted useeffect")
+      ourRequest.cancel() // <-- 3rd step
+    }
   }, []);
   const navigate = useNavigate();
   useEffect(() => {
     socket.emit("agent active");
   });
-  socket.on("NEW USER", (data) => {
-    unAnsweredUsers();
-  });
-  // map all the active customers
-  const ActiveList = ActiveCustomer.map((customer) => {
-    if (authState.LoggedUserData.account_type == 'client') {
-      if (authState.LoggedUserData.company_url !== customer.origin) {
-        return null
-      }
-    }
+  useEffect(() => {
+    const ourRequest = axios.CancelToken.source() // <-- 1st step
 
-    return (
-      <ListCard
-        newMessage={customer.new_message}
-        key={customer.customer_id}
-        id={customer.customer_id}
-        country={customer.country}
-        address={customer.address}
-        origin={customer.origin}
-        created_date={customer.created_date}
-        plateform={customer.plateform}
-        clickHandler={() => {
-          localStorage.setItem("selected_customer", customer.customer_id);
-          navigate("/dashboard/activeChat");
-        }}
-      />
-    );
-  });
+    console.log("socket:" + socket)
+    socket.on("NEW USER", (data) => {
+      unAnsweredUsers(ourRequest.token);
+    });
+    return () => {
+      console.log("unmounted")
+      ourRequest.cancel() // <-- 3rd step
+    }
+  }, [socket])
+  // map all the active customers
+  // const ActiveList = ActiveCustomer.map((customer) => {
+  //   if (authState.LoggedUserData.account_type == 'client') {
+  //     if (authState.LoggedUserData.company_url !== customer.origin) {
+  //       return null
+  //     }
+  //   }
+  //   return (
+  //     <ListCard
+  //       newMessage={customer.new_message}
+  //       key={customer.customer_id}
+  //       id={customer.customer_id}
+  //       country={customer.country}
+  //       address={customer.address}
+  //       origin={customer.origin}
+  //       created_date={customer.created_date}
+  //       plateform={customer.plateform}
+  //       clickHandler={() => {
+  //         localStorage.setItem("selected_customer", customer.customer_id);
+  //         navigate("/dashboard/activeChat");
+  //       }}
+  //     />
+  //   );
+  // });
   // map all the unanswered customers
   const UnAnsweredList = UnAnsweredCustomer.map((customer) => {
     if (authState.LoggedUserData.account_type == 'client') {
@@ -112,23 +121,31 @@ function Monitor() {
         created_date={customer.created_date}
         plateform={customer.plateform}
         clickHandler={() => {
-          socket.emit("remove chat from unanswered", customer.customer_id)
-          console.log(authState)
-          axios.post(`https://${constants.host}:3003/chats/status1`, {
-            id: customer.customer_id,
-          });
-          axios.post(`https://${constants.host}:3003/chats/servedby/`, {
-            chatID: customer.customer_id,
-            agentID: authState.LoggedUserData.id,
-            agentName:
-              authState.LoggedUserData.f_name +
-              " " +
-              authState.LoggedUserData.l_name,
-          }).then((res) => {
-            localStorage.setItem("selected_customer", customer.customer_id);
-            navigate("/dashboard/activeChat");
-          });
-
+          axios.post('https://192.163.206.200:3001/chats/checkchat', { id: customer.id }).then(res => {
+            if (res.data[0].served_by > 0) {
+              console.log(res.data[0].served_by)
+              alert("already joined")
+            }
+            else {
+              socket.emit("remove chat from unanswered", customer.customer_id)
+              console.log(authState)
+              axios.post(`https://${constants.host}:3001/chats/status1`, {
+                id: customer.customer_id,
+              });
+              axios.post(`https://${constants.host}:3001/chats/servedby/`, {
+                chatID: customer.customer_id,
+                agentID: authState.LoggedUserData.id,
+                agentName:
+                  authState.LoggedUserData.f_name +
+                  " " +
+                  authState.LoggedUserData.l_name,
+              }).then((res) => {
+                console.log(res)
+                localStorage.setItem("selected_customer", customer.customer_id);
+                navigate("/dashboard/activeChat");
+              });
+            }
+          })
         }}
       />
     );
@@ -152,7 +169,8 @@ function Monitor() {
               </button>
             </div> */}
             <div className="container-fluid">
-              <StatusCard key={1} statusTitle="Served" statusColor="#855CF8" />
+              {/* <StatusCard key={1} statusTitle="Served" statusColor="#855CF8" /> */}
+              <h1>New Chats</h1>
               <StatusCard
                 key={2}
                 statusTitle="Unanswered"
@@ -170,7 +188,7 @@ function Monitor() {
                   )
                 }
               />
-              <StatusCard
+              {/* <StatusCard
                 key={3}
                 statusTitle="Active"
                 statusColor="#5CB85C"
@@ -183,7 +201,7 @@ function Monitor() {
                     </p>
                   )
                 }
-              />
+              /> */}
             </div>
           </div>
         </div>
@@ -193,7 +211,7 @@ function Monitor() {
 }
 export default Monitor;
 const StatusCard = (props) => {
-  const [listShow, setlistShow] = useState(false);
+  const [listShow, setlistShow] = useState(true);
   const LIST = props.list ? props.list : <p>no users</p>;
   return (
     <div className="row mb-3" onClick={props.clickHandler}>
@@ -211,7 +229,7 @@ const StatusCard = (props) => {
             {/* <span className=" ms-2 ms-md-4 ms-lg-5 font-14 "> (1-1/1)</span> */}
           </div>
           <div>
-            {listShow ? (
+            {/* {listShow ? (
               <MdOutlineKeyboardArrowUp
                 size={20}
                 onClick={() => setlistShow(!listShow)}
@@ -221,7 +239,7 @@ const StatusCard = (props) => {
                 size={20}
                 onClick={() => setlistShow(!listShow)}
               />
-            )}
+            )} */}
           </div>
         </div>
       </div>

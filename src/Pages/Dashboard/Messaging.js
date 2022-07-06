@@ -3,18 +3,21 @@ import styles from "./styles.module.css";
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import axios from "axios";
 import { AuthContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 function Messaging() {
+  const navigate = useNavigate()
   const { authState, setAuthState } = useContext(AuthContext);
   //end
   const [search, setSearch] = React.useState('');
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
+
   const [chatList, setchatList] = useState([])
   const [searchItem, setsearchItem] = useState("")
   // GET All CHAT DATA FROM DATABASE
   useEffect(() => {
-    axios.post(`https://192.163.206.200:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type, company_url: authState.LoggedUserData.company_url }).then(response => {
+    axios.post(`https://192.163.206.200:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type, company_url: authState.LoggedUserData.company_url }).then(response => {
       setchatList((pre) => {
         return [...response.data]
       })
@@ -30,7 +33,7 @@ function Messaging() {
     return 0;
   }
   const getAllList = () => {
-    axios.post(`https://192.163.206.200:3003/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type }).then(response => {
+    axios.post(`https://192.163.206.200:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type }).then(response => {
       setchatList((pre) => {
         return [...response.data]
       })
@@ -147,7 +150,10 @@ function Messaging() {
                         const chat_started = new Date(chat.created_date)
                         let showDate = chat_started.toLocaleDateString()
                         return (
-                          <tr key={chat.id}>
+                          <tr onClick={() => {
+                            localStorage.setItem("selected_customer", chat.customer_id);
+                            navigate("/dashboard/activeChat");
+                          }} key={chat.id}>
                             <td>
                               <span className="badge badge-curious-bold">
                                 {chat.id}

@@ -11,7 +11,7 @@ const UserEditModal = (props) => {
   const updateUser = () => {
     setLoading(true);
     axios
-      .post(`https://${constants.host}:3003/updateuser`, {
+      .post(`https://${constants.host}:3001/updateuser`, {
         id: props.id,
         firstname: props.firstname,
         lastname: props.lastname,
@@ -141,7 +141,7 @@ const AgentAddModal = (props) => {
   // const updateUser = () => {
   //   setLoading(true);
   //   axios
-  //     .post(`https://${constants.host}:3003/updateuser`, {
+  //     .post(`https://${constants.host}:3001/updateuser`, {
   //       id: props.id,
   //       firstname: props.firstname,
   //       lastname: props.lastname,
@@ -167,7 +167,7 @@ const AgentAddModal = (props) => {
     if (role == "2") {
       // IF ROLE SELECTED IS AGENT
       axios
-        .post(`https://${constants.host}:3003/addagent`, {
+        .post(`https://${constants.host}:3001/addagent`, {
           firstname: firstName,
           lastname: lastName,
           email: email,
@@ -392,7 +392,7 @@ const UserManagement = () => {
 
   const deleteUser = (id) => {
     axios
-      .post(`https://${constants.host}:3003/deleteuser`, {
+      .post(`https://${constants.host}:3001/deleteuser`, {
         user_id: id,
       })
       .then((response) => {
@@ -401,7 +401,7 @@ const UserManagement = () => {
   };
   useEffect(() => {
     axios
-      .post(`https://${constants.host}:3003/userslist`, {
+      .post(`https://${constants.host}:3001/userslist`, {
         role: role,
       })
       .then((response) => {

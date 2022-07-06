@@ -57,7 +57,7 @@ function SignUp() {
       setAccountCreation(true)
       setserverError("");
       axios
-        .post(`https://${constants.host}:3003/signup`, { ...values, realCode: verificationCode, enteredCode: formik.values.code }).catch(err => {
+        .post(`https://${constants.host}:3001/signup`, { ...values, realCode: verificationCode, enteredCode: formik.values.code }).catch(err => {
           toast.error(`Error:${err}`, {
             position: "top-center",
             autoClose: 5000,
@@ -103,7 +103,7 @@ function SignUp() {
   function generateCodeHandler(length) {
 
     setcodeGenerating(true)
-    axios.post('https://192.163.206.200:3003/users/generateCode', { email: formik.values.email, codeLength: length }).then(response => {
+    axios.post('https://192.163.206.200:3001/users/generateCode', { email: formik.values.email, codeLength: length }).then(response => {
       setverificationCode(response.data.code)
       if (response.data.success)
         toast.success(`Code sent to your Email`, {

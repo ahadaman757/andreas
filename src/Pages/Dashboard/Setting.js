@@ -27,7 +27,7 @@ const EditPlans = () => {
 
   useEffect(() => {
     axios
-      .post(`https://${constants.host}:3003/ownergetplans`, {
+      .post(`https://${constants.host}:3001/ownergetplans`, {
         type: planSelected,
       })
       .then((response) => {
@@ -40,7 +40,7 @@ const EditPlans = () => {
 
   const saveChanges = () => {
     axios
-      .post(`https://${constants.host}:3003/updateplan`, {
+      .post(`https://${constants.host}:3001/updateplan`, {
         price: planPrice,
         name: planName,
         description: planDescription,
@@ -319,7 +319,7 @@ const Overview = () => {
 
     console.log('updating local handler')
     if (PhotoChanged)
-      axios.post("https://192.163.206.200:3003/images", { id: ID }).catch(error => {
+      axios.post("https://192.163.206.200:3001/images", { id: ID }).catch(error => {
         console.log(error)
       })
         .then((res) => {
@@ -338,7 +338,7 @@ const Overview = () => {
           // setProfileUpdating(false)
         }
         )
-    axios.post(`https://${constants.host}:3003/updateuser`, {
+    axios.post(`https://${constants.host}:3001/updateuser`, {
       id: authState.LoggedUserData.id,
       firstname: profileData.firstName,
       lastname: profileData.lastName,
@@ -371,7 +371,7 @@ const Overview = () => {
       formdata.append("avatar", userInfo.file);
       formdata.append("UID", authState.LoggedUserData.id);
       axios
-        .post(`https://${constants.host}:3003/imageupload`, formdata, {
+        .post(`https://${constants.host}:3001/imageupload`, formdata, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
@@ -409,7 +409,7 @@ const Overview = () => {
                         borderRadius: "50%",
                       }}
                       className=" img-fluid align-middle m-2"
-                      src={`https://${constants.host}:3003/images/${authState.LoggedUserData.image}`}
+                      src={`https://${constants.host}:3001/images/${authState.LoggedUserData.image}`}
                     />
                     {editable ? (
                       <>
@@ -599,7 +599,7 @@ const Subscriptions = () => {
   useEffect(() => {
     // GET CURRENT PLAN
     axios
-      .post(`https://192.163.206.200:3003/getcurrentplan`, {
+      .post(`https://192.163.206.200:3001/getcurrentplan`, {
         id: authState.LoggedUserData.id,
       })
       .then((response) => {
@@ -637,7 +637,7 @@ const Subscriptions = () => {
                 <Button title="Current Plan" type="primaryFullWidth" />
               ) : (
                 <form
-                  action="https://192.163.206.200:3003/create-checkout-session1"
+                  action="https://192.163.206.200:3001/create-checkout-session1"
                   method="POST"
                 >
                   <Button title="Subscribe Now" type="primaryFullWidth" />
@@ -671,7 +671,7 @@ const Subscriptions = () => {
                 <span>Monthly</span>
               </div>
               <form
-                action="https://192.163.206.200:3003/create-checkout-session1"
+                action="https://192.163.206.200:3001/create-checkout-session1"
                 method="POST"
                 onClick={() => {
                   localStorage.setItem("paymentMethodToken", makeid(30));
