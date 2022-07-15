@@ -19,6 +19,7 @@ function Messaging() {
   useEffect(() => {
     axios.post(`https://192.163.206.200:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type, company_url: authState.LoggedUserData.company_url }).then(response => {
       setchatList((pre) => {
+        console.log(response.data)
         return [...response.data]
       })
     })
@@ -35,6 +36,7 @@ function Messaging() {
   const getAllList = () => {
     axios.post(`https://192.163.206.200:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type }).then(response => {
       setchatList((pre) => {
+        console.log(response)
         return [...response.data]
       })
     })
@@ -147,6 +149,7 @@ function Messaging() {
                           return val
                         }
                       }).map((chat) => {
+
                         const chat_started = new Date(chat.created_date)
                         let showDate = chat_started.toLocaleDateString()
                         return (

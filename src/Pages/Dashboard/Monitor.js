@@ -258,10 +258,7 @@ const ListCard = memo((props) => {
   const date = createdDate.toLocaleDateString()
   const createddate = date + " " + time
   return (
-    <div className="card border-top-0 rounded-0" onClick={useCallback(() => {
-      console.log("popsid:" + props.id)
-      return props.clickHandler
-    }, [props.id])}>
+    <div className="card border-top-0 rounded-0" onClick={props.clickHandler}>
       <div
         className="d-flex py-2 flex-wrap  align-items-center justify-content-between"
         style={{ gap: 10 }}
