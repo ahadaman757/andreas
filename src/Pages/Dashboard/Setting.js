@@ -5,9 +5,14 @@ import styles from "./styles.module.css";
 import Button from "../../Components/Buttons/Button";
 import { AuthContext } from "../../App";
 import axios from "axios";
+import * as Yup from "yup";
 import constants from "../../constants";
 import { loadStripe } from "@stripe/stripe-js";
 import Loading from '../Loading/Loading'
+import { useFormik } from "formik";
+import { default as Buttons } from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
 // STRIPE CONFIGURATION
 const stripePromise = loadStripe(
   "pk_test_51KrpCtAGfLyluyxLjKxj7EtTSmRe6bo0ecNMicW0ISmzoxff6U94mdzxiUvBXeClaUpEz1kPAkv0u2H3jWfdH8wG00fGbTa2WF"
@@ -283,6 +288,45 @@ const Overview = () => {
   const [ProfileUpdating, setProfileUpdating] = useState(false)
   const [PhotoChanged, setPhotoChanged] = useState(false)
   const [profileData, setprofileData] = useState()
+  const [show, setShow] = useState(false);
+  const [tempUserData, settempUserData] = useState(null)
+  const [tempToken, settempToken] = useState(null)
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [ServerMsg, setServerMsg] = useState("");
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().required("Password is required"),
+  });
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: SignupSchema,
+    onSubmit: (values) => {
+      setProfileUpdating(true)
+      axios
+        .post(`https://${constants.host}:3001/signin`, values)
+        .catch((error) => {
+          alert(error);
+        })
+        .then((res) => {
+          const t = res ?? false;
+          if (t) {
+            if (res.data.error) {
+              setServerMsg(res.data.error)
+              setProfileUpdating(false)
+              return;
+            } else {
+              setServerMsg(res.data.error)
+              console.log(res)
+              submit(values)
+            }
+          }
+        });
+    },
+  });
   // convert authState data to object notation
   useEffect(() => {
     setprofileData((pre) => {
@@ -314,30 +358,10 @@ const Overview = () => {
       filepreview: URL.createObjectURL(event.target.files[0]),
     });
   };
-  const UpdateHandler = () => {
-    const ID = authState.LoggedUserData.id;
+  const UpdateHandler = (values) => {
 
-    console.log('updating local handler')
-    if (PhotoChanged)
-      axios.post("https://192.163.206.200:3001/images", { id: ID }).catch(error => {
-        console.log(error)
-      })
-        .then((res) => {
-          console.log(res)
-          if (res.data.length > 0)
-            setAuthState((pre) => {
-              return {
-                ...pre,
-                LoggedUserData: {
-                  ...authState.LoggedUserData,
-                  image: res.data[0].image,
-                },
-              };
-            });
-          console.log('updated locally image')
-          // setProfileUpdating(false)
-        }
-        )
+    console.log(values)
+    const ID = authState.LoggedUserData.id;
     axios.post(`https://${constants.host}:3001/updateuser`, {
       id: authState.LoggedUserData.id,
       firstname: profileData.firstName,
@@ -346,26 +370,34 @@ const Overview = () => {
     }).catch(error => {
       console.log(error)
     }).then(res => {
-      console.log(res)
-      console.log(profileData)
-      setAuthState((pre) => {
-        return {
-          ...pre,
-          LoggedUserData: {
-            ...pre.LoggedUserData,
-            f_name: profileData.firstName,
-            l_name: profileData.lastName,
-            email: profileData.email
-          },
-        };
+      axios
+        .post(`https://${constants.host}:3001/signin`, values)
+        .catch((error) => {
+          alert(error);
+        })
+        .then((res) => {
+          const t = res ?? false;
+          if (t) {
+            if (res.data.error) {
 
-      });
+              return;
+            } else {
+
+              localStorage.setItem("accessToken", res.data.token);
+
+              setAuthState({ LoggedUserData: res.data.userData, status: true });
+
+            }
+          }
+        });
       setProfileUpdating(false)
+      setShow(false)
     })
       ;
   };
-  const submit = async () => {
-    setProfileUpdating(true)
+  const submit = async (values) => {
+    console.log(values)
+
     if (PhotoChanged) {
       const formdata = new FormData();
       formdata.append("avatar", userInfo.file);
@@ -378,16 +410,16 @@ const Overview = () => {
           // then print response status
           console.warn(res);
           if (res.data.success === 1) {
-            UpdateHandler()
+            UpdateHandler(values)
           }
         });
     }
     else {
-      UpdateHandler()
+      UpdateHandler(values)
     }
 
   };
-  console.log(authState.LoggedUserData)
+
   if (!ProfileUpdating)
     return (
       <div>
@@ -476,10 +508,81 @@ const Overview = () => {
                         />
                       </div>
                     )}
+                    <Modal show={show} onHide={handleClose}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>Please Enter Email and password to save your Changes
+
+                        <form onSubmit={formik.handleSubmit} method="post">
+                          <div className="mb-3">
+                            <label
+                              htmlFor="email"
+                              className={` ${styles.formText} form-label`}
+                            >
+                              Email address
+                            </label>
+                            <input
+                              type="email"
+                              className={`form-control ${styles.input} `}
+                              aria-describedby="email"
+                              id="email"
+                              name="email"
+                              onChange={formik.handleChange}
+                              value={formik.values.email}
+                            />
+                            {formik.touched.email && formik.errors.email ? (
+                              <div className={`${styles.formError}`}>
+                                {formik.errors.email}
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="mb-3">
+                            <label
+                              htmlFor="password"
+                              className={` ${styles.formText} form-label`}
+                            >
+                              Password
+                            </label>
+                            <input
+                              type="password"
+                              className={`form-control ${styles.input} `}
+                              id="password"
+                              name="password"
+                              onChange={formik.handleChange}
+                              value={formik.values.password}
+                            />
+                            {formik.touched.password && formik.errors.password ? (
+                              <div className={`${styles.formError}`}>
+                                {formik.errors.password}
+                              </div>
+                            ) : null}
+
+                          </div>
+
+                          <button
+                            type="submit"
+                            className={`btn btn-primary bg-primary  text-white w-100 ${styles.formText}`}
+                            style={{ fontWeight: 500 }}
+                          >
+                            Save Changes
+                          </button>
+                          {ServerMsg && (
+                            <p className={`${styles.successmsg}`}>{ServerMsg}</p>
+                          )}
+                        </form>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Buttons variant="secondary" onClick={handleClose}>
+                          Close
+                        </Buttons>
+
+                      </Modal.Footer>
+                    </Modal>
                     <div className="my-3" style={{ display: "block" }}>
                       {editable == 1 ? (
                         <button
-                          onClick={() => submit()}
+                          onClick={() => setShow(true)}
                           className={`my-3 p-2  ${styles.payment_save_btn}`}
                         >
                           {" "}
