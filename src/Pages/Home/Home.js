@@ -139,7 +139,7 @@ function Home() {
     console.log("socket:" + socket)
     socket.on("NEW MESSAGE", (msg, id) => {
       console.log("socket.id" + socket.id)
-      alert("new message")
+
 
 
     });
