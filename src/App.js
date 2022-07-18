@@ -26,7 +26,7 @@ var socket = io(`https://${constants.host}:3001`, {
     "my-custom-header": "abcd",
   },
 });
-
+console.log(socket)
 const AuthContext = createContext("");
 function App() {
   const [playSound] = useSound(mySound)

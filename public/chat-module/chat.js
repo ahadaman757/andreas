@@ -336,11 +336,12 @@ let agentJoined = false;
 var initialMessages = [];
 
 const fetchChatData = (ID) => {
+  console.log("fffffff")
   const data = { id: ID };
   chatMessages.id = "chat_msg_area"
   var chatmsgarea = document.getElementById("chat_msg_area")
   chatmsgarea.innerHTML += '<span class="ld">Loading Chat </span>'
-  fetch("https://192.163.206.200:3001/chats/chat", {
+  fetch("https://192.163.206.200:3001/chats/chatAgent", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -371,6 +372,7 @@ const fetchChatData = (ID) => {
           body: JSON.stringify(LoadMessageID),
         })
           .then((response) => {
+            console.log("message fetching")
             const ld = Array.from(
               document.getElementsByClassName('ld')
             );
@@ -412,13 +414,16 @@ const checkChat = () => {
       agentJoined = true;
       chatHeaderRightButton.style.display = "block";
       joinedID = response;
+
       fetchChatData(response);
     }
   });
   asyncLocalStorage.getItem('customerID').then((response) => {
+
     if (response) {
       chatHeaderRightButton.style.display = "block"
-      fetchChatData(response);
+
+      // fetchChatData(response);
     }
   })
   asyncLocalStorage.getItem("image").then((response) => {
@@ -590,6 +595,14 @@ function agentbox(name) {
   });
   chatMessages.appendChild(AgentAvaliable);
 }
+
+socket.on("PROFILE UPDATE", (data) => {
+  console.log("data;" + data.agent)
+  localStorage.setItem("image", data.image);
+  chatHeaderLeftImage.src = `https://192.163.206.200:3001/images/${data.image}`;
+  chatHeaderLeftName.innerText = data.agent;
+
+})
 socket.on("room joined", (data) => {
   localStorage.setItem("joined", data.id);
   if (!agentJoined) {

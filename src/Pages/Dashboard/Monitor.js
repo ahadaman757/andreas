@@ -15,8 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import axios from "axios";
 import { tConvert } from '../../helpers/helperFunctions'
-import { fireEvent } from "@testing-library/react";
-import { useCallback } from "react";
+import { asyncLocalStorage } from '../../helpers/helperFunctions';
 function Monitor() {
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
@@ -146,7 +145,25 @@ function Monitor() {
                   authState.LoggedUserData.l_name,
               }).then((res) => {
                 console.log(res)
+                asyncLocalStorage.getItem('JoinedClientList').then(response => {
+                  console.log(response)
+                  if (!response) {
+                    var list = []
+
+                    list.push(customer.customer_id)
+                    asyncLocalStorage.setItem('JoinedClientList', JSON.stringify(list))
+                  }
+                  else {
+                    var list = JSON.parse(response)
+                    list.push(customer.customer_id)
+
+                    asyncLocalStorage.setItem('JoinedClientList', JSON.stringify(list))
+                  }
+
+
+                })
                 localStorage.setItem("selected_customer", customer.customer_id);
+
                 navigate("/dashboard/activeChat");
               });
             }

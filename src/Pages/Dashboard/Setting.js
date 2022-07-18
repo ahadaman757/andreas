@@ -12,6 +12,8 @@ import Loading from '../Loading/Loading'
 import { useFormik } from "formik";
 import { default as Buttons } from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { asyncLocalStorage } from "../../helpers/helperFunctions";
+import { socket } from "../../App";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 // STRIPE CONFIGURATION
 const stripePromise = loadStripe(
@@ -289,9 +291,8 @@ const Overview = () => {
   const [PhotoChanged, setPhotoChanged] = useState(false)
   const [profileData, setprofileData] = useState()
   const [show, setShow] = useState(false);
-  const [tempUserData, settempUserData] = useState(null)
-  const [tempToken, settempToken] = useState(null)
   const handleClose = () => setShow(false);
+  const [profileUpdated, SetProfileUpdated] = useState(false)
   const handleShow = () => setShow(true);
   const [ServerMsg, setServerMsg] = useState("");
   const SignupSchema = Yup.object().shape({
@@ -379,22 +380,41 @@ const Overview = () => {
           const t = res ?? false;
           if (t) {
             if (res.data.error) {
-
               return;
             } else {
-
               localStorage.setItem("accessToken", res.data.token);
-
               setAuthState({ LoggedUserData: res.data.userData, status: true });
-
             }
           }
         });
       setProfileUpdating(false)
+      SetProfileUpdated(true)
       setShow(false)
     })
       ;
   };
+  useEffect(() => {
+
+    NotifyClient()
+  }, [authState])
+  const NotifyClient = () => {
+
+    asyncLocalStorage.getItem("JoinedClientList").then((value) => {
+      var list = JSON.parse(value)
+      list.map((id) => {
+        socket.emit("profile changed", {
+          id: id,
+          agent:
+            authState.LoggedUserData.f_name +
+            " " +
+            authState.LoggedUserData.l_name,
+          image: authState.LoggedUserData.image,
+        });
+      })
+
+    });
+  }
+
   const submit = async (values) => {
     console.log(values)
 
