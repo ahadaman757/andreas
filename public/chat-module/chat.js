@@ -600,7 +600,7 @@ socket.on("PROFILE UPDATE", (data) => {
   console.log("data;" + data.agent)
   localStorage.setItem("image", data.image);
   chatHeaderLeftImage.src = `https://192.163.206.200:3001/images/${data.image}`;
-  chatHeaderLeftName.innerText = data.agent;
+  chatHeaderLeftName.innerHTML = data.agent;
 
 })
 socket.on("room joined", (data) => {

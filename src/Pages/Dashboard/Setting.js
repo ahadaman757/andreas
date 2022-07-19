@@ -292,8 +292,8 @@ const Overview = () => {
   const [profileData, setprofileData] = useState()
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const [profileUpdated, SetProfileUpdated] = useState(false)
   const handleShow = () => setShow(true);
+  const [profileUpdated, SetProfileUpdated] = useState(false)
   const [ServerMsg, setServerMsg] = useState("");
   const SignupSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -530,7 +530,7 @@ const Overview = () => {
                     )}
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Profile Update</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>Please Enter Email and password to save your Changes
 

@@ -31,7 +31,7 @@ import Tab from "react-bootstrap/Tab";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import { tConvert } from "../../helpers/helperFunctions";
-
+import * as Yup from "yup";
 import "./styles.css";
 import { useFormik } from "formik";
 import constants from "../../constants";
@@ -63,7 +63,14 @@ function ActiveChat(props) {
   const [chatEnd, setchatEnd] = useState(false);
   const [loading, setLoading] = useState(false);
   // handle lead form
+  const SignupSchema = Yup.object().shape({
+    customer_name: Yup.string().required("Customer Name is Required"),
+    c_name: Yup.string().required("Company Name is Required"),
+    email: Yup.string().required("Email is Required"),
+    phone: Yup.number("Not Valid Phone Number").required("Empty Phone number"),
+  });
   const formik = useFormik({
+    validationSchema: SignupSchema,
     initialValues: {
       agent: loggedAgent,
       customer_name: "",
@@ -73,7 +80,9 @@ function ActiveChat(props) {
       company_url: "",
       agent_id: authState.LoggedUserData.id,
     },
+
     onSubmit: (values) => {
+      console.log("submitted")
       setLoading(true);
       values.agent = loggedAgent;
       values.company_url = chatData.origin;
@@ -122,7 +131,8 @@ function ActiveChat(props) {
                   });
                 }
               });
-          } else
+          } else {
+            setLoading(false);
             toast.error(`Cant Add More Leads for this Company`, {
               position: "top-center",
               autoClose: 5000,
@@ -132,6 +142,8 @@ function ActiveChat(props) {
               draggable: true,
               progress: undefined,
             });
+          }
+
         });
     },
   });
@@ -226,7 +238,7 @@ function ActiveChat(props) {
         .catch((error) => {
           alert(error);
         });
-  });
+  }, [chatData]);
   // get all messages from database on first render
   useEffect(() => {
     LoadMessagesHandler();
@@ -472,8 +484,9 @@ function ActiveChat(props) {
                                 className="form-select"
                                 aria-label="Default select example"
                               >
-                                <option>Open this select menu</option>
+                                <option hidden >Select one...</option>
                                 {companies.map((c) => {
+                                  console.log(c.value)
                                   return (
                                     <option key={c.value} value={c.value}>
                                       {c.label}
@@ -481,6 +494,11 @@ function ActiveChat(props) {
                                   );
                                 })}
                               </select>
+                              {formik.touched.c_name && formik.errors.c_name ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.c_name}
+                                </div>
+                              ) : null}
                             </div>
                             <div className="mb-3">
                               <label
@@ -499,7 +517,13 @@ function ActiveChat(props) {
                                 value={formik.values.customer_name}
                                 disabled={loading}
                               />
+                              {formik.touched.customer_name && formik.errors.customer_name ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.customer_name}
+                                </div>
+                              ) : null}
                             </div>
+
                             <div className="mb-3">
                               <label
                                 htmlFor="exampleInputPassword1"
@@ -517,6 +541,11 @@ function ActiveChat(props) {
                                 value={formik.values.email}
                                 disabled={loading}
                               />
+                              {formik.touched.email && formik.errors.email ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.email}
+                                </div>
+                              ) : null}
                             </div>
                             <div className="mb-3">
                               <label
@@ -535,6 +564,11 @@ function ActiveChat(props) {
                                 value={formik.values.phone}
                                 disabled={loading}
                               />
+                              {formik.touched.phone && formik.errors.phone ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.phone}
+                                </div>
+                              ) : null}
                             </div>
                           </Card.Body>
                           <Card.Footer className="d-flex justify-content-between">

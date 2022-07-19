@@ -12,7 +12,6 @@ function Messaging() {
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
-
   const [chatList, setchatList] = useState([])
   const [searchItem, setsearchItem] = useState("")
   // GET All CHAT DATA FROM DATABASE
@@ -113,7 +112,7 @@ function Messaging() {
                       <option value="status">Activity</option>
                     </select>
                   </span>
-                  <button className="btn-white    font-12 ">
+                  {/* <button className="btn-white    font-12 ">
                     {" "}
                     <img
                       className="mx-2"
@@ -121,7 +120,7 @@ function Messaging() {
                       alt=""
                     />{" "}
                     Filter Visitors
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className={`row `}>
@@ -144,8 +143,9 @@ function Messaging() {
                     </thead>
                     <tbody>
                       {chatList.filter((val) => {
+                        console.log(val)
                         if (searchItem == '') return val
-                        else if (val.agent_name?.toLowerCase().includes(searchItem.toLowerCase())) {
+                        else if (val.agent_name?.toLowerCase().includes(searchItem.toLowerCase()) || val.customer_id?.toLowerCase().includes(searchItem.toLowerCase())) {
                           return val
                         }
                       }).map((chat) => {
