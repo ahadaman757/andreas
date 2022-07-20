@@ -450,7 +450,8 @@ function ActiveChat(props) {
                           <a
                             style={{ color: "#5494F3" }}
                             className="font-12 blue-link text-blue text-decoration-none"
-                            href=""
+                            target="_blank"
+                            href={chatData.origin}
                           >
                             {chatData.origin}
                           </a>

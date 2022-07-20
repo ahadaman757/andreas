@@ -1,13 +1,9 @@
 import React, { Fragment, useContext, useState, useEffect, memo } from "react";
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import styles from "./styles.module.css";
-import {
-  MdOutlineKeyboardArrowDown,
-  MdDisabledVisible,
-  MdOutlineKeyboardArrowUp,
-} from "react-icons/md";
 import constants from '../../constants'
 import { DiLinux } from "react-icons/di";
+import { BiSort } from "react-icons/bi";
 import { AiFillWindows } from "react-icons/ai";
 import { BsFillEyeSlashFill } from "react-icons/bs";
 import { socket } from "../../App";
@@ -16,7 +12,11 @@ import { AuthContext } from "../../App";
 import axios from "axios";
 import { tConvert } from '../../helpers/helperFunctions'
 import { asyncLocalStorage } from '../../helpers/helperFunctions';
+import useSort from "../../hooks/useSortLatest";
+
 function Monitor() {
+
+  const { Ascending, toggleAscending } = useSort()
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
   // const [ServedCustomer, setServedCustomer] = useState([]);
@@ -106,14 +106,12 @@ function Monitor() {
   //   );
   // });
   // map all the unanswered customers
-
-  const UnAnsweredList = UnAnsweredCustomer.map((customer) => {
+  const UnAnsweredList = Ascending ? (UnAnsweredCustomer.map((customer) => {
     if (authState.LoggedUserData.account_type == 'client') {
       if (authState.LoggedUserData.company_url !== customer.origin) {
         return null
       }
     }
-
     return (
       <ListCard
         newMessage={customer.new_message}
@@ -171,7 +169,70 @@ function Monitor() {
         }}
       />
     );
-  });
+  })) : (UnAnsweredCustomer.slice(0).reverse().map((customer) => {
+    if (authState.LoggedUserData.account_type == 'client') {
+      if (authState.LoggedUserData.company_url !== customer.origin) {
+        return null
+      }
+    }
+    return (
+      <ListCard
+        newMessage={customer.new_message}
+        key={customer.customer_id}
+        id={customer.customer_id}
+        country={customer.country}
+        address={customer.address}
+        origin={customer.origin}
+        created_date={customer.created_date}
+        plateform={customer.plateform}
+        clickHandler={() => {
+          axios.post('https://192.163.206.200:3001/chats/checkchat', { id: customer.id }).then(res => {
+            if (res.data[0].served_by > 0) {
+              console.log(res.data[0].served_by)
+              alert("already joined")
+            }
+            else {
+              socket.emit("remove chat from unanswered", customer.customer_id)
+              console.log(authState)
+              axios.post(`https://${constants.host}:3001/chats/status1`, {
+                id: customer.customer_id,
+              });
+              axios.post(`https://${constants.host}:3001/chats/servedby/`, {
+                chatID: customer.customer_id,
+                agentID: authState.LoggedUserData.id,
+                agentName:
+                  authState.LoggedUserData.f_name +
+                  " " +
+                  authState.LoggedUserData.l_name,
+              }).then((res) => {
+                console.log(res)
+                asyncLocalStorage.getItem('JoinedClientList').then(response => {
+                  console.log(response)
+                  if (!response) {
+                    var list = []
+
+                    list.push(customer.customer_id)
+                    asyncLocalStorage.setItem('JoinedClientList', JSON.stringify(list))
+                  }
+                  else {
+                    var list = JSON.parse(response)
+                    list.push(customer.customer_id)
+
+                    asyncLocalStorage.setItem('JoinedClientList', JSON.stringify(list))
+                  }
+
+
+                })
+                localStorage.setItem("selected_customer", customer.customer_id);
+
+                navigate("/dashboard/activeChat");
+              });
+            }
+          })
+        }}
+      />
+    );
+  }));
   return (
     <Fragment>
       <DashboardHeader title="Monitor" />
@@ -193,7 +254,10 @@ function Monitor() {
             <div className="container-fluid">
               {/* <StatusCard key={1} statusTitle="Served" statusColor="#855CF8" /> */}
               <h1>New Chats</h1>
+
               <StatusCard
+                toggleAscending={toggleAscending}
+                Ascending={Ascending}
                 key={2}
                 statusTitle="Unanswered"
                 statusColor="#F35454"
@@ -256,12 +320,12 @@ const StatusCard = (props) => {
                 size={20}
                 onClick={() => setlistShow(!listShow)}
               />
-            ) : (
-              <MdOutlineKeyboardArrowDown
-                size={20}
-                onClick={() => setlistShow(!listShow)}
-              />
-            )} */}
+            ) */}
+            {
+              props.Ascending ? <span className="fw-bold text-primary">Oldest First</span> : <span className="fw-bold text-primary">Latest First</span>
+            }
+
+            <BiSort onClick={() => props.toggleAscending()} size={20} className="me-2 ms-2 pointer" />
           </div>
         </div>
       </div>

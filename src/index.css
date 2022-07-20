@@ -11,6 +11,10 @@
   --greyDark: #878787
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .loader {
   position: absolute;
   text-align: center;

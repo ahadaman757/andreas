@@ -14,10 +14,16 @@ function Header(props) {
             style={{ backgroundColor: bgColor }}
           >
             <div className="container-fluid d-flex">
-              <img
-                className={`${styles.iconImg} col-4 img-fluid  `}
-                src={SVGS.Logo}
-              />
+              <NavLink
+                to="/"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <img
+                  className={`${styles.iconImg} col-4 img-fluid  `}
+                  src={SVGS.Logo}
+                />
+              </NavLink>
+
               <button
                 className="navbar-toggler"
                 type="button"
@@ -70,11 +76,12 @@ function Header(props) {
                     Free trial
                   </button> */}
                   <button
-                    className={`btn btn-outline-success ms-md-5  ${styles.freeTrialBtn} `}
+                    className={`btn  ms-md-5  ${styles.freeTrialBtn} `}
                   >
                     <NavLink
+
                       to="/signup"
-                      style={{ textDecoration: "none", color: "white" }}
+                      style={{ textDecoration: "none" }}
                     >
                       Free Trial
                     </NavLink>

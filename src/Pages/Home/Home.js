@@ -118,9 +118,9 @@ const FeatureSection = (props) => {
             <p className="text-primary">
               <NavLink
                 to="/signup"
-                style={{ textDecoration: "none", color: "white" }}
+                style={{ textDecoration: "none", }}
               >
-                Start a free trail <i className="fas ms-2 fa-arrow-right"></i>
+                Start a free trail <i className="fas text-primary ms-2 fa-arrow-right"></i>
               </NavLink>
             </p>
           ) : (
@@ -174,9 +174,7 @@ function Home() {
               detail={`This is a thorough tracking tool that gives you a better understanding of your website visitors acitivty.`}
               img="3"
             />
-            <button onClick={() => playSound()}>
-              Play Sound
-            </button>
+
 
           </div>
         </div>
