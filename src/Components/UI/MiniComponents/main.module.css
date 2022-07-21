@@ -1,71 +1,82 @@
-.right_shape{
-    width:100px;
+.right_shape {
+  width: 100px;
+  height: 150px;
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+  /* transform: scale(.6); */
+  /* transform: scale(.5); */
+}
+
+.iconImg {
+  width: 200px;
+  height: 50px;
+}
+
+.user_name {
+  text-decoration: none;
+}
+
+.menuBtn:hover {
+  cursor: pointer;
+}
+
+.first_shape {
+  width: 60%;
+  border-left: 3px solid #161C2D;
+  border-top: 3px solid #161C2D;
+  height: 100%;
+  position: absolute;
+}
+
+.second_shape {
+  top: 6.666666666666667%;
+  position: absolute;
+  width: 70%;
+  border-left: 3px solid #161C2D;
+  border-top: 3px solid #161C2D;
+  height: 93.33333333333333%;
+
+}
+
+.third_shape {
+  top: 13.33333333333333%;
+  position: absolute;
+  width: 80%;
+  border-left: 3px solid #161C2D;
+  border-top: 3px solid #161C2D;
+  height: 86.6666666666667%;
+
+}
+
+.iconImg {
+  width: 200px;
+  height: 50px;
+}
+
+@media(max-width:874px) {
+  .right_shape {
+    width: 100px;
     height: 150px;
     display: flex;
     flex-direction: row-reverse;
     position: relative;
-    /* transform: scale(.6); */
     /* transform: scale(.5); */
   }
-  .iconImg{
-    width: 200px;
-    height: 50px;
+
 }
 
+@media(max-width:768px) {
+  .right_shape {
+    display: none;
+  }
 
-  .menuBtn:hover{
-cursor: pointer;
-  }
-  .first_shape{
-    width: 60%;
-    border-left: 3px solid #161C2D;
-    border-top: 3px solid #161C2D;
-    height: 100%;
-    position: absolute;
-  }
-  .second_shape{
-    top:6.666666666666667%;
-    position: absolute;
-    width: 70%;
-    border-left: 3px solid #161C2D;
-    border-top: 3px solid #161C2D;
-   height: 93.33333333333333%;
-  
-  }
-  .third_shape{
-    top:13.33333333333333%;
-    position: absolute;
-    width: 80%;
-    border-left: 3px solid #161C2D;
-    border-top: 3px solid #161C2D;
-  height: 86.6666666666667%;
-    
-  }
-  .iconImg{
-    width: 200px;
-    height: 50px;
 }
-  @media(max-width:874px){
-    .right_shape{
-      width:100px;
-      height: 150px;
-      display: flex;
-      flex-direction: row-reverse;
-      position: relative;
-      /* transform: scale(.5); */
-    }
-  
-  }
-  @media(max-width:768px){
-    .right_shape{
-      display: none;
-    }
 
+@media(max-width:400px) {
+  .user_name {
+    display: none;
   }
-  @media(max-width:400px){
-    .user_name{
-      display: none;
-    }
 
-    
-  }
+
+}

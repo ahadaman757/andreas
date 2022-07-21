@@ -143,22 +143,31 @@ const DashboardHeader = memo(function DashboardHeader(props) {
                       className="align-middle me-2"
                       src={require("../../../assets/Images/notify.png")}
                     /> */}
-                    <span className={`${styles.user_name}`}>
-                      {`${authState.LoggedUserData.f_name} ${authState.LoggedUserData.l_name}`}
-                    </span>
-                    {
-                      authState.LoggedUserData.image ? <img
-                        style={{ width: 50, height: 50 }}
-                        className="rounded-circle align-middle m-2"
-                        src={`https://${constants.host}:3001/images/${authState.LoggedUserData.image}`}
+                    <NavLink
+                      to="/dashboard/setting"
+                      className={`pointer text-decoration-none`}
+                    >
 
-                      /> : <img
-                        style={{ width: 50, height: 50 }}
-                        className="rounded-circle align-middle m-2"
-                        src='http://i.ibb.co/vsQqSkr/userIcon.png'
+                      <span style={{ textDecoration: 'none', color: 'black' }} className={`${styles.user_name}`}>
+                        {`${authState.LoggedUserData.f_name} ${authState.LoggedUserData.l_name}`}
+                      </span>
+                      {
+                        authState.LoggedUserData.image ? <img
+                          style={{ width: 50, height: 50 }}
+                          className="rounded-circle align-middle m-2"
+                          src={`https://${constants.host}:3001/images/${authState.LoggedUserData.image}`}
 
-                      />
-                    }
+                        /> : <img
+                          style={{ width: 50, height: 50 }}
+                          className="rounded-circle align-middle m-2"
+                          src='http://i.ibb.co/vsQqSkr/userIcon.png'
+
+                        />
+                      }
+                    </NavLink>
+
+
+
 
                   </div>
                 </div>

@@ -360,7 +360,7 @@ function ActiveChat(props) {
                     >
                       Message
                     </button>
-                    {/* <button className=" py-3 btn-grey-action">Whisper</button> */}
+                    <button onClick={() => socket.emit("leave room", customerID)} className=" py-3 btn-grey-action">End Chat</button>
                   </div>
                 </div>
               ) : null}

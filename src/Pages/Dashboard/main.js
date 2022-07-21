@@ -61,7 +61,7 @@ function MainDashboard() {
         } else setsideNav("d-block");
       }}
     >
-      <div className="container-fluid bg-grey p-0 ">
+      <div className="container-fluid bg-grey p-0" style={{ minHeight: '100vh' }}>
         <div className="row flex-nowrap m-0 ">
           <div
             className={` ${sideNav}  ${expand ? "expand" : null

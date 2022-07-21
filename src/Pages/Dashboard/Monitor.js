@@ -13,7 +13,7 @@ import axios from "axios";
 import { tConvert } from '../../helpers/helperFunctions'
 import { asyncLocalStorage } from '../../helpers/helperFunctions';
 import useSort from "../../hooks/useSortLatest";
-
+import regionNames from "../../hooks/useCountryName";
 function Monitor() {
 
   const { Ascending, toggleAscending } = useSort()
@@ -26,7 +26,6 @@ function Monitor() {
   const [eventFired, seteventFired] = useState('')
   // get all unansered users from database
   const unAnsweredUsers = (cancelToken) => {
-
     setfetchingUnanswered(true)
     axios.get(`https://${constants.host}:3001/chats/unanswered`, { cancelToken: cancelToken }).then((res) => {
       setUnAnsweredCustomer([...res.data]);
@@ -372,7 +371,8 @@ const ListCard = memo((props) => {
           )}
           {/* <BsFillEyeSlashFill color="#5494F3" size={20} className="me-2" />
           <MdDisabledVisible color="red" size={20} className="me-2" /> */}
-          <img className="me-2 img-fluid" src={`https://countryflagsapi.com/png/${props.country}`} style={{ width: 20 }} />
+
+          <img title={regionNames.of(`${props.country}`)} className="me-2 img-fluid" src={`https://countryflagsapi.com/png/${props.country}`} style={{ width: 20 }} />
         </div>
       </div>
     </div>
