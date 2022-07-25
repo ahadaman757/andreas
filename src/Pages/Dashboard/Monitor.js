@@ -5,7 +5,8 @@ import constants from '../../constants'
 import { DiLinux } from "react-icons/di";
 import { BiSort } from "react-icons/bi";
 import { AiFillWindows } from "react-icons/ai";
-import { BsFillEyeSlashFill } from "react-icons/bs";
+import { BsFillEyeSlashFill, BsApple } from "react-icons/bs";
+import { FcPhoneAndroid } from "react-icons/fc";
 import { socket } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
@@ -14,6 +15,7 @@ import { tConvert } from '../../helpers/helperFunctions'
 import { asyncLocalStorage } from '../../helpers/helperFunctions';
 import useSort from "../../hooks/useSortLatest";
 import regionNames from "../../hooks/useCountryName";
+
 function Monitor() {
 
   const { Ascending, toggleAscending } = useSort()
@@ -361,13 +363,13 @@ const ListCard = memo((props) => {
           {props.origin}
         </span>
         <span>{createddate}</span>
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0" title={props.plateform}>
           {/* <span className="me-2">4</span>
           <span className="me-2">0</span> */}
-          {props.plateform == '\"Windows\"' ? (
+          {props.plateform.includes("Windows") ? (
             <AiFillWindows color="#878787" size={20} className="me-2" />
-          ) : (
-            <DiLinux size={20} className="me-2" />
+          ) : props.plateform.includes("Android") ? <FcPhoneAndroid size={20} className="me-2" /> : props.plateform.includes("Mac") ? <BsApple size={20} className="me-2" /> : (
+            props.plateform.includes("Linux") ? <DiLinux size={20} className="me-2" /> : null
           )}
           {/* <BsFillEyeSlashFill color="#5494F3" size={20} className="me-2" />
           <MdDisabledVisible color="red" size={20} className="me-2" /> */}

@@ -84,7 +84,7 @@ function Messaging() {
                       style={{ height: 33 }}
                       type="search"
                       className="form-control   rounded"
-                      placeholder="Search by Agent"
+                      placeholder="Search By username/ID"
                       aria-label="Search"
                       aria-describedby="search-addon"
                       onChange={(e) => setsearchItem(e.target.value)}
@@ -134,7 +134,7 @@ function Messaging() {
                         <th>
                           <span className=" badge badge-curious-bold">ID</span>
                         </th>
-                        <th>User Name</th>
+                        <th>Visitor ID</th>
                         <th>Messages</th>
                         <th>Agent</th>
                         <th>Date</th>
@@ -145,7 +145,7 @@ function Messaging() {
                       {chatList.filter((val) => {
                         console.log(val)
                         if (searchItem == '') return val
-                        else if (val.agent_name?.toLowerCase().includes(searchItem.toLowerCase()) || val.customer_id?.toLowerCase().includes(searchItem.toLowerCase())) {
+                        else if (val.agent_name?.toLowerCase().includes(searchItem.toLowerCase()) || val.id.toString().includes(searchItem)) {
                           return val
                         }
                       }).map((chat) => {
