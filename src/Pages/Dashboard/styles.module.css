@@ -306,6 +306,7 @@ tr {
 
 }
 
+
 .messageingTable tr {
     margin-bottom: 1.5rem;
     border: 10px solid #e5e5e5;
@@ -319,6 +320,10 @@ tr {
 .messageingTable th {
     font-weight: 500;
     border: none;
+}
+
+.messageingTable thead td {
+    border: 1px solid
 }
 
 .subscribe_btn {

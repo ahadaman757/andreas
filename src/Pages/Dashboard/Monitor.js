@@ -115,6 +115,7 @@ function Monitor() {
     }
     return (
       <ListCard
+        db_ID={customer.id}
         newMessage={customer.new_message}
         key={customer.customer_id}
         id={customer.customer_id}
@@ -178,6 +179,7 @@ function Monitor() {
     }
     return (
       <ListCard
+        db_ID={customer.id}
         newMessage={customer.new_message}
         key={customer.customer_id}
         id={customer.customer_id}
@@ -264,11 +266,27 @@ function Monitor() {
                 statusColor="#F35454"
                 list={
                   UnAnsweredList.length ? (
-                    UnAnsweredList
-                  ) : fetchingDataUnanswered ? (
-                    <p className={`card ${styles.empty_list}`}>
-                      Loading
-                    </p>) : (
+                    <div className="table-responsive-lg " style={{ padding: 0 }}>
+                      <table className={`${styles.messageingTable} table `}
+                        style={{ maxWidth: "100%" }}>
+                        <thead>
+                          <tr>
+                            <th>
+                              <span className="badge badge-curious-bold">ID</span>
+                            </th>
+                            <th>Visitor ID</th>
+                            <th>IP Address</th>
+                            <th>Company Website</th>
+                            <th>Date</th>
+                            <th>OS/State</th>
+                          </tr>
+                        </thead>
+                        {UnAnsweredList}
+
+                      </table> </div>) : fetchingDataUnanswered ? (
+                        <p className={`card ${styles.empty_list}`}>
+                          Loading
+                        </p>) : (
                     <p className={`card ${styles.empty_list}`}>
                       No UnAnswered Users
                     </p>
@@ -340,13 +358,13 @@ const ListCard = memo((props) => {
   const date = createdDate.toLocaleDateString()
   const createddate = date + " " + time
   return (
-    <div className="card border-top-0 rounded-0" onClick={props.clickHandler}>
-      <div
-        className="d-flex py-2 flex-wrap  align-items-center justify-content-between"
-        style={{ gap: 10 }}
-      >
+    <tr className=" border-top-0 rounded-0" onClick={props.clickHandler}>
+
+      <td>
         <button type="button" className="btn btn-light-blue position-relative">
-          T
+          <span className="badge badge-curious-bold">
+            {props.db_ID}
+          </span>
           {
             props.newMessage ? <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {props.newMessage}
@@ -354,29 +372,39 @@ const ListCard = memo((props) => {
             </span> : null
           }
         </button>
+      </td>
+      <td>
         <span>{props.id}</span>
+      </td>
+
+      <td>
         <span>{props.address}</span>
-        {/* <a className="text-primary text-decoration-none" href="">
-          https://linke123here/chat/210402098
-        </a> */}
+      </td>
+      <td>
         <span className="text-blue text-decoration-none" >
           {props.origin}
         </span>
+      </td>
+      <td>
         <span>{createddate}</span>
+      </td>
+      <td>
         <div className="flex-shrink-0" title={props.plateform}>
           {/* <span className="me-2">4</span>
           <span className="me-2">0</span> */}
           {props.plateform.includes("Windows") ? (
             <AiFillWindows color="#878787" size={20} className="me-2" />
           ) : props.plateform.includes("Android") ? <FcPhoneAndroid size={20} className="me-2" /> : props.plateform.includes("Mac") ? <BsApple size={20} className="me-2" /> : (
-            props.plateform.includes("Linux") ? <DiLinux size={20} className="me-2" /> : null
+            props.plateform.includes("Linux") ? <DiLinux size={20} className="me-2" /> : 'N/A'
           )}
           {/* <BsFillEyeSlashFill color="#5494F3" size={20} className="me-2" />
           <MdDisabledVisible color="red" size={20} className="me-2" /> */}
 
-          <img title={regionNames.of(`${props.country}`)} className="me-2 img-fluid" src={`https://countryflagsapi.com/png/${props.country}`} style={{ width: 20 }} />
+          /<img title={regionNames.of(`${props.country}`)} className="me-2 img-fluid" src={`https://countryflagsapi.com/png/${props.country}`} style={{ width: 20 }} />
         </div>
-      </div>
-    </div>
+      </td>
+
+
+    </tr>
   );
 });

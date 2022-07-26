@@ -158,9 +158,18 @@ function Messaging() {
                             navigate("/dashboard/activeChat");
                           }} key={chat.id}>
                             <td>
-                              <span className="badge badge-curious-bold">
-                                {chat.id}
-                              </span>
+
+                              <button type="button" className="btn btn-light-blue position-relative">
+                                <span className="badge badge-curious-bold">
+                                  {chat.id}
+                                </span>
+                                {
+                                  chat.new_message ? <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {chat.new_message}
+                                    <span className="visually-hidden">unread messages</span>
+                                  </span> : null
+                                }
+                              </button>
                             </td>
                             <td>{chat.customer_id}</td>
                             <td>{`${chat.count} Messages`}</td>

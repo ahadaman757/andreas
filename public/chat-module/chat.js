@@ -628,6 +628,42 @@ socket.on("new Message", (data) => {
   chatMessages.innerHTML += RightMessage.innerHTML;
   chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;
 });
+socket.on("LEAVE ROOM", () => {
+  chatMessages.innerHTML = "";
+  asyncLocalStorage.getItem("joined").then((response) => {
+    const join = response ?? false;
+    if (join) {
+      chatHeaderRightButton.style.display = "none";
+      socket.emit("leave room", response);
+      localStorage.removeItem("joined");
+      localStorage.removeItem("image");
+      localStorage.removeItem("customerID");
+    } else {
+      console.log("not joined")
+    }
+  });
+  asyncLocalStorage.getItem("customerID").then((response) => {
+    console.log(response)
+    const join = response ?? false;
+    if (response) {
+      chatHeaderRightButton.style.display = "none";
+      socket.emit("leave room", response);
+      localStorage.removeItem("joined");
+      localStorage.removeItem("image");
+      localStorage.removeItem("customerID");
+    } else {
+      console.log("noooooooooo")
+      alert("no id found" + response);
+    }
+  });
+  chat.style.display = "none";
+  //
+  agentJoined = false;
+  chatHeaderLeftImage.src =
+    "https://www.providesupport.com/blog/wp-content/uploads/2013/04/operator-picture-300x300.png";
+  chatHeaderLeftName.innerHTML = "We typically reply within a few Seconds";
+  firstMessage = true;
+})
 socket.on("disconnect", () => {
   socket.connect();
 });
