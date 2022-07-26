@@ -438,7 +438,7 @@ function ActiveChat(props) {
                           {/* <button className="btn-light-blue py-1">
                                                 </button> */}
                           <span className="font-12">
-                            Visitor navigated to <br />
+                            Company Website <br />
                             {/* <a className='font-12 blue-link text-blue text-decoration-none' href="">
                                                         https://linke123here/chat/
                                                         210402098
