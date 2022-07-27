@@ -15,6 +15,7 @@ import Modal from 'react-bootstrap/Modal';
 import { asyncLocalStorage } from "../../helpers/helperFunctions";
 import { socket } from "../../App";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import ResetPassword from "../SignIn/ResetPassword";
 // STRIPE CONFIGURATION
 const stripePromise = loadStripe(
   "pk_test_51KrpCtAGfLyluyxLjKxj7EtTSmRe6bo0ecNMicW0ISmzoxff6U94mdzxiUvBXeClaUpEz1kPAkv0u2H3jWfdH8wG00fGbTa2WF"
@@ -284,6 +285,7 @@ const LeftSideBar = ({ changeHandler }) => {
   );
 };
 const Overview = () => {
+  const [resetPasswordModal, SetresetPasswordModal] = useState(false)
   const { authState, setAuthState } = useContext(AuthContext);
   const [editable, setEditable] = useState(0);
   const [isSucces, setSuccess] = useState(null);
@@ -443,6 +445,8 @@ const Overview = () => {
   if (!ProfileUpdating)
     return (
       <div>
+        <ResetPassword state={resetPasswordModal} handleClose={() => SetresetPasswordModal(false)} handleOpen={() => SetresetPasswordModal(true)} />
+
         <h3>Account Details</h3>
         <div className="row">
           <div className=" col-12">
@@ -627,6 +631,10 @@ const Overview = () => {
                     onClick={() => setEditable(!editable)}
                   ></i>
                 ) : null}
+                <Button click={() => SetresetPasswordModal(true)} title="Reset Password" type={`primary`} classes="mr-2" />
+                {/* <button className="btn btn-primary" >
+                  reset Password
+                </button> */}
               </div>
             </div>
           </div>
