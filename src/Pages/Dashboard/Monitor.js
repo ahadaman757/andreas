@@ -18,7 +18,7 @@ import regionNames from "../../hooks/useCountryName";
 
 function Monitor() {
 
-  const { Ascending, toggleAscending } = useSort()
+  const { Ascending, toggleAscending } = useSort(false)
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
   // const [ServedCustomer, setServedCustomer] = useState([]);

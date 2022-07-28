@@ -37,6 +37,7 @@ import { useFormik } from "formik";
 import constants from "../../constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EndChatModal from "../../Components/UI/Modal/EndChatModal";
 const asyncLocalStorage = {
   setItem: async function (key, value) {
     await null;
@@ -48,6 +49,7 @@ const asyncLocalStorage = {
   },
 };
 function ActiveChat(props) {
+  const [endChatModal, setendChatModal] = useState(false)
   const navigate = useNavigate();
   const loc = useLocation()
   console.log(loc.pathname)
@@ -62,6 +64,12 @@ function ActiveChat(props) {
   const [loggedAgent, setloggedAgent] = useState("");
   const [chatEnd, setchatEnd] = useState(false);
   const [loading, setLoading] = useState(false);
+  // handle end chat
+  function EndChat() {
+    setchatEnd(true)
+    socket.emit("leave room", customerID)
+    setendChatModal(false)
+  }
   // handle lead form
   const SignupSchema = Yup.object().shape({
     customer_name: Yup.string().required("Customer Name is Required"),
@@ -295,6 +303,7 @@ function ActiveChat(props) {
               <div className="d-flex  py-9 px-13 justify-content-between">
                 <div className="d-flex   flex-grow-1" style={{ gap: 10 }}>
                   <ToastContainer />
+                  <EndChatModal state={endChatModal} handleCloseDiscard={() => setendChatModal(false)} handleCloseAccept={EndChat} />
                   {agentName ? <span className="font-500 font-18">{agentName}</span> : <span className="font-500 font-18">Loading</span>}
                 </div>
                 <div className="d-flex flex-grow-1">
@@ -361,8 +370,7 @@ function ActiveChat(props) {
                       Message
                     </button>
                     <button onClick={() => {
-                      setchatEnd(true)
-                      socket.emit("leave room", customerID)
+                      setendChatModal(true)
                     }
                     } className=" py-3 btn-grey-action">End Chat</button>
                   </div>

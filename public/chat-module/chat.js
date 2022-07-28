@@ -9,6 +9,15 @@ var tooltipText = document.createElement("span")
 var LeftMessageFailed = document.createElement('img')
 var LeftMessageSent = document.createElement('img')
 var LoadingInfo = document.createElement('span')
+var EndChatModal = document.createElement('div')
+EndChatModal.innerHTML = "<p>Want to end chat<p/>"
+var cancelBtn = document.createElement('button')
+cancelBtn.innerText = "cancel"
+confirmEndChatBtn = document.createElement('button')
+confirmEndChatBtn.innerText = "End Chat"
+EndChatModal.appendChild(cancelBtn)
+EndChatModal.appendChild(confirmEndChatBtn)
+
 
 LeftMessageSent.src = 'https://i.ibb.co/q1MbjKz/message-sent-icon-10.png'
 LeftMessageFailed.src = 'https://i.ibb.co/W3rgsT4/image-error-icon-17.png'
@@ -122,6 +131,31 @@ chat.appendChild(chatBody);
 chatBody.appendChild(chatDateRow);
 chatBody.appendChild(chatMessages);
 chat.appendChild(chatFooter);
+chat.appendChild(EndChatModal)
+css(cancelBtn, {
+  'background-color': "#d9dbe4",
+  color: "#545454",
+  "border": "none",
+  padding: '10px',
+  "border-radius": '5px',
+  margin: '20px'
+})
+css(confirmEndChatBtn, {
+  'background-color': 'rgb(3, 168, 78)',
+  border: 'none',
+  padding: '10px',
+  "border-radius": '5px',
+  margin: '20px'
+})
+css(EndChatModal, {
+  position: 'absolute',
+  bottom: '0px',
+  background: 'grey',
+  width: '100%',
+  padding: '20px',
+  display: 'none',
+  "border-radius": '5px'
+})
 css(tooltipIcon, {
   height: "30px",
   "margin-left": "10px"
@@ -448,7 +482,14 @@ chatButton.addEventListener("click", () => {
     // chatButton.innerHTML = 'close chat'
   }
 });
-chatHeaderRightButton.addEventListener("click", () => {
+chatHeaderRightButton.addEventListener('click', () => {
+  EndChatModal.style.display = 'block'
+})
+cancelBtn.addEventListener("click", () => {
+  EndChatModal.style.display = 'none'
+})
+confirmEndChatBtn.addEventListener("click", () => {
+  EndChatModal.style.display = 'none'
   chatMessages.innerHTML = "";
   asyncLocalStorage.getItem("joined").then((response) => {
     const join = response ?? false;

@@ -346,7 +346,6 @@ function SignIn() {
                         </div>
                       ) : null}
                       <button
-
                         onClick={() => resetPassword()}
                         id="emailHelp"
                         className={` btn float-end my-2 ${styles.formText}`}
