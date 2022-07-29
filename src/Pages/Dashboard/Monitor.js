@@ -67,8 +67,12 @@ function Monitor() {
     }
   }, []);
   const navigate = useNavigate();
+
   useEffect(() => {
-    socket.emit("agent active");
+    if (authState.LoggedUserData.account_type === 'agent')
+      socket.emit("agent active")
+
+
   });
   useEffect(() => {
     const ourRequest = axios.CancelToken.source() // <-- 1st step

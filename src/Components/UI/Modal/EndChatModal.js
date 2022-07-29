@@ -4,14 +4,11 @@ function EndChatModal(props) {
     const { state, handleCloseAccept, handleCloseDiscard } = props
     return (
         <Modal show={state}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton onh>
                 <Modal.Title>PRIVACY POLICY</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-
                 <p>Are you Sure to End this Chat, you wont be able to send or receive more messages in this conversation</p>
-
-
             </Modal.Body>
 
             <Modal.Footer>
