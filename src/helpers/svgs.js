@@ -9,6 +9,7 @@ import Logo from '../assets/Images/dashboard-sidebar-icons/LOGO.svg'
 import Logout from '../assets/Images/dashboard-sidebar-icons/Logout.svg'
 import TotalChats from '../assets/Images/dashboard-sidebar-icons/total chats.svg'
 import TotalLeads from '../assets/Images/dashboard-sidebar-icons/total leads.svg'
+import NewLogo from '../assets/Images/new_logo.svg'
 
 
 export default {
@@ -22,7 +23,8 @@ export default {
     Logo,
     Logout,
     TotalChats,
-    TotalLeads
+    TotalLeads,
+    NewLogo
 }
 // import SVGS from "../../helpers/svgs";
 {/* <img

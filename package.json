@@ -48,7 +48,7 @@
     "stream": "^0.0.2",
     "stream-http": "^3.2.0",
     "stripe": "^8.219.0",
-    "styled-components": "^5.3.3",
+    "styled-components": "^5.3.5",
     "use-sound": "^4.0.1",
     "web-vitals": "^2.1.4",
     "webpack": "^4.44.2",

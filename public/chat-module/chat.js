@@ -142,29 +142,44 @@ chatBody.appendChild(chatMessages);
 chat.appendChild(chatFooter);
 chat.appendChild(EndChatModal)
 chat.appendChild(ChatEndedByAgent)
+
 css(cancelBtn, {
   'background-color': "#d9dbe4",
   color: "#545454",
   "border": "none",
   padding: '10px',
   "border-radius": '5px',
-  margin: '20px'
+  'margin-right': '15px',
+  color: 'rgb(33, 37, 41)'
+
 })
-css(confirmEndChatBtn, {
+css(closeEndedByAgentBtn, {
   'background-color': 'rgb(3, 168, 78)',
   border: 'none',
   padding: '10px',
   "border-radius": '5px',
   margin: '20px'
 })
+
+css(confirmEndChatBtn, {
+  'background-color': 'rgb(3, 168, 78)',
+  border: 'none',
+  padding: '10px',
+  "border-radius": '5px',
+  color: 'white'
+  // margin: '20px'
+})
 css(EndChatModal, {
   position: 'absolute',
   bottom: '0px',
   background: 'grey',
   width: '100%',
-  padding: '20px',
+  padding: '10px',
   display: 'none',
-  "border-radius": '5px'
+  "border-radius": '5px',
+  color: '#212529',
+  'background-color': '#01c795',
+  'border-color': '#ffc107',
 })
 css(ChatEndedByAgent, {
   position: 'absolute',
