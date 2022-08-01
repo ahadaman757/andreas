@@ -63,6 +63,10 @@ body {
 }
 
 /* badges */
+.fw-600 {
+  font-weight: 600;
+}
+
 .badge-curious-bold {
   background-color: var(--curiousBlue);
   font-weight: 600;
@@ -144,7 +148,7 @@ code {
 .btn-primary:hover {
   background-color: #01C795 !important;
   border: 0px;
-  box-shadow: 0px 0px 8px 4px rgb(219, 204, 204);
+  box-shadow: 0px 0px 4px 4px rgb(219, 204, 204);
   /* transition: all 1s ; */
   /* transform: scale(1.05); */
 }

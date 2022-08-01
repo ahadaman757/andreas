@@ -20,6 +20,7 @@
 }
 
 .formWrapper {
+    font-size: 16px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -66,6 +67,32 @@
 
 .greentext {
     color: #1BA160;
+}
+
+@media(max-width:320px) {
+
+    .formWrapper {
+        font-size: 6px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 1em 4em 1em 4em;
+
+    }
+}
+
+@media(max-width:375px) {
+
+    .formWrapper {
+        font-size: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 1em 4em 1em 4em;
+
+    }
 }
 
 /* OlD Design Css */
