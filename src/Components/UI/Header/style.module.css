@@ -1,6 +1,6 @@
 .loginBtn {
         border: 0px;
-        color: white;
+        color: #1BA160;
         line-height: 24px
 }
 
@@ -8,19 +8,23 @@
 
         border: 1px solid white;
         border-radius: 8px;
+        background-color: #1BA160;
+        padding: .5em 3em .5em 3em;
 }
 
 .freeTrialBtn a {
         color: white;
+
 
 }
 
 .freeTrialBtn:hover {
 
         background-color: white;
-
+        width: 200px;
         border: 1px solid #161C2D;
         border-radius: 8px;
+
 }
 
 .freeTrialBtn:hover a {
@@ -30,4 +34,10 @@
 .iconImg {
         width: 200px;
         height: 50px;
+}
+
+.nav_link {
+        font-weight: 600 !important;
+        font-size: 14px;
+        color: black !important;
 }

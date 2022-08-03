@@ -1,0 +1,12 @@
+.contact_background_image {
+    background-image: url('../../assets//Images/contact_back.png');
+    background-color: rgba(27, 161, 96, 1);
+    min-height: 250px;
+}
+
+.address_section h4 {
+    margin-bottom: 0px;
+    font-weight: 500;
+    font-size: 18px;
+
+}

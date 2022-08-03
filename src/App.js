@@ -20,6 +20,7 @@ import { io } from "socket.io-client";
 import mySound from './assets/audio/Message Tone.mp3'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ContactUs from '../src/Pages/contact-us/ContactUs'
 var socket = io(`https://${constants.host}:3001`, {
   transports: ["websocket"],
   extraHeaders: {
@@ -144,7 +145,9 @@ function App() {
     <AuthContext.Provider value={{ authState, setAuthState }}>
       <ToastContainer />
       <Routes>
+
         <Route path="/" element={<Home />} />
+        <Route path="/contactus" element={<ContactUs />} />
         {!authState.status ? (
           <Route path="/signin" element={<SignIn />} />
         ) : (
