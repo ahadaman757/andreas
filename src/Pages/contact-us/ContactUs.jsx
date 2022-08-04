@@ -85,7 +85,7 @@ function ContactUs() {
                     </div>
                 </div>
             </div>
-            <div className="container">
+            <div className="container py-3">
                 <Footer />
             </div>
         </Fullpage>

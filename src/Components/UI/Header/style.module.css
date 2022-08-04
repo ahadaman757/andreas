@@ -14,22 +14,20 @@
 
 .freeTrialBtn a {
         color: white;
-
-
 }
 
-.freeTrialBtn:hover {
+/* .freeTrialBtn:hover {
 
         background-color: white;
-        width: 200px;
+
         border: 1px solid #161C2D;
         border-radius: 8px;
 
-}
+} */
 
-.freeTrialBtn:hover a {
+/* .freeTrialBtn:hover a {
         color: #161C2D;
-}
+} */
 
 .iconImg {
         width: 200px;

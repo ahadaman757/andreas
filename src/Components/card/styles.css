@@ -1,0 +1,65 @@
+.main_container {
+  width: 20vw;
+
+  z-index: 1;
+}
+.inner_card_container {
+  background: #e3e6f0;
+  text-align: center;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+  line-height: normal;
+}
+
+.card_heading {
+  font-size: 1.5vw;
+}
+.card_price {
+  font-size: 2.5vw;
+}
+.card_duration {
+  font-size: 1vw;
+}
+.card_discreption {
+  font-weight: 600;
+}
+.inner_details {
+  background: #ffffff;
+  margin: auto;
+  padding: 20px;
+  border-radius: 0px 0px 10px 10px;
+}
+.detail_list {
+  margin: 10px 0px;
+  line-height: 40px;
+  font-weight: 600;
+}
+.card_distebuter_main {
+  display: flex;
+}
+.card_btn {
+  width: 20vw;
+  font-size: medium;
+  margin: 10px 0px;
+  padding: 20px;
+  border: 0px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: black;
+  color: white;
+}
+.card_btn:hover {
+  background: white;
+  color: black;
+}
+@media only screen and (max-width: 1024px) {
+  .card_btn {
+    /* width: 24vw; */
+    font-size: medium;
+    margin: 10px 0px;
+    padding: 20px;
+    border: 0px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+}

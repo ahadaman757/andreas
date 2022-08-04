@@ -1,0 +1,12 @@
+.about_Jumbotron {
+    min-height: 250px;
+    background-color: #1BA160;
+}
+
+.h1 {
+    font-size: 2em;
+}
+
+.content {
+    font-size: 1em;
+}

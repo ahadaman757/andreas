@@ -34,19 +34,19 @@ function Header(props) {
                                 <div className=" align-items-center justify-content-center  justify-content-lg-end   d-flex flex-grow-1   ">
                                     <ul className="navbar-nav  mb-0 d-flex ms-md-3 ms-lg-auto mb-2 mb-lg-0">
                                         <li className="nav-item me-lg-4" style={{ color: color }}>
-                                            <a className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Home</a>
+                                            <NavLink to='/' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Home</NavLink>
                                         </li>
                                         <li className="nav-item me-lg-4">
-                                            <a className={`nav-link  ${styles.nav_link}`} href="#">Pricing</a>
+                                            <NavLink to='/' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Pricing</NavLink>
                                         </li>
                                         <li className="nav-item me-lg-4">
-                                            <a className={`nav-link  ${styles.nav_link}`} href="#"  >About Us</a>
+                                            <NavLink to='/aboutus' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">About Us</NavLink>
                                         </li>
                                         <li className="nav-item me-lg-4">
-                                            <a className={`nav-link  ${styles.nav_link}`} href="#"  >Contact Us</a>
+                                            <NavLink to='/contactus' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Contact Us</NavLink>
                                         </li>
                                         <li className="nav-item me-lg-4">
-                                            <a className={`nav-link  ${styles.nav_link}`} href="#"  >FAQs</a>
+                                            <NavLink to='/' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">FAQ's</NavLink>
                                         </li>
                                     </ul>
                                 </div>
@@ -55,7 +55,7 @@ function Header(props) {
                                     style={{ flexGrow: 1 }}
                                 >
                                     <button
-                                        className={`btn ms-lg-auto btn-outline-success ${styles.loginBtn}`}
+                                        className={`btn ms-lg-auto  ${styles.loginBtn}`}
                                         type="submit"
                                     >
                                         <NavLink
