@@ -20,7 +20,7 @@ function PageViews(props) {
   )
   useEffect(() => {
     console.log(props.company)
-    axios.post(`https://${constants.host}:3003/chats/leadschart`, { c_name: authState.LoggedUserData.c_name, client_status: authState.LoggedUserData.account_type, id: authState.LoggedUserData.id }).then(res => {
+    axios.post(`https://${constants.host}:3001/chats/leadschart`, { c_name: authState.LoggedUserData.c_name, client_status: authState.LoggedUserData.account_type, id: authState.LoggedUserData.id }).then(res => {
       const data = res.data
       console.log(data)
       const leads = []

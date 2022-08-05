@@ -7,7 +7,7 @@ const PaymentSuccess = () => {
   const { authState, setAuthState } = useContext(AuthContext);
   const [paymentStatus, setPaymentStatus] = useState();
   useEffect(() => {
-    axios.post(`https://192.163.206.200:3003/updateuserplan`, {
+    axios.post(`https://192.163.206.200:3001/updateuserplan`, {
       id: authState.LoggedUserData.id,
     })
       .then((response) => {
