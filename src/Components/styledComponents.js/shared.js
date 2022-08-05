@@ -21,7 +21,9 @@ border:none;
 color: ${props => props.color};
 font-weight: ${props => props.weight};
 align-self: ${props => props.alignSelf};
-
+@media (max-width:475px){
+    font-size: 16px;
+}
 
 `
 export { PrimaryButton, Fullpage }
