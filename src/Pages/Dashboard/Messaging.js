@@ -12,7 +12,6 @@ function Messaging() {
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
-
   const [chatList, setchatList] = useState([])
   const [searchItem, setsearchItem] = useState("")
   // GET All CHAT DATA FROM DATABASE
@@ -85,7 +84,7 @@ function Messaging() {
                       style={{ height: 33 }}
                       type="search"
                       className="form-control   rounded"
-                      placeholder="Search by Agent"
+                      placeholder="Search By username/ID"
                       aria-label="Search"
                       aria-describedby="search-addon"
                       onChange={(e) => setsearchItem(e.target.value)}
@@ -113,7 +112,7 @@ function Messaging() {
                       <option value="status">Activity</option>
                     </select>
                   </span>
-                  <button className="btn-white    font-12 ">
+                  {/* <button className="btn-white    font-12 ">
                     {" "}
                     <img
                       className="mx-2"
@@ -121,7 +120,7 @@ function Messaging() {
                       alt=""
                     />{" "}
                     Filter Visitors
-                  </button>
+                  </button> */}
                 </div>
               </div>
               <div className={`row `}>
@@ -135,7 +134,7 @@ function Messaging() {
                         <th>
                           <span className=" badge badge-curious-bold">ID</span>
                         </th>
-                        <th>User Name</th>
+                        <th>Visitor ID</th>
                         <th>Messages</th>
                         <th>Agent</th>
                         <th>Date</th>
@@ -144,8 +143,9 @@ function Messaging() {
                     </thead>
                     <tbody>
                       {chatList.filter((val) => {
+                        console.log(val)
                         if (searchItem == '') return val
-                        else if (val.agent_name?.toLowerCase().includes(searchItem.toLowerCase())) {
+                        else if (val.agent_name?.toLowerCase().includes(searchItem.toLowerCase()) || val.id.toString().includes(searchItem)) {
                           return val
                         }
                       }).map((chat) => {
@@ -158,9 +158,18 @@ function Messaging() {
                             navigate("/dashboard/activeChat");
                           }} key={chat.id}>
                             <td>
-                              <span className="badge badge-curious-bold">
-                                {chat.id}
-                              </span>
+
+                              <button type="button" className="btn btn-light-blue position-relative">
+                                <span className="badge badge-curious-bold">
+                                  {chat.id}
+                                </span>
+                                {
+                                  chat.new_message ? <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {chat.new_message}
+                                    <span className="visually-hidden">unread messages</span>
+                                  </span> : null
+                                }
+                              </button>
                             </td>
                             <td>{chat.customer_id}</td>
                             <td>{`${chat.count} Messages`}</td>

@@ -1,21 +1,33 @@
-.loginBtn{
-    border: 0px;
-    color: white;
-    line-height: 24px
-}
-.freeTrialBtn{
+.loginBtn {
+        border: 0px;
         color: white;
+        line-height: 24px
+}
+
+.freeTrialBtn {
+
         border: 1px solid white;
         border-radius: 8px;
 }
-.freeTrialBtn:hover{
-        color: #161C2D;
+
+.freeTrialBtn a {
+        color: white;
+
+}
+
+.freeTrialBtn:hover {
+
         background-color: white;
 
         border: 1px solid #161C2D;
         border-radius: 8px;
 }
-.iconImg{
+
+.freeTrialBtn:hover a {
+        color: #161C2D;
+}
+
+.iconImg {
         width: 200px;
         height: 50px;
 }

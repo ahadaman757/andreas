@@ -6,6 +6,7 @@ import { AuthContext } from "../../../App";
 import styles from "./main.module.css";
 import SVGS from "../../../helpers/svgs";
 import constants from '../../../constants'
+import { NavLink } from "react-router-dom";
 function RightShape() {
   return (
     <div
@@ -29,10 +30,15 @@ function LinksNav(props) {
             style={{ backgroundColor: bgColor }}
           >
             <div className="container-fluid">
-              <img
-                className={`${styles.iconImg} col-4 img-fluid  `}
-                src={SVGS.Logo}
-              />
+              <NavLink
+                to="/"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <img
+                  className={`${styles.iconImg} col-4 img-fluid  `}
+                  src={SVGS.Logo}
+                />
+              </NavLink>
               {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button> */}
@@ -70,10 +76,15 @@ function SignUpNav(props) {
             style={{ backgroundColor: bgColor }}
           >
             <div className="container-fluid">
-              <img
-                className={`${styles.iconImg} col-4 img-fluid  `}
-                src={SVGS.Logo}
-              />
+              <NavLink
+                to="/"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <img
+                  className={`${styles.iconImg} col-4 img-fluid  `}
+                  src={SVGS.Logo}
+                />
+              </NavLink>
               {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button> */}
@@ -132,22 +143,31 @@ const DashboardHeader = memo(function DashboardHeader(props) {
                       className="align-middle me-2"
                       src={require("../../../assets/Images/notify.png")}
                     /> */}
-                    <span className={`${styles.user_name}`}>
-                      {`${authState.LoggedUserData.f_name} ${authState.LoggedUserData.l_name}`}
-                    </span>
-                    {
-                      authState.LoggedUserData.image ? <img
-                        style={{ width: 50, height: 50 }}
-                        className="rounded-circle align-middle m-2"
-                        src={`https://${constants.host}:3001/images/${authState.LoggedUserData.image}`}
+                    <NavLink
+                      to="/dashboard/setting"
+                      className={`pointer text-decoration-none`}
+                    >
 
-                      /> : <img
-                        style={{ width: 50, height: 50 }}
-                        className="rounded-circle align-middle m-2"
-                        src='http://i.ibb.co/vsQqSkr/userIcon.png'
+                      <span style={{ textDecoration: 'none', color: 'black' }} className={`${styles.user_name}`}>
+                        {`${authState.LoggedUserData.f_name} ${authState.LoggedUserData.l_name}`}
+                      </span>
+                      {
+                        authState.LoggedUserData.image ? <img
+                          style={{ width: 50, height: 50 }}
+                          className="rounded-circle align-middle m-2"
+                          src={`https://${constants.host}:3001/images/${authState.LoggedUserData.image}`}
 
-                      />
-                    }
+                        /> : <img
+                          style={{ width: 50, height: 50 }}
+                          className="rounded-circle align-middle m-2"
+                          src='http://i.ibb.co/vsQqSkr/userIcon.png'
+
+                        />
+                      }
+                    </NavLink>
+
+
+
 
                   </div>
                 </div>

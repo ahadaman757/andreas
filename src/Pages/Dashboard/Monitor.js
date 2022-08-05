@@ -1,22 +1,24 @@
 import React, { Fragment, useContext, useState, useEffect, memo } from "react";
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import styles from "./styles.module.css";
-import {
-  MdOutlineKeyboardArrowDown,
-  MdDisabledVisible,
-  MdOutlineKeyboardArrowUp,
-} from "react-icons/md";
 import constants from '../../constants'
 import { DiLinux } from "react-icons/di";
+import { BiSort } from "react-icons/bi";
 import { AiFillWindows } from "react-icons/ai";
-import { BsFillEyeSlashFill } from "react-icons/bs";
+import { BsFillEyeSlashFill, BsApple } from "react-icons/bs";
+import { FcPhoneAndroid } from "react-icons/fc";
 import { socket } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
 import axios from "axios";
 import { tConvert } from '../../helpers/helperFunctions'
 import { asyncLocalStorage } from '../../helpers/helperFunctions';
+import useSort from "../../hooks/useSortLatest";
+import regionNames from "../../hooks/useCountryName";
+
 function Monitor() {
+
+  const { Ascending, toggleAscending } = useSort(false)
   const [ActiveCustomer, setActiveCustomer] = useState([]);
   const [UnAnsweredCustomer, setUnAnsweredCustomer] = useState([]);
   // const [ServedCustomer, setServedCustomer] = useState([]);
@@ -26,7 +28,6 @@ function Monitor() {
   const [eventFired, seteventFired] = useState('')
   // get all unansered users from database
   const unAnsweredUsers = (cancelToken) => {
-
     setfetchingUnanswered(true)
     axios.get(`https://${constants.host}:3001/chats/unanswered`, { cancelToken: cancelToken }).then((res) => {
       setUnAnsweredCustomer([...res.data]);
@@ -66,8 +67,12 @@ function Monitor() {
     }
   }, []);
   const navigate = useNavigate();
+
   useEffect(() => {
-    socket.emit("agent active");
+    if (authState.LoggedUserData.account_type === 'agent')
+      socket.emit("agent active")
+
+
   });
   useEffect(() => {
     const ourRequest = axios.CancelToken.source() // <-- 1st step
@@ -106,16 +111,15 @@ function Monitor() {
   //   );
   // });
   // map all the unanswered customers
-
-  const UnAnsweredList = UnAnsweredCustomer.map((customer) => {
+  const UnAnsweredList = Ascending ? (UnAnsweredCustomer.map((customer) => {
     if (authState.LoggedUserData.account_type == 'client') {
       if (authState.LoggedUserData.company_url !== customer.origin) {
         return null
       }
     }
-
     return (
       <ListCard
+        db_ID={customer.id}
         newMessage={customer.new_message}
         key={customer.customer_id}
         id={customer.customer_id}
@@ -171,7 +175,71 @@ function Monitor() {
         }}
       />
     );
-  });
+  })) : (UnAnsweredCustomer.slice(0).reverse().map((customer) => {
+    if (authState.LoggedUserData.account_type == 'client') {
+      if (authState.LoggedUserData.company_url !== customer.origin) {
+        return null
+      }
+    }
+    return (
+      <ListCard
+        db_ID={customer.id}
+        newMessage={customer.new_message}
+        key={customer.customer_id}
+        id={customer.customer_id}
+        country={customer.country}
+        address={customer.address}
+        origin={customer.origin}
+        created_date={customer.created_date}
+        plateform={customer.plateform}
+        clickHandler={() => {
+          axios.post('https://192.163.206.200:3001/chats/checkchat', { id: customer.id }).then(res => {
+            if (res.data[0].served_by > 0) {
+              console.log(res.data[0].served_by)
+              alert("already joined")
+            }
+            else {
+              socket.emit("remove chat from unanswered", customer.customer_id)
+              console.log(authState)
+              axios.post(`https://${constants.host}:3001/chats/status1`, {
+                id: customer.customer_id,
+              });
+              axios.post(`https://${constants.host}:3001/chats/servedby/`, {
+                chatID: customer.customer_id,
+                agentID: authState.LoggedUserData.id,
+                agentName:
+                  authState.LoggedUserData.f_name +
+                  " " +
+                  authState.LoggedUserData.l_name,
+              }).then((res) => {
+                console.log(res)
+                asyncLocalStorage.getItem('JoinedClientList').then(response => {
+                  console.log(response)
+                  if (!response) {
+                    var list = []
+
+                    list.push(customer.customer_id)
+                    asyncLocalStorage.setItem('JoinedClientList', JSON.stringify(list))
+                  }
+                  else {
+                    var list = JSON.parse(response)
+                    list.push(customer.customer_id)
+
+                    asyncLocalStorage.setItem('JoinedClientList', JSON.stringify(list))
+                  }
+
+
+                })
+                localStorage.setItem("selected_customer", customer.customer_id);
+
+                navigate("/dashboard/activeChat");
+              });
+            }
+          })
+        }}
+      />
+    );
+  }));
   return (
     <Fragment>
       <DashboardHeader title="Monitor" />
@@ -193,17 +261,36 @@ function Monitor() {
             <div className="container-fluid">
               {/* <StatusCard key={1} statusTitle="Served" statusColor="#855CF8" /> */}
               <h1>New Chats</h1>
+
               <StatusCard
+                toggleAscending={toggleAscending}
+                Ascending={Ascending}
                 key={2}
                 statusTitle="Unanswered"
                 statusColor="#F35454"
                 list={
                   UnAnsweredList.length ? (
-                    UnAnsweredList
-                  ) : fetchingDataUnanswered ? (
-                    <p className={`card ${styles.empty_list}`}>
-                      Loading
-                    </p>) : (
+                    <div className="table-responsive-lg " style={{ padding: 0 }}>
+                      <table className={`${styles.messageingTable} table `}
+                        style={{ maxWidth: "100%" }}>
+                        <thead>
+                          <tr>
+                            <th>
+                              <span className="badge badge-curious-bold">ID</span>
+                            </th>
+                            <th>Visitor ID</th>
+                            <th>IP Address</th>
+                            <th>Company Website</th>
+                            <th>Date</th>
+                            <th>OS/State</th>
+                          </tr>
+                        </thead>
+                        {UnAnsweredList}
+
+                      </table> </div>) : fetchingDataUnanswered ? (
+                        <p className={`card ${styles.empty_list}`}>
+                          Loading
+                        </p>) : (
                     <p className={`card ${styles.empty_list}`}>
                       No UnAnswered Users
                     </p>
@@ -256,12 +343,12 @@ const StatusCard = (props) => {
                 size={20}
                 onClick={() => setlistShow(!listShow)}
               />
-            ) : (
-              <MdOutlineKeyboardArrowDown
-                size={20}
-                onClick={() => setlistShow(!listShow)}
-              />
-            )} */}
+            ) */}
+            {
+              props.Ascending ? <span className="fw-bold text-primary">Oldest First</span> : <span className="fw-bold text-primary">Latest First</span>
+            }
+
+            <BiSort onClick={() => props.toggleAscending()} size={20} className="me-2 ms-2 pointer" />
           </div>
         </div>
       </div>
@@ -275,13 +362,13 @@ const ListCard = memo((props) => {
   const date = createdDate.toLocaleDateString()
   const createddate = date + " " + time
   return (
-    <div className="card border-top-0 rounded-0" onClick={props.clickHandler}>
-      <div
-        className="d-flex py-2 flex-wrap  align-items-center justify-content-between"
-        style={{ gap: 10 }}
-      >
+    <tr className=" border-top-0 rounded-0" onClick={props.clickHandler}>
+
+      <td>
         <button type="button" className="btn btn-light-blue position-relative">
-          T
+          <span className="badge badge-curious-bold">
+            {props.db_ID}
+          </span>
           {
             props.newMessage ? <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {props.newMessage}
@@ -289,28 +376,39 @@ const ListCard = memo((props) => {
             </span> : null
           }
         </button>
+      </td>
+      <td>
         <span>{props.id}</span>
+      </td>
+
+      <td>
         <span>{props.address}</span>
-        {/* <a className="text-primary text-decoration-none" href="">
-          https://linke123here/chat/210402098
-        </a> */}
+      </td>
+      <td>
         <span className="text-blue text-decoration-none" >
           {props.origin}
         </span>
+      </td>
+      <td>
         <span>{createddate}</span>
-        <div className="flex-shrink-0">
+      </td>
+      <td>
+        <div className="flex-shrink-0" title={props.plateform}>
           {/* <span className="me-2">4</span>
           <span className="me-2">0</span> */}
-          {props.plateform == '\"Windows\"' ? (
+          {props.plateform.includes("Windows") ? (
             <AiFillWindows color="#878787" size={20} className="me-2" />
-          ) : (
-            <DiLinux size={20} className="me-2" />
+          ) : props.plateform.includes("Android") ? <FcPhoneAndroid size={20} className="me-2" /> : props.plateform.includes("Mac") ? <BsApple size={20} className="me-2" /> : (
+            props.plateform.includes("Linux") ? <DiLinux size={20} className="me-2" /> : 'N/A'
           )}
           {/* <BsFillEyeSlashFill color="#5494F3" size={20} className="me-2" />
           <MdDisabledVisible color="red" size={20} className="me-2" /> */}
-          <img className="me-2 img-fluid" src={`https://countryflagsapi.com/png/${props.country}`} style={{ width: 20 }} />
+
+          /<img title={regionNames.of(`${props.country}`)} className="me-2 img-fluid" src={`https://countryflagsapi.com/png/${props.country}`} style={{ width: 20 }} />
         </div>
-      </div>
-    </div>
+      </td>
+
+
+    </tr>
   );
 });

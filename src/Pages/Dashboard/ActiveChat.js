@@ -31,12 +31,13 @@ import Tab from "react-bootstrap/Tab";
 import Card from "react-bootstrap/Card";
 import Dropdown from "react-bootstrap/Dropdown";
 import { tConvert } from "../../helpers/helperFunctions";
-
+import * as Yup from "yup";
 import "./styles.css";
 import { useFormik } from "formik";
 import constants from "../../constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EndChatModal from "../../Components/UI/Modal/EndChatModal";
 const asyncLocalStorage = {
   setItem: async function (key, value) {
     await null;
@@ -48,6 +49,7 @@ const asyncLocalStorage = {
   },
 };
 function ActiveChat(props) {
+  const [endChatModal, setendChatModal] = useState(false)
   const navigate = useNavigate();
   const loc = useLocation()
   console.log(loc.pathname)
@@ -62,8 +64,21 @@ function ActiveChat(props) {
   const [loggedAgent, setloggedAgent] = useState("");
   const [chatEnd, setchatEnd] = useState(false);
   const [loading, setLoading] = useState(false);
+  // handle end chat
+  function EndChat() {
+    setchatEnd(true)
+    socket.emit("leave room", customerID)
+    setendChatModal(false)
+  }
   // handle lead form
+  const SignupSchema = Yup.object().shape({
+    customer_name: Yup.string().required("Customer Name is Required"),
+    c_name: Yup.string().required("Company Name is Required"),
+    email: Yup.string().required("Email is Required"),
+    phone: Yup.number("Not Valid Phone Number").required("Empty Phone number"),
+  });
   const formik = useFormik({
+    validationSchema: SignupSchema,
     initialValues: {
       agent: loggedAgent,
       customer_name: "",
@@ -73,7 +88,9 @@ function ActiveChat(props) {
       company_url: "",
       agent_id: authState.LoggedUserData.id,
     },
+
     onSubmit: (values) => {
+      console.log("submitted")
       setLoading(true);
       values.agent = loggedAgent;
       values.company_url = chatData.origin;
@@ -122,7 +139,8 @@ function ActiveChat(props) {
                   });
                 }
               });
-          } else
+          } else {
+            setLoading(false);
             toast.error(`Cant Add More Leads for this Company`, {
               position: "top-center",
               autoClose: 5000,
@@ -132,6 +150,8 @@ function ActiveChat(props) {
               draggable: true,
               progress: undefined,
             });
+          }
+
         });
     },
   });
@@ -226,7 +246,7 @@ function ActiveChat(props) {
         .catch((error) => {
           alert(error);
         });
-  });
+  }, [chatData]);
   // get all messages from database on first render
   useEffect(() => {
     LoadMessagesHandler();
@@ -283,6 +303,7 @@ function ActiveChat(props) {
               <div className="d-flex  py-9 px-13 justify-content-between">
                 <div className="d-flex   flex-grow-1" style={{ gap: 10 }}>
                   <ToastContainer />
+                  <EndChatModal state={endChatModal} handleCloseDiscard={() => setendChatModal(false)} handleCloseAccept={EndChat} />
                   {agentName ? <span className="font-500 font-18">{agentName}</span> : <span className="font-500 font-18">Loading</span>}
                 </div>
                 <div className="d-flex flex-grow-1">
@@ -348,13 +369,16 @@ function ActiveChat(props) {
                     >
                       Message
                     </button>
-                    {/* <button className=" py-3 btn-grey-action">Whisper</button> */}
+                    <button onClick={() => {
+                      setendChatModal(true)
+                    }
+                    } className=" py-3 btn-grey-action">End Chat</button>
                   </div>
                 </div>
               ) : null}
               {chatEnd ? (
                 <div className="bg-secondary text-white px-3 py-2 mx-3 rounded-bottom">
-                  Customer Has Ended this Chat
+                  The Chat Has Been Ended
                 </div>
               ) : null}
             </div>
@@ -426,7 +450,7 @@ function ActiveChat(props) {
                           {/* <button className="btn-light-blue py-1">
                                                 </button> */}
                           <span className="font-12">
-                            Visitor navigated to <br />
+                            Company Website <br />
                             {/* <a className='font-12 blue-link text-blue text-decoration-none' href="">
                                                         https://linke123here/chat/
                                                         210402098
@@ -438,7 +462,8 @@ function ActiveChat(props) {
                           <a
                             style={{ color: "#5494F3" }}
                             className="font-12 blue-link text-blue text-decoration-none"
-                            href=""
+                            target="_blank"
+                            href={chatData.origin}
                           >
                             {chatData.origin}
                           </a>
@@ -472,8 +497,9 @@ function ActiveChat(props) {
                                 className="form-select"
                                 aria-label="Default select example"
                               >
-                                <option>Open this select menu</option>
+                                <option hidden >Select one...</option>
                                 {companies.map((c) => {
+                                  console.log(c.value)
                                   return (
                                     <option key={c.value} value={c.value}>
                                       {c.label}
@@ -481,6 +507,11 @@ function ActiveChat(props) {
                                   );
                                 })}
                               </select>
+                              {formik.touched.c_name && formik.errors.c_name ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.c_name}
+                                </div>
+                              ) : null}
                             </div>
                             <div className="mb-3">
                               <label
@@ -499,7 +530,13 @@ function ActiveChat(props) {
                                 value={formik.values.customer_name}
                                 disabled={loading}
                               />
+                              {formik.touched.customer_name && formik.errors.customer_name ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.customer_name}
+                                </div>
+                              ) : null}
                             </div>
+
                             <div className="mb-3">
                               <label
                                 htmlFor="exampleInputPassword1"
@@ -517,6 +554,11 @@ function ActiveChat(props) {
                                 value={formik.values.email}
                                 disabled={loading}
                               />
+                              {formik.touched.email && formik.errors.email ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.email}
+                                </div>
+                              ) : null}
                             </div>
                             <div className="mb-3">
                               <label
@@ -535,6 +577,11 @@ function ActiveChat(props) {
                                 value={formik.values.phone}
                                 disabled={loading}
                               />
+                              {formik.touched.phone && formik.errors.phone ? (
+                                <div className={`${styles.formError}`}>
+                                  {formik.errors.phone}
+                                </div>
+                              ) : null}
                             </div>
                           </Card.Body>
                           <Card.Footer className="d-flex justify-content-between">

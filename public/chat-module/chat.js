@@ -9,6 +9,21 @@ var tooltipText = document.createElement("span")
 var LeftMessageFailed = document.createElement('img')
 var LeftMessageSent = document.createElement('img')
 var LoadingInfo = document.createElement('span')
+var EndChatModal = document.createElement('div')
+EndChatModal.innerHTML = "<p>Want to end chat<p/>"
+var cancelBtn = document.createElement('button')
+cancelBtn.innerText = "cancel"
+confirmEndChatBtn = document.createElement('button')
+confirmEndChatBtn.innerText = "End Chat"
+EndChatModal.appendChild(cancelBtn)
+EndChatModal.appendChild(confirmEndChatBtn)
+
+var ChatEndedByAgent = document.createElement("div")
+var closeEndedByAgentBtn = document.createElement('button')
+ChatEndedByAgent.innerHTML = "<p>Your Chat has been Ended,please start new chat<p/>"
+closeEndedByAgentBtn.innerText = "OK"
+ChatEndedByAgent.appendChild(closeEndedByAgentBtn)
+
 
 LeftMessageSent.src = 'https://i.ibb.co/q1MbjKz/message-sent-icon-10.png'
 LeftMessageFailed.src = 'https://i.ibb.co/W3rgsT4/image-error-icon-17.png'
@@ -17,7 +32,9 @@ tooltip.appendChild(tooltipText)
 var tooltipIcon = document.createElement('img')
 tooltipIcon.src = "https://twemoji.maxcdn.com/v/13.0.1/72x72/1f44b.png"
 tooltip.appendChild(tooltipIcon)
-
+closeEndedByAgentBtn.addEventListener('click', () => {
+  ChatEndedByAgent.style.display = "none"
+})
 audio.src = "https://192.163.206.200:3001/images/tone.mp3";
 try {
   var socket = io(`https://192.163.206.200:3001`, {
@@ -66,6 +83,7 @@ var chatBody = document.createElement("div");
 var chatDateRow = document.createElement("div");
 var chatDate = document.createElement("span");
 var chatMessages = document.createElement("div");
+
 
 
 
@@ -122,6 +140,56 @@ chat.appendChild(chatBody);
 chatBody.appendChild(chatDateRow);
 chatBody.appendChild(chatMessages);
 chat.appendChild(chatFooter);
+chat.appendChild(EndChatModal)
+chat.appendChild(ChatEndedByAgent)
+
+css(cancelBtn, {
+  'background-color': "#d9dbe4",
+  color: "#545454",
+  "border": "none",
+  padding: '10px',
+  "border-radius": '5px',
+  'margin-right': '15px',
+  color: 'rgb(33, 37, 41)'
+
+})
+css(closeEndedByAgentBtn, {
+  'background-color': 'rgb(3, 168, 78)',
+  border: 'none',
+  padding: '10px',
+  "border-radius": '5px',
+  margin: '20px'
+})
+
+css(confirmEndChatBtn, {
+  'background-color': 'rgb(3, 168, 78)',
+  border: 'none',
+  padding: '10px',
+  "border-radius": '5px',
+  color: 'white'
+  // margin: '20px'
+})
+css(EndChatModal, {
+  position: 'absolute',
+  bottom: '0px',
+  background: 'grey',
+  width: '100%',
+  padding: '10px',
+  display: 'none',
+  "border-radius": '5px',
+  color: '#212529',
+  'background-color': '#01c795',
+  'border-color': '#ffc107',
+})
+css(ChatEndedByAgent, {
+  position: 'absolute',
+  bottom: '0px',
+  background: 'grey',
+  width: '100%',
+  padding: '20px',
+  display: 'none',
+  "border-radius": '5px'
+})
 css(tooltipIcon, {
   height: "30px",
   "margin-left": "10px"
@@ -350,12 +418,19 @@ const fetchChatData = (ID) => {
   })
     .then((response) => response.json())
     .then((data) => {
+
       if (data.length) {
+        if (data[0].is_end) {
+          chatHeaderRightButton.style.display = "none"
+          ChatEndedByAgent.style.display = 'block'
+        }
         asyncLocalStorage.getItem("joined").then(response => {
           if (response) {
             agentJoined = true;
             firstMessage = false;
+
             chatHeaderLeftName.innerHTML = data[0].agent_name;
+            console.log("ended:" + response.is_end)
             socket.emit("client join room", {
               id: data[0].customer_id,
               agent: data[0].agent_name,
@@ -406,6 +481,43 @@ const fetchChatData = (ID) => {
       }
     });
 };
+// function to accept end chat
+closeEndedByAgentBtn.addEventListener("click", () => {
+  chatMessages.innerHTML = "";
+  // asyncLocalStorage.getItem("joined").then((response) => {
+  //   const join = response ?? false;
+  //   if (join) {
+  //     chatHeaderRightButton.style.display = "none";
+  //     socket.emit("leave room", response);
+  localStorage.removeItem("joined");
+  localStorage.removeItem("image");
+  localStorage.removeItem("customerID");
+  //   } else {
+  //     console.log("not joined")
+  //   }
+  // });
+  // asyncLocalStorage.getItem("customerID").then((response) => {
+  //   console.log(response)
+  //   const join = response ?? false;
+  //   if (response) {
+  //     chatHeaderRightButton.style.display = "none";
+  //     socket.emit("leave room", response);
+  //     localStorage.removeItem("joined");
+  //     localStorage.removeItem("image");
+  //     localStorage.removeItem("customerID");
+  //   } else {
+  //     console.log("noooooooooo")
+  //     alert("no id found" + response);
+  //   }
+  // });
+  // chat.style.display = "none";
+  //
+  agentJoined = false;
+  chatHeaderLeftImage.src =
+    "https://www.providesupport.com/blog/wp-content/uploads/2013/04/operator-picture-300x300.png";
+  chatHeaderLeftName.innerHTML = "We typically reply within a few Seconds";
+  firstMessage = true;
+})
 // function to check customer chat history start
 const checkChat = () => {
   asyncLocalStorage.getItem("joined").then((response) => {
@@ -448,7 +560,14 @@ chatButton.addEventListener("click", () => {
     // chatButton.innerHTML = 'close chat'
   }
 });
-chatHeaderRightButton.addEventListener("click", () => {
+chatHeaderRightButton.addEventListener('click', () => {
+  EndChatModal.style.display = 'block'
+})
+cancelBtn.addEventListener("click", () => {
+  EndChatModal.style.display = 'none'
+})
+confirmEndChatBtn.addEventListener("click", () => {
+  EndChatModal.style.display = 'none'
   chatMessages.innerHTML = "";
   asyncLocalStorage.getItem("joined").then((response) => {
     const join = response ?? false;
@@ -600,7 +719,7 @@ socket.on("PROFILE UPDATE", (data) => {
   console.log("data;" + data.agent)
   localStorage.setItem("image", data.image);
   chatHeaderLeftImage.src = `https://192.163.206.200:3001/images/${data.image}`;
-  chatHeaderLeftName.innerText = data.agent;
+  chatHeaderLeftName.innerHTML = data.agent;
 
 })
 socket.on("room joined", (data) => {
@@ -628,6 +747,49 @@ socket.on("new Message", (data) => {
   chatMessages.innerHTML += RightMessage.innerHTML;
   chatBody.scrollTop = chatBody.scrollHeight - chatBody.clientHeight;
 });
+socket.on("LEAVE ROOM", () => {
+  ChatEndedByAgent.style.display = 'block'
+  chatHeaderRightButton.style.display = 'none'
+  // chatMessages.innerHTML = "";
+  // asyncLocalStorage.getItem("joined").then((response) => {
+  //   const join = response ?? false;
+  //   if (join) {
+  //     chatHeaderRightButton.style.display = "none";
+  //     socket.emit("leave room", response);
+  //     localStorage.removeItem("joined");
+  //     localStorage.removeItem("image");
+  //     localStorage.removeItem("customerID");
+  //   } else {
+  //     console.log("not joined")
+  //   }
+  // });
+  // asyncLocalStorage.getItem("customerID").then((response) => {
+  //   console.log(response)
+  //   const join = response ?? false;
+  //   if (response) {
+  //     chatHeaderRightButton.style.display = "none";
+  //     socket.emit("leave room", response);
+  //     localStorage.removeItem("joined");
+  //     localStorage.removeItem("image");
+  //     localStorage.removeItem("customerID");
+  //   } else {
+  //     console.log("noooooooooo")
+  //     alert("no id found" + response);
+  //   }
+  // });
+  // chat.style.display = "none";
+  //
+  // agentJoined = false;
+  // chatHeaderLeftImage.src =
+  //   "https://www.providesupport.com/blog/wp-content/uploads/2013/04/operator-picture-300x300.png";
+  // chatHeaderLeftName.innerHTML = "We typically reply within a few Seconds";
+  // firstMessage = true;
+})
 socket.on("disconnect", () => {
   socket.connect();
 });
+
+function removeJoinedFromLocalStorage() {
+  localStorage.removeItem("joined");
+  localStorage.removeItem("customerID");
+}

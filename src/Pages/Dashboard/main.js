@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import styles from "./styles.module.css";
 import { AuthContext } from "../../App";
+import SignoutModal from "../../Components/UI/Modal/SignoutModal";
 const asyncLocalStorage = {
   setItem: async function (key, value) {
     await null;
@@ -21,6 +22,7 @@ const asyncLocalStorage = {
 };
 const UserContext = createContext();
 function MainDashboard() {
+  const [signoutmodal, setsignoutmodal] = useState(false)
   const { authState, setAuthState } = useContext(AuthContext);
   let navigate = useNavigate();
   const logoutHandler = () => {
@@ -52,7 +54,13 @@ function MainDashboard() {
       }
     })
   })
-
+  const SignOutConfirmHandler = () => {
+    setsignoutmodal(false)
+    logoutHandler()
+  }
+  const SignOutDiscardHandler = () => {
+    setsignoutmodal(false)
+  }
   return (
     <UserContext.Provider
       value={() => {
@@ -61,7 +69,7 @@ function MainDashboard() {
         } else setsideNav("d-block");
       }}
     >
-      <div className="container-fluid bg-grey p-0 ">
+      <div className="container-fluid bg-grey p-0" style={{ minHeight: '100vh' }}>
         <div className="row flex-nowrap m-0 ">
           <div
             className={` ${sideNav}  ${expand ? "expand" : null
@@ -173,7 +181,7 @@ function MainDashboard() {
                 <span className="col-8">Settings</span>
               </NavLink>
               <button
-                onClick={logoutHandler}
+                onClick={() => setsignoutmodal(true)}
                 className={`${styles.navLink}  navLink row  pe-3  mb-2 ${styles.logouttab} `}
               >
                 <img className={`${styles.iconImg} col-4 `} src={SVGS.Logout} />{" "}
@@ -213,6 +221,8 @@ function MainDashboard() {
               }}>Expand</button> */}
             </div>
           </div>
+
+          <SignoutModal state={signoutmodal} ConfirmHandler={SignOutConfirmHandler} DiscardHandler={SignOutDiscardHandler} />
           <div
             className={`bg-grey  ${sideNav + "_outlet"}  ${expand ? "outlet_expand" : "outlet_closed"
               }  col px-0 bg-grey`}

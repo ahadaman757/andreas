@@ -1,22 +1,22 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import react from 'react';
+
 const PrivacyModal = (props) => {
-    const [show, setShow] = useState(props.open);
-    const [propmtPolicy, setpropmtPolicy] = useState(true)
-    const handleCloseDiscard = () => {
-      setShow(false)
-      setpropmtPolicy(true)
-    };
-  
-    const handleCloseAccept = () => {
-      setShow(false)
-      setpropmtPolicy(false)
-    };
-    const handleShow = () => setShow(true);
-    if (propmtPolicy)
-      return (
-        <Modal show={props.open} onHide={props.handleClose}>
+  const [show, setShow] = useState(props.open);
+  const [propmtPolicy, setpropmtPolicy] = useState(true)
+  const handleCloseDiscard = () => {
+    setShow(false)
+    setpropmtPolicy(true)
+  };
+
+  const handleCloseAccept = () => {
+    setShow(false)
+    setpropmtPolicy(false)
+  };
+  const handleShow = () => setShow(true);
+  if (propmtPolicy)
+    return (
+      <Modal show={props.open} onHide={props.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>PRIVACY POLICY</Modal.Title>
         </Modal.Header>
@@ -35,18 +35,18 @@ const PrivacyModal = (props) => {
 
         </Modal.Body>
         {
-            props.showFooter === true ? (
-                <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseDiscard}>
-                  Discard
-                </Button>
-                <Button variant="primary" onClick={handleCloseAccept}>
-                  Accept
-                </Button>
-              </Modal.Footer>
-            ) : ''
+          props.showFooter === true ? (
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseDiscard}>
+                Discard
+              </Button>
+              <Button variant="primary" onClick={handleCloseAccept}>
+                Accept
+              </Button>
+            </Modal.Footer>
+          ) : ''
         }
       </Modal>
-      )
-  }
-  export default PrivacyModal;
+    )
+}
+export default PrivacyModal;
