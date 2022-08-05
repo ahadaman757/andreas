@@ -44,7 +44,7 @@ const OwnerDashboard = () => {
           <div className="col-md-8">
             <div className={`${styles.live_now} p-3`}>
               <div className="d-flex justify-content-between">
-                <h1 className="h4 fw-bold">Live now</h1>
+                <h1 className="h4 fw-bold">Leads History</h1>
               </div>
               <LiveVisitorsChart />
             </div>
