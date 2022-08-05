@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import Home from "../src/Pages/Home/Home";
+import Home from "../src/Pages/Home/index";
 import SignIn from "../src/Pages/SignIn/SignIn";
 import SignUp from "../src/Pages/SignUp/SignUp";
 import MainDashboard from "./Pages/Dashboard/main";
@@ -20,6 +20,9 @@ import { io } from "socket.io-client";
 import mySound from './assets/audio/Message Tone.mp3'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ContactUs from '../src/Pages/contact-us/ContactUs'
+import AboutUs from "./Pages/about-us/AboutUs";
+
 var socket = io(`https://${constants.host}:3001`, {
   transports: ["websocket"],
   extraHeaders: {
@@ -144,7 +147,10 @@ function App() {
     <AuthContext.Provider value={{ authState, setAuthState }}>
       <ToastContainer />
       <Routes>
+
         <Route path="/" element={<Home />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/aboutus" element={<AboutUs />} />
         {!authState.status ? (
           <Route path="/signin" element={<SignIn />} />
         ) : (

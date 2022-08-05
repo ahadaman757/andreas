@@ -1,0 +1,104 @@
+.root {
+  display: flex;
+  height: 90px;
+  align-items: center;
+}
+.contre {
+  display: flex;
+  width: 80%;
+}
+.logcon {
+  display: flex;
+  width: 50%;
+  align-items: center;
+}
+.logconh1 {
+  font-size: 30px;
+  margin: 10px;
+  font-family: Gill Sans, sans-serif;
+}
+.logo {
+  width: 50px;
+}
+.pagcon {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  list-style: none;
+  justify-content: space-between;
+}
+.pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+}
+.pagcona {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 10px;
+  font-family: Gill Sans, sans-serif;
+}
+.sincon {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 20%;
+}
+.sincona {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px;
+  font-family: Gill Sans, sans-serif;
+  color: white;
+}
+.sinconbtn {
+  background: white !important;
+  color: #1ba160 !important;
+  border-radius: 7px !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  width: 100px !important;
+  margin: 10px !important;
+}
+.MuiButton-text {
+  background-color: white !important;
+}
+@media only screen and (min-width: 1440px) {
+  .pagcon {
+    width: 100%;
+  }
+  .sm_menu {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .pagcon {
+    width: 100%;
+  }
+  .logcon {
+    width: 30%;
+  }
+  .sm_menu {
+    display: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .sm_menu {
+  }
+  .pages {
+    display: none;
+  }
+  .sincon {
+    display: none;
+  }
+  .contre {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+.MuiButton-root {
+  border: solid grey 1px !important;
+  border-radius: 10px !important;
+}

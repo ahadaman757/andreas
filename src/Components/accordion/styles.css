@@ -1,0 +1,24 @@
+.MuiAccordionSummary-root {
+  flex-direction: row-reverse !important;
+  background: #1ba160 !important;
+  height: 70px !important;
+  border-radius: 7px !important;
+  margin: 10px !important;
+}
+.MuiAccordionSummary-content {
+  margin: 10px !important;
+}
+.MuiSvgIcon-root {
+  color: white !important;
+  font-size: 40px !important;
+}
+.MuiAccordionDetails-root {
+  background: #e8e8e8 !important;
+  height: 70px !important;
+}
+.MuiAccordion-rounded:first-child {
+  box-shadow: none !important;
+}
+.MuiPaper-elevation1 {
+  box-shadow: none !important;
+}
