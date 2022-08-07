@@ -4,38 +4,41 @@ import React from "react";
 
 const data = [
   {
+    id: 1,
     cardName: "Free Trail",
     cardPrice: "Free",
     cardDuration: "8 Days",
     cardDisceription: "Best for learning and chatting with customers",
-    benefits: [
-      "Track up to 50 leads",
-      "Unlimeted Chat history",
-      "Customization",
-      "Analytics",
-    ],
+    benefits: ["Track up to 50 leads", "Unlimited Chat history", "Analytics"],
   },
   {
+    id: 2,
     cardName: "Starter",
-    cardPrice: "$16",
+    cardPrice: "$39",
     cardDuration: "Monthly",
-    cardDisceription: "Full Customization,Targeting,and Team Managment",
+    cardDisceription:
+      "Best for emerging platforms / websites with medium to high traffic and support requests.",
     benefits: [
       "Track up to 50 leads",
-      "Unlimeted Chat history",
-      "Customization",
+      "Unlimited Chat history",
       "Analytics",
       "Software Engineer Support",
-      "Multiple Website Support",
       "LiveChat Dashboard",
+      "Technical Support",
     ],
   },
   {
-    cardName: "Addons",
-    cardPrice: "$10",
-    cardDuration: "/per Lead",
-    cardDisceription: "Best for learning and chatting with customers",
-    benefits: ["Unlimeted Chat history", "Customization", "Analytics"],
+    id: 3,
+    cardName: "Enterprise",
+    cardDisceription:
+      "Best for large corporations with high traffic and who want custom changes in the service",
+    benefits: [
+      "All basic features",
+      "ChatReply expert technical support",
+      "Advance analytics",
+      "Customization as per requirement",
+      "... much more!",
+    ],
   },
 ];
 const Card = () => {
@@ -57,8 +60,17 @@ const Card = () => {
             </ul>
           </div>
         </div>
-        <NavLink to='/signup' className={`nav-link active`} aria-current="page" href="#"> <button className="card_btn">Get Started</button></NavLink>
-
+        <NavLink
+          to={item.id == 3 ? "/contactus" : "/signup"}
+          className={`nav-link active`}
+          aria-current="page"
+          href="#"
+        >
+          {" "}
+          <button className="card_btn">
+            {item.id == 3 ? "Book a Call" : "Get Started"}
+          </button>
+        </NavLink>
       </div>
     );
   });
