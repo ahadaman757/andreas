@@ -7,9 +7,9 @@ const data = [
     id: 1,
     cardName: "Free Trail",
     cardPrice: "Free",
-    cardDuration: "8 Days",
+    cardDuration: "20 leads",
     cardDisceription: "Best for learning and chatting with customers",
-    benefits: ["Track up to 50 leads", "Unlimited Chat history", "Analytics"],
+    benefits: ["Track up to 20 leads", "Unlimited Chat history", "Analytics"],
   },
   {
     id: 2,
