@@ -26,6 +26,8 @@
 .links_home ul li a {
   font-size: 20px;
   font-weight: 600;
+  text-decoration: none;
+  color: black;
 }
 .links_home ul {
   list-style: none;

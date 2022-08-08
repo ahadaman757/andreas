@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     flexBasis: "100%",
     flexShrink: 0,
     color: "white",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "16px",
+    },
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),

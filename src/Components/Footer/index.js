@@ -25,7 +25,7 @@ const Footer = () => {
               <a>About Us</a>
             </li>
             <li>
-              <a>Pricing</a>
+              <a href="#Pricing">Pricing</a>
             </li>
             <li>
               <a>Contact Us </a>

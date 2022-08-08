@@ -20,12 +20,12 @@ import addLogo from "../../assets/logos/Vector3.svg";
 import Gif from "../../assets/Images/gif.gif";
 import Footer from "../../Components/Footer";
 import ControlledAccordions from "../../Components/accordion";
-import Header from '../../Components/UI/Header/NewHeader'
+import Header from "../../Components/UI/Header/NewHeader";
 const Home = () => {
   return (
     <div>
       <div className="contentdisplay">
-        <Header bgColor='transparent' />
+        <Header bgColor="transparent" />
         <Wrapper bgInvisible>
           <div className="section1">
             <div className="contenttext">
@@ -45,7 +45,7 @@ const Home = () => {
       </div>
       <Wrapper bgInvisible>
         <div className="cardcon">
-          <div className="card">
+          <div className="card-home">
             <div className="cardlogo">
               <img className="cardlog" src={Vector1} />
               <h1 className="cardh1">Proactive chat</h1>
@@ -55,7 +55,7 @@ const Home = () => {
               immediate assistance to your website users.{" "}
             </p>
           </div>
-          <div className="card">
+          <div className="card-home">
             <div className="cardlogo">
               <img className="cardlog" src={Vector2} />
               <h1 className="cardh1">Increasing Sales</h1>
@@ -65,7 +65,7 @@ const Home = () => {
               and raise sales income.
             </p>
           </div>
-          <div className="card">
+          <div className="card-home">
             <div className="cardlogo">
               <img className="cardlog" src={Vector3} />
               <h1 className="cardh1">Track progress fast</h1>
@@ -80,9 +80,11 @@ const Home = () => {
           <div className="vertcon">
             <h1 className="vertconh1">Our Vision</h1>
             <p className="vertconp">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
-              diam nulla sapien elementum. Mauris viverra a sollicitudin egestas
-              aliquam. Amet lacus, sed quis leo vulputate vitae.
+              Chat-Reply aims at providing 24 / 7 chat support to your customers
+              without you being in a hassle. Additionally, providing a great
+              opportunity for lead generation. Chat-Reply is a process
+              automation, chat support and lead generation platform with
+              multi-purpose use depending on your needs.
             </p>
           </div>
           <div className="vertcon2">
@@ -127,8 +129,8 @@ const Home = () => {
               </p>
             </div>
             <div className="fixleaks__child">
-              <p className="fixleakschildp2">Discover how to grow your sales</p>
-              <img className="fixleakschildimg2" src={arrow} />
+              {/* <p className="fixleakschildp2">Discover how to grow your sales</p>
+              <img className="fixleakschildimg2" src={arrow} /> */}
             </div>
           </div>
           <div className="fixleakschild2">
@@ -138,11 +140,15 @@ const Home = () => {
         <div>
           <div className="outer_container">
             <h1 className="outer_heading">
-              Get more visitors, get more sales.
+              Give your users instant support, generate leads and get more
+              sales.
             </h1>
             <p className="outer_ptag">
               We share common trends and strategies for improving your rental
-              income and making sure you stay in high demand.
+              income and making sure you stay in high demand.” to “We take care
+              of your users, we provide 24 / 7 chat support and a opportunity
+              for you to generate more sales with our lead generation mechanism
+              at the same time!
             </p>
           </div>
           <div className="inner_container">
@@ -163,7 +169,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="price_container">
+        <div id="Pricing" className="price_container">
           <Card />
         </div>
         <div>
@@ -178,20 +184,20 @@ const Home = () => {
         </div>
         <div className="information_main_container">
           <div className="information_inner_container">
-            <h1>Teams</h1>
-            <h2>15</h2>
-          </div>
-          <div className="information_inner_container">
-            <h1>Projects</h1>
-            <h2>200</h2>
-          </div>
-          <div className="information_inner_container">
-            <h1>Project Done</h1>
-            <h2>15</h2>
-          </div>
-          <div className="information_inner_container">
             <h1>Clients</h1>
-            <h2>200</h2>
+            <h2>100+</h2>
+          </div>
+          <div className="information_inner_container">
+            <h1>Technical Support</h1>
+            <h2>24 / 7</h2>
+          </div>
+          <div className="information_inner_container">
+            <h1>Rating</h1>
+            <h2>4.8</h2>
+          </div>
+          <div className="information_inner_container">
+            <h1>Agent</h1>
+            <h2>50+</h2>
           </div>
         </div>
         <div className="Faq_main_container">
@@ -223,12 +229,13 @@ const Home = () => {
             <div className="work_inner_cantainer">
               <h1>Let’s find out how to work together</h1>
               <p>
-                Lorem ipsum dolor sit amet elit. Velit beatae rem ullam dolore
-                nisi esse quasi, sit amet. Lorem ipsum dolor sit amet elit.
+                Signup for a free trial with us and see for yourself how we take
+                burden off of your shoulders and provide you with an easy,
+                hassle-free, chat support and lead generation.
               </p>
             </div>
             <div className="work_innerimg_cantainer">
-              <input placeholder="Enter Your Email" />
+              {/* <input placeholder="Enter Your Email" /> */}
               <button>Start Free Trail</button>
             </div>
           </div>

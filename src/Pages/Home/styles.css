@@ -44,6 +44,10 @@
   background-size: auto 815px;
   background-position: right;
 }
+.nav-link {
+  padding: 0px !important;
+  width: 100% !important;
+}
 
 @media only screen and (min-width: 2560px) {
   .contentdisplay {
@@ -57,12 +61,97 @@
   }
 
   .contenttexth1 {
-    font-size: 2vw !important;
+    font-size: 40px !important;
+    width: 33vw !important;
   }
-
-  /* .invert {
-    display: flex;
-  } */
+  .gif_container img {
+    width: 370px !important;
+  }
+  .fixleaksh1 {
+    font-size: 35px !important;
+    font-weight: 700;
+  }
+  .contenttextp {
+    width: 38vw !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
+  .fixleakschildp {
+    font-size: 16px !important;
+    margin-top: 0;
+    /* margin-bottom: 3rem !important; */
+  }
+  .fixleakschild2img {
+    width: 400px !important;
+  }
+  .card {
+    width: 340px !important;
+  }
+  .cardh1 {
+    font-size: 14px !important;
+  }
+  .cardp {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+  }
+  .invert {
+    height: 488px !important;
+  }
+  .vertconh1 {
+    font-size: 40px;
+  }
+  .vertcon {
+    padding: 40px 0px 0px 60px !important;
+  }
+  .vertconp {
+    font-size: 20px !important;
+  }
+  .fixleakschild {
+    margin-bottom: 30px;
+  }
+  .fixleakschildp2 {
+    font-size: 16px !important;
+  }
+  .outer_container {
+    padding: 0px 138px !important;
+  }
+  .vertconimg {
+    width: 600px;
+  }
+  .outer_heading {
+    font-size: 35px !important;
+    font-weight: 700;
+  }
+  .outer_ptag {
+    font-size: 20px !important;
+  }
+  .out_container {
+    padding: 0px 70px !important;
+  }
+  .out_heading {
+    font-size: 35px !important;
+    font-weight: 700 !important;
+  }
+  .out_ptag {
+    font-size: 20px !important;
+  }
+  .our_inner_container h1 {
+    font-size: 40px !important;
+    font-weight: 700 !important;
+  }
+  .our_inner_container p {
+    font-size: 20px !important;
+  }
+  .information_inner_container h1 {
+    font-size: 25px !important;
+  }
+  .information_inner_container h2 {
+    font-size: 18px !important;
+  }
+  .Faq_main_container h1 {
+    font-size: 40px !important;
+    font-weight: 700 !important;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -81,15 +170,42 @@
   }
 
   .main_container {
-    width: 70% !important;
+    width: 283px !important;
   }
 
   .price_container {
     background-image: none;
     background-color: #1ba160;
-    height: 115vw !important;
+    height: 63vw !important;
     display: flex;
     /* flex-direction: column; */
+  }
+  .cardh1 {
+    font-size: 23px !important;
+  }
+  .cardp {
+    font-size: 14px !important;
+  }
+  .footer_outer p {
+    font-size: 18px !important;
+  }
+  .links_home h1 {
+    font-size: 30px !important;
+  }
+  .links_privicy h1 {
+    font-size: 30px !important;
+  }
+  .work_main_cantainer {
+    text-align: center;
+  }
+  .work_inner_cantainer h1 {
+    font-size: 40px !important;
+  }
+  .work_inner_cantainer p {
+    font-size: 20px !important;
+  }
+  .work_innerimg_cantainer input {
+    height: 4vw !important;
   }
 
   .detail_list {
@@ -109,7 +225,7 @@
   }
 
   .card_btn {
-    width: 70% !important;
+    width: 100% !important;
   }
 
   .work_outer_cantainer {
@@ -125,15 +241,27 @@
     justify-content: center;
     align-items: center;
   }
-
+  .contenttexth1 {
+    width: 100% !important;
+    text-align: center;
+  }
+  .contenttext {
+    height: 376px !important;
+  }
   .contentdisplay {
     /* background-size: 478px 809px; */
     background: none;
-    height: 130vh;
+    height: 90vh !important;
   }
 
   .contentmob {
     display: none;
+  }
+  .main_container {
+    width: 388px !important;
+  }
+  .work_innerimg_cantainer input {
+    padding: 22px !important;
   }
 
   .section1 {
@@ -154,6 +282,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 760px !important;
   }
 
   .outer_container {
@@ -190,6 +319,18 @@
 
   .work_innerimg_cantainer button {
     padding: 13px !important;
+  }
+  .vertconh1 {
+    font-size: 40px !important;
+  }
+  .contenttextp {
+    width: 100% !important;
+    padding: 10px;
+    text-align: center;
+    color: #ffffff;
+  }
+  .work_innerimg_cantainer input {
+    width: 25vw !important;
   }
 }
 
@@ -313,8 +454,29 @@
     justify-content: center;
     align-items: center;
   }
+  .contenttexth1 {
+    width: 100% !important;
+    padding: 10px;
+    text-align: center;
+  }
+  .contenttextp {
+    width: 100% !important;
+    padding: 10px;
+    text-align: center;
+    color: #ffffff;
+  }
 }
-
+@media only screen and (max-width: 375px) {
+  .main_container {
+    width: 270px !important;
+  }
+  .makeStyles-heading-4 {
+    color: white;
+    font-size: 15px !important;
+    flex-basis: 100%;
+    flex-shrink: 0;
+  }
+}
 .contenttexth1 {
   font-size: 3vw;
   font-weight: 700;
@@ -333,7 +495,7 @@
 
 .invert {
   background: #1ba160;
-  height: 400px;
+  height: 630px;
   margin: -90px 0px 0px 0px;
   display: flex;
   padding: 110px 0px;
@@ -345,7 +507,7 @@
   justify-content: space-evenly;
 }
 
-.card {
+.card-home {
   height: 175px;
   width: 350px;
   border: 1px solid #1ba160;
@@ -355,7 +517,7 @@
   margin: 10px;
 }
 
-.card:hover {
+.card-home:hover {
   transform: translatey(-15px);
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
   transition-duration: 0.5s;
@@ -377,7 +539,7 @@
 .cardp {
   color: #1ba160;
   font-family: poppins;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .cardlog {
@@ -447,7 +609,7 @@
 
 .outer_container {
   text-align: center;
-  padding: 0px 370px;
+  padding: 0px 275px;
 }
 
 .outer_heading {
@@ -489,7 +651,8 @@
   font-size: 25px;
 }
 
-.inner_cont {}
+.inner_cont {
+}
 
 .inn_img {
   width: 100%;
@@ -532,6 +695,7 @@
 .information_inner_container {
   text-align: center;
   color: #fdfdfd;
+  padding: 20px 10px;
 }
 
 .information_inner_container h1 {
@@ -614,4 +778,7 @@
 
 .fixleakschild2img {
   width: 628px;
+}
+.gif_container img {
+  width: 100%;
 }
