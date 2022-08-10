@@ -8,14 +8,15 @@ import axios from "axios";
 import * as Yup from "yup";
 import constants from "../../constants";
 import { loadStripe } from "@stripe/stripe-js";
-import Loading from '../Loading/Loading'
+import Loading from "../Loading/Loading";
 import { useFormik } from "formik";
-import { default as Buttons } from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import { default as Buttons } from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { asyncLocalStorage } from "../../helpers/helperFunctions";
 import { socket } from "../../App";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 import ResetPassword from "../SignIn/ResetPassword";
+import { Link } from "react-router-dom";
 // STRIPE CONFIGURATION
 const stripePromise = loadStripe(
   "pk_test_51KrpCtAGfLyluyxLjKxj7EtTSmRe6bo0ecNMicW0ISmzoxff6U94mdzxiUvBXeClaUpEz1kPAkv0u2H3jWfdH8wG00fGbTa2WF"
@@ -27,7 +28,6 @@ const EditPlans = () => {
   const [planName, setPlanName] = useState("");
   const [planDescription, setPlanDescription] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const changePlan = (e) => {
     setPlanSelected(e);
@@ -285,17 +285,17 @@ const LeftSideBar = ({ changeHandler }) => {
   );
 };
 const Overview = () => {
-  const [resetPasswordModal, SetresetPasswordModal] = useState(false)
+  const [resetPasswordModal, SetresetPasswordModal] = useState(false);
   const { authState, setAuthState } = useContext(AuthContext);
   const [editable, setEditable] = useState(0);
   const [isSucces, setSuccess] = useState(null);
-  const [ProfileUpdating, setProfileUpdating] = useState(false)
-  const [PhotoChanged, setPhotoChanged] = useState(false)
-  const [profileData, setprofileData] = useState()
+  const [ProfileUpdating, setProfileUpdating] = useState(false);
+  const [PhotoChanged, setPhotoChanged] = useState(false);
+  const [profileData, setprofileData] = useState();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [profileUpdated, SetProfileUpdated] = useState(false)
+  const [profileUpdated, SetProfileUpdated] = useState(false);
   const [ServerMsg, setServerMsg] = useState("");
   const SignupSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -308,7 +308,7 @@ const Overview = () => {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      setProfileUpdating(true)
+      setProfileUpdating(true);
       axios
         .post(`https://${constants.host}:3001/signin`, values)
         .catch((error) => {
@@ -318,13 +318,13 @@ const Overview = () => {
           const t = res ?? false;
           if (t) {
             if (res.data.error) {
-              setServerMsg(res.data.error)
-              setProfileUpdating(false)
+              setServerMsg(res.data.error);
+              setProfileUpdating(false);
               return;
             } else {
-              setServerMsg(res.data.error)
-              console.log(res)
-              submit(values)
+              setServerMsg(res.data.error);
+              console.log(res);
+              submit(values);
             }
           }
         });
@@ -337,24 +337,25 @@ const Overview = () => {
         firstName: authState.LoggedUserData.f_name,
         lastName: authState.LoggedUserData.l_name,
         email: authState.LoggedUserData.email,
-      }
-    })
-  }, [authState])
+      };
+    });
+  }, [authState]);
   // console.log(person)
   const handleFormData = (e) => {
-    console.log(e)
-    setprofileData(pre => {
+    console.log(e);
+    setprofileData((pre) => {
       return {
-        ...pre, [e.target.name]: e.target.value
-      }
-    })
-  }
+        ...pre,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
   const [userInfo, setuserInfo] = useState({
     file: [],
     filepreview: null,
   });
   const handleInputChange = (event) => {
-    setPhotoChanged(true)
+    setPhotoChanged(true);
     setuserInfo({
       ...userInfo,
       file: event.target.files[0],
@@ -362,63 +363,66 @@ const Overview = () => {
     });
   };
   const UpdateHandler = (values) => {
-
-    console.log(values)
+    console.log(values);
     const ID = authState.LoggedUserData.id;
-    axios.post(`https://${constants.host}:3001/updateuser`, {
-      id: authState.LoggedUserData.id,
-      firstname: profileData.firstName,
-      lastname: profileData.lastName,
-      email: profileData.email,
-    }).catch(error => {
-      console.log(error)
-    }).then(res => {
-      axios
-        .post(`https://${constants.host}:3001/signin`, values)
-        .catch((error) => {
-          alert(error);
-        })
-        .then((res) => {
-          const t = res ?? false;
-          if (t) {
-            if (res.data.error) {
-              return;
-            } else {
-              localStorage.setItem("accessToken", res.data.token);
-              setAuthState({ LoggedUserData: res.data.userData, status: true });
+    axios
+      .post(`https://${constants.host}:3001/updateuser`, {
+        id: authState.LoggedUserData.id,
+        firstname: profileData.firstName,
+        lastname: profileData.lastName,
+        email: profileData.email,
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .then((res) => {
+        axios
+          .post(`https://${constants.host}:3001/signin`, values)
+          .catch((error) => {
+            alert(error);
+          })
+          .then((res) => {
+            const t = res ?? false;
+            if (t) {
+              if (res.data.error) {
+                return;
+              } else {
+                localStorage.setItem("accessToken", res.data.token);
+                setAuthState({
+                  LoggedUserData: res.data.userData,
+                  status: true,
+                });
+              }
             }
-          }
-        });
-      setProfileUpdating(false)
-      SetProfileUpdated(true)
-      setShow(false)
-    })
-      ;
+          });
+        setProfileUpdating(false);
+        SetProfileUpdated(true);
+        setShow(false);
+      });
   };
   useEffect(() => {
-
-    NotifyClient()
-  }, [authState])
+    NotifyClient();
+  }, [authState]);
   const NotifyClient = () => {
-
     asyncLocalStorage.getItem("JoinedClientList").then((value) => {
-      var list = JSON.parse(value)
-      list.map((id) => {
-        socket.emit("profile changed", {
-          id: id,
-          agent:
-            authState.LoggedUserData.f_name +
-            " " +
-            authState.LoggedUserData.l_name,
-          image: authState.LoggedUserData.image,
+      var list = JSON.parse(value);
+      if (list !== null) {
+        list.map((id) => {
+          socket.emit("profile changed", {
+            id: id,
+            agent:
+              authState.LoggedUserData.f_name +
+              " " +
+              authState.LoggedUserData.l_name,
+            image: authState.LoggedUserData.image,
+          });
         });
-      })
-
+      }
     });
-  }
+  };
 
   const submit = async (values) => {
-    console.log(values)
+    console.log(values);
 
     if (PhotoChanged) {
       const formdata = new FormData();
@@ -432,20 +436,22 @@ const Overview = () => {
           // then print response status
           console.warn(res);
           if (res.data.success === 1) {
-            UpdateHandler(values)
+            UpdateHandler(values);
           }
         });
+    } else {
+      UpdateHandler(values);
     }
-    else {
-      UpdateHandler(values)
-    }
-
   };
 
   if (!ProfileUpdating)
     return (
       <div>
-        <ResetPassword state={resetPasswordModal} handleClose={() => SetresetPasswordModal(false)} handleOpen={() => SetresetPasswordModal(true)} />
+        <ResetPassword
+          state={resetPasswordModal}
+          handleClose={() => SetresetPasswordModal(false)}
+          handleOpen={() => SetresetPasswordModal(true)}
+        />
 
         <h3>Account Details</h3>
         <div className="row">
@@ -497,7 +503,7 @@ const Overview = () => {
                           <div className="mb-3">
                             <label htmlFor="">First Name</label>
                             <input
-                              name='firstName'
+                              name="firstName"
                               className="form-control"
                               onChange={handleFormData}
                               value={profileData.firstName}
@@ -536,8 +542,8 @@ const Overview = () => {
                       <Modal.Header closeButton>
                         <Modal.Title>Profile Update</Modal.Title>
                       </Modal.Header>
-                      <Modal.Body>Please Enter Email and password to save your Changes
-
+                      <Modal.Body>
+                        Please Enter Email and password to save your Changes
                         <form onSubmit={formik.handleSubmit} method="post">
                           <div className="mb-3">
                             <label
@@ -576,12 +582,12 @@ const Overview = () => {
                               onChange={formik.handleChange}
                               value={formik.values.password}
                             />
-                            {formik.touched.password && formik.errors.password ? (
+                            {formik.touched.password &&
+                            formik.errors.password ? (
                               <div className={`${styles.formError}`}>
                                 {formik.errors.password}
                               </div>
                             ) : null}
-
                           </div>
 
                           <button
@@ -592,7 +598,9 @@ const Overview = () => {
                             Save Changes
                           </button>
                           {ServerMsg && (
-                            <p className={`${styles.successmsg}`}>{ServerMsg}</p>
+                            <p className={`${styles.successmsg}`}>
+                              {ServerMsg}
+                            </p>
                           )}
                         </form>
                       </Modal.Body>
@@ -600,7 +608,6 @@ const Overview = () => {
                         <Buttons variant="secondary" onClick={handleClose}>
                           Close
                         </Buttons>
-
                       </Modal.Footer>
                     </Modal>
                     <div className="my-3" style={{ display: "block" }}>
@@ -631,7 +638,14 @@ const Overview = () => {
                     onClick={() => setEditable(!editable)}
                   ></i>
                 ) : null}
-                <Button click={() => SetresetPasswordModal(true)} title="Reset Password" type={`primary`} classes="mr-2" />
+                <Button
+                  click={() => SetresetPasswordModal(true)}
+                  title="Reset Password"
+                  type={`primary`}
+                  classes="mr-2"
+                />
+                <br />
+                <br />
                 {/* <button className="btn btn-primary" >
                   reset Password
                 </button> */}
@@ -657,36 +671,9 @@ const Overview = () => {
         </div>
       </div> */}
         <br />
-        <div className="row">
-          <div className="col-md-8 col-12">
-            <div className="card">
-              <div className="card-body">
-                <b>
-                  <h5 className="mb-3">Cancel Account</h5>
-                </b>
-                <p className="mb-2">
-                  You can cancel anytime and you won't be charged again. We don't
-                  offer refunds for unused time in the billing cycle.
-                  <br />
-                </p>
-                <a href="#" className="mt-4">
-                  Continue to the Cancel page
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-8 col-12">
-            <br />
-            <Button title="Save" type={`primary`} classes="mr-2" />
-            <Button title="Cancel" type="nobg" classes="mx-2" />
-          </div>
-        </div>
       </div>
     );
-  else
-    return <Loading />
+  else return <Loading />;
 };
 const ProductDisplay = () => <section></section>;
 const Message = ({ message }) => (
@@ -699,6 +686,42 @@ const Subscriptions = () => {
   const { authState, setAuthState } = useContext(AuthContext);
   const [freePrice, setFreePrice] = useState(0);
   const [freeActivate, setFreeActivated] = useState(0);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [stripeCustomerId, setStripeCustomerId] = useState("");
+
+  const cancelAccount = () => {
+    setDeleteLoading(true);
+    axios
+      .post(`https://192.163.206.200:3001/userCustomerId`, {
+        userId: authState.LoggedUserData.id,
+      })
+      .then((r) => {
+        setStripeCustomerId(r.data[0].customer_id);
+        console.log("CustomerID ===> " + r.data[0].customer_id);
+        axios
+          .post(`https://192.163.206.200:3001/getSubList`, {
+            id: r.data[0].customer_id,
+          })
+          .then((response) => {
+            console.log("Subscription ID ====> " + response.data.data[0].id);
+            axios
+              .post(`https://192.163.206.200:3001/deleteStripe`, {
+                customerId: response.data.data[0].id,
+              })
+              .then((response) =>
+                axios
+                  .post(`https://192.163.206.200:3001/removeCustomerId`, {
+                    customerID: r.data[0].customer_id,
+                    userId: authState.LoggedUserData.id,
+                  })
+                  .then((response) => {
+                    console.log(response);
+                    setDeleteLoading(false);
+                  })
+              );
+          });
+      });
+  };
 
   // GENERATE RANDOM TOKEN
   function makeid(length) {
@@ -762,7 +785,7 @@ const Subscriptions = () => {
                 }}
               >
                 <span style={price}>Free</span>
-                <span>8 days</span>
+                <span>20 leads</span>
               </div>
               {freeActivate == "0" ? (
                 <Button title="Current Plan" type="primaryFullWidth" />
@@ -776,7 +799,7 @@ const Subscriptions = () => {
               )}
               <br />
               <br />
-              <p>Track up to 50 leads</p>
+              <p>Track up to 20 leads</p>
               <p>Unlimited chat history</p>
               <p>Customization</p>
               <p>Analytics</p>
@@ -790,7 +813,10 @@ const Subscriptions = () => {
               <h1>
                 <b>Starter</b>
               </h1>
-              <p>Full customization, targeting, and team management.</p>
+              <p>
+                Best for emerging platforms / websites with medium to high
+                traffic and support requests.
+              </p>
               <div
                 style={{
                   display: "flex",
@@ -798,27 +824,44 @@ const Subscriptions = () => {
                   alignItems: "center",
                 }}
               >
-                <span style={price}>$16</span>
+                <span style={price}>$39</span>
                 <span>Monthly</span>
               </div>
-              <form
-                action="https://192.163.206.200:3001/create-checkout-session1"
-                method="POST"
-                onClick={() => {
-                  localStorage.setItem("paymentMethodToken", makeid(30));
-                  localStorage.setItem("planId", 2);
-                }}
-              >
-                <Button title="Subscribe Now" type="primaryFullWidth" />
-              </form>
+              {authState.LoggedUserData.membership == "2" ? (
+                <button
+                  style={{
+                    width: "100%",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                    background: "#5CB85C",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    cancelAccount();
+                  }}
+                >
+                  {deleteLoading === true
+                    ? "Cancelling Please Wait..."
+                    : "Cancel"}
+                </button>
+              ) : (
+                <form
+                  action="https://192.163.206.200:3001/create-checkout-session1"
+                  method="POST"
+                  onClick={() => {
+                    localStorage.setItem("paymentMethodToken", makeid(30));
+                    localStorage.setItem("planId", 2);
+                    localStorage.setItem("userId", authState.LoggedUserData.id);
+                  }}
+                >
+                  <Button title="Subscribe Now" type="primaryFullWidth" />
+                </form>
+              )}
               <br />
               <br />
-              <p>Track up to 200 Leads</p>
               <p>Unlimited chat history</p>
-              <p>Customization</p>
               <p>Analytics</p>
               <p>Software engineer support</p>
-              <p>Multiple website support</p>
               <p>LiveChat Dashboard</p>
             </div>
           </div>
@@ -827,20 +870,28 @@ const Subscriptions = () => {
           <div className="card">
             <div className="card-body">
               <h1>
-                <b>Addons</b>
+                <b>Enterprise</b>
               </h1>
-              <p>Best for learning and chatting with customers.</p>
+              <p>
+                Best for large corporations with high traffic and who want
+                custom changes in the service
+              </p>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
-              >
-                <span style={price}>10$</span>
-                <span>Per lead</span>
-              </div>
-              <Button title="Add Now" type="primaryFullWidth" />
+              ></div>
+              <Link to="/contactus">
+                <Button title="Contact Now" type="primaryFullWidth" />
+              </Link>
+              <br />
+              <br />
+              <p>All basic features</p>
+              <p>ChatReply expert technical support</p>
+              <p>Advance analytics</p>
+              <p>Customization as per requirement</p>
             </div>
           </div>
         </div>

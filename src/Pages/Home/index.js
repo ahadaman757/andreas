@@ -18,9 +18,10 @@ import Animation from "../../assets/Images/animation.svg";
 import Card from "../../Components/card";
 import addLogo from "../../assets/logos/Vector3.svg";
 import Gif from "../../assets/Images/gif.gif";
-import Footer from "../../Components/Footer";
+import Footer from "../../Components/UI/Footer/Footer";
 import ControlledAccordions from "../../Components/accordion";
 import Header from "../../Components/UI/Header/NewHeader";
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div>
@@ -151,10 +152,14 @@ const Home = () => {
               at the same time!
             </p>
           </div>
+          <br />
+          <br />
           <div className="inner_container">
             <img className="inner_img" src={Screen} />
           </div>
         </div>
+        <br />
+        <br />
         <div className="out_container_main">
           <div className="out_container">
             <h1 className="out_heading">Easy Integration</h1>
@@ -169,7 +174,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div id="Pricing" className="price_container">
+        <div id="pricing" className="price_container">
           <Card />
         </div>
         <div>
@@ -236,7 +241,14 @@ const Home = () => {
             </div>
             <div className="work_innerimg_cantainer">
               {/* <input placeholder="Enter Your Email" /> */}
-              <button>Start Free Trail</button>
+              <button>
+                <Link
+                  to="/signup"
+                  style={{ color: "white", marginTop: "-50px" }}
+                >
+                  Start Free Trail
+                </Link>
+              </button>
             </div>
           </div>
           <div className="gif_container">

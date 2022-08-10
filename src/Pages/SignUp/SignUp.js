@@ -6,21 +6,24 @@ import axios from "axios";
 import * as Yup from "yup";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 import constants from "../../constants";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import PrivacyModal from "../../Components/UI/Modal/PrivacyModal";
-import SVG from '../../helpers/svgs'
-import { PrimaryButton, Fullpage } from "../../Components/styledComponents.js/shared";
+import SVG from "../../helpers/svgs";
+import {
+  PrimaryButton,
+  Fullpage,
+} from "../../Components/styledComponents.js/shared";
 const SignUp = () => {
   const navigate = useNavigate();
   const [serverError, setserverError] = useState("");
-  const [AccountCreation, setAccountCreation] = useState(false)
-  const [codeGenerating, setcodeGenerating] = useState(false)
+  const [AccountCreation, setAccountCreation] = useState(false);
+  const [codeGenerating, setcodeGenerating] = useState(false);
   const [verificationCode, setverificationCode] = useState();
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const handleClose = () => {
-    setShowPrivacyModal(!showPrivacyModal)
-  }
+    setShowPrivacyModal(!showPrivacyModal);
+  };
   const SignupSchema = Yup.object().shape({
     fname: Yup.string()
       .min(5, "Too Short!")
@@ -52,14 +55,19 @@ const SignUp = () => {
       confirmPassword: "",
       companyUrl: "",
       terms: false,
-      code: ''
+      code: "",
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      setAccountCreation(true)
+      setAccountCreation(true);
       setserverError("");
       axios
-        .post(`https://${constants.host}:3001/signup`, { ...values, realCode: verificationCode, enteredCode: formik.values.code }).catch(err => {
+        .post(`https://${constants.host}:3001/signup`, {
+          ...values,
+          realCode: verificationCode,
+          enteredCode: formik.values.code,
+        })
+        .catch((err) => {
           toast.error(`Error:${err}`, {
             position: "top-center",
             autoClose: 5000,
@@ -69,7 +77,7 @@ const SignUp = () => {
             draggable: true,
             progress: undefined,
           });
-          setAccountCreation(false)
+          setAccountCreation(false);
         })
         .then((res) => {
           // alert(res.data)
@@ -83,7 +91,7 @@ const SignUp = () => {
               draggable: true,
               progress: undefined,
             });
-            setAccountCreation(false)
+            setAccountCreation(false);
           }
           setserverError(res.data.message);
           if (res.data.success == 1) {
@@ -97,17 +105,34 @@ const SignUp = () => {
               progress: undefined,
             });
             return navigate("/signin");
-            setAccountCreation(false)
+            setAccountCreation(false);
           }
         });
     },
   });
   function generateCodeHandler(length) {
-    setcodeGenerating(true)
-    axios.post('https://192.163.206.200:3001/users/generateCode', { email: formik.values.email, codeLength: length }).then(response => {
-      setverificationCode(response.data.code)
-      if (response.data.success)
-        toast.success(`Code sent to your Email`, {
+    setcodeGenerating(true);
+    axios
+      .post("https://192.163.206.200:3001/users/generateCode", {
+        email: formik.values.email,
+        codeLength: length,
+      })
+      .then((response) => {
+        setverificationCode(response.data.code);
+        if (response.data.success)
+          toast.success(`Code sent to your Email`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        setcodeGenerating(false);
+      })
+      .catch((error) => {
+        toast.error(`Error:${error}`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -116,19 +141,8 @@ const SignUp = () => {
           draggable: true,
           progress: undefined,
         });
-      setcodeGenerating(false)
-    }).catch(error => {
-      toast.error(`Error:${error}`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        setcodeGenerating(false);
       });
-      setcodeGenerating(false)
-    })
     // return result;
   }
   return (
@@ -141,14 +155,15 @@ const SignUp = () => {
               <img
                 className={`${styles.iconImg} mt-3 mt-md-0 col-4 `}
                 src={SVG.NewLogo}
-              /> <span className={`${styles.logotext}`}>ChatReply</span>
+              />{" "}
+              <span className={`${styles.logotext}`}>ChatReply</span>
             </div>
-            <div >
+            <div>
               <p className={`${styles.actionText} mb-0`}>
                 Start your free Company trial
               </p>
               <p className={`${styles.greentext} text-end mb-0 fw-600`}>
-                Free 8-day trial
+                Free 20 leads trial
               </p>
             </div>
           </div>
@@ -260,7 +275,7 @@ const SignUp = () => {
                 value={formik.values.confirmPassword}
               />
               {formik.touched.confirmPassword &&
-                formik.errors.confirmPassword ? (
+              formik.errors.confirmPassword ? (
                 <div className={`${styles.formError}`}>
                   {formik.errors.confirmPassword}
                 </div>
@@ -313,9 +328,25 @@ const SignUp = () => {
                 Send Verification Code
               </label>
               <br />
-              {
-                codeGenerating ? <button disabled className={`${styles.generateCode} btn form-control btn-primary`} type="button" onClick={() => generateCodeHandler(4)}>Verification Code is being sent</button> : <button style={{ width: 'max-content' }} className={`${styles.generateCode} btn form-control btn-secondary mt-auto`} type="button" onClick={() => generateCodeHandler(4)}>Send</button>
-              }
+              {codeGenerating ? (
+                <button
+                  disabled
+                  className={`${styles.generateCode} btn form-control btn-primary`}
+                  type="button"
+                  onClick={() => generateCodeHandler(4)}
+                >
+                  Verification Code is being sent
+                </button>
+              ) : (
+                <button
+                  style={{ width: "max-content" }}
+                  className={`${styles.generateCode} btn form-control btn-secondary mt-auto`}
+                  type="button"
+                  onClick={() => generateCodeHandler(4)}
+                >
+                  Send
+                </button>
+              )}
             </div>
             <div className="col-md-6">
               <label
@@ -369,19 +400,21 @@ const SignUp = () => {
                   Sign In{" "}
                 </NavLink>{" "}
               </p>
-              {
-                AccountCreation ? <button
+              {AccountCreation ? (
+                <button
                   disabled
                   className={`btn w-100 mx-auto bg-primary  btn-primary ${styles.createBtn}`}
                 >
                   Account is being Created
-                </button> : <button
+                </button>
+              ) : (
+                <button
                   type="submit"
                   className={`btn  bg-primary  btn-primary ${styles.createBtn}`}
                 >
                   Create for FREE
                 </button>
-              }
+              )}
             </div>
             <ToastContainer />
             {serverError && (
@@ -391,18 +424,18 @@ const SignUp = () => {
         </div>
       </div>
     </Fullpage>
-  )
-}
+  );
+};
 function SignUpd() {
   const navigate = useNavigate();
   const [serverError, setserverError] = useState("");
-  const [AccountCreation, setAccountCreation] = useState(false)
-  const [codeGenerating, setcodeGenerating] = useState(false)
+  const [AccountCreation, setAccountCreation] = useState(false);
+  const [codeGenerating, setcodeGenerating] = useState(false);
   const [verificationCode, setverificationCode] = useState();
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const handleClose = () => {
-    setShowPrivacyModal(!showPrivacyModal)
-  }
+    setShowPrivacyModal(!showPrivacyModal);
+  };
   const SignupSchema = Yup.object().shape({
     fname: Yup.string()
       .min(5, "Too Short!")
@@ -434,14 +467,19 @@ function SignUpd() {
       confirmPassword: "",
       companyUrl: "",
       terms: false,
-      code: ''
+      code: "",
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      setAccountCreation(true)
+      setAccountCreation(true);
       setserverError("");
       axios
-        .post(`https://${constants.host}:3001/signup`, { ...values, realCode: verificationCode, enteredCode: formik.values.code }).catch(err => {
+        .post(`https://${constants.host}:3001/signup`, {
+          ...values,
+          realCode: verificationCode,
+          enteredCode: formik.values.code,
+        })
+        .catch((err) => {
           toast.error(`Error:${err}`, {
             position: "top-center",
             autoClose: 5000,
@@ -451,7 +489,7 @@ function SignUpd() {
             draggable: true,
             progress: undefined,
           });
-          setAccountCreation(false)
+          setAccountCreation(false);
         })
         .then((res) => {
           // alert(res.data)
@@ -465,7 +503,7 @@ function SignUpd() {
               draggable: true,
               progress: undefined,
             });
-            setAccountCreation(false)
+            setAccountCreation(false);
           }
           setserverError(res.data.message);
           if (res.data.success == 1) {
@@ -479,17 +517,34 @@ function SignUpd() {
               progress: undefined,
             });
             return navigate("/signin");
-            setAccountCreation(false)
+            setAccountCreation(false);
           }
         });
     },
   });
   function generateCodeHandler(length) {
-    setcodeGenerating(true)
-    axios.post('https://192.163.206.200:3001/users/generateCode', { email: formik.values.email, codeLength: length }).then(response => {
-      setverificationCode(response.data.code)
-      if (response.data.success)
-        toast.success(`Code sent to your Email`, {
+    setcodeGenerating(true);
+    axios
+      .post("https://192.163.206.200:3001/users/generateCode", {
+        email: formik.values.email,
+        codeLength: length,
+      })
+      .then((response) => {
+        setverificationCode(response.data.code);
+        if (response.data.success)
+          toast.success(`Code sent to your Email`, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        setcodeGenerating(false);
+      })
+      .catch((error) => {
+        toast.error(`Error:${error}`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -498,19 +553,8 @@ function SignUpd() {
           draggable: true,
           progress: undefined,
         });
-      setcodeGenerating(false)
-    }).catch(error => {
-      toast.error(`Error:${error}`, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        setcodeGenerating(false);
       });
-      setcodeGenerating(false)
-    })
     // return result;
   }
   return (
@@ -540,9 +584,15 @@ function SignUpd() {
                     </div>
                   </div>
                   <ul className={`${styles.terms} d-flex text-white`}>
-                    <li className="me-3" onClick={() => {
-                      setShowPrivacyModal(!showPrivacyModal);
-                    }} style={{ cursor: 'pointer' }}>Privacy & Terms</li>
+                    <li
+                      className="me-3"
+                      onClick={() => {
+                        setShowPrivacyModal(!showPrivacyModal);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Privacy & Terms
+                    </li>
                     {/* <li>Contact Us</li> */}
                   </ul>
                 </div>
@@ -669,7 +719,7 @@ function SignUpd() {
                     value={formik.values.confirmPassword}
                   />
                   {formik.touched.confirmPassword &&
-                    formik.errors.confirmPassword ? (
+                  formik.errors.confirmPassword ? (
                     <div className={`${styles.formError}`}>
                       {formik.errors.confirmPassword}
                     </div>
@@ -735,9 +785,24 @@ function SignUpd() {
                   ) : null}
                 </div>
                 <div className="col-2">
-                  {
-                    codeGenerating ? <button disabled className={`${styles.generateCode} btn btn-primary`} type="button" onClick={() => generateCodeHandler(4)}>Verification Code is being sent</button> : <button className={`${styles.generateCode} btn btn-primary`} type="button" onClick={() => generateCodeHandler(4)}>Send Verification code to Email</button>
-                  }
+                  {codeGenerating ? (
+                    <button
+                      disabled
+                      className={`${styles.generateCode} btn btn-primary`}
+                      type="button"
+                      onClick={() => generateCodeHandler(4)}
+                    >
+                      Verification Code is being sent
+                    </button>
+                  ) : (
+                    <button
+                      className={`${styles.generateCode} btn btn-primary`}
+                      type="button"
+                      onClick={() => generateCodeHandler(4)}
+                    >
+                      Send Verification code to Email
+                    </button>
+                  )}
                 </div>
                 <div className="col-12">
                   <label
@@ -762,19 +827,21 @@ function SignUpd() {
                   ) : null}
                 </div>
                 <div className="col-12 text-center d-flex justify-content-center">
-                  {
-                    AccountCreation ? <button
+                  {AccountCreation ? (
+                    <button
                       disabled
                       className={`btn w-100 mx-auto bg-primary  btn-primary ${styles.createBtn}`}
                     >
                       Account is being Created
-                    </button> : <button
+                    </button>
+                  ) : (
+                    <button
                       type="submit"
                       className={`btn w-100 mx-auto bg-primary  btn-primary ${styles.createBtn}`}
                     >
                       Create for FREE
                     </button>
-                  }
+                  )}
                 </div>
                 <ToastContainer />
                 {serverError && (

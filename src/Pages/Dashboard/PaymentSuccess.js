@@ -7,21 +7,42 @@ const PaymentSuccess = () => {
   const { authState, setAuthState } = useContext(AuthContext);
   const [paymentStatus, setPaymentStatus] = useState();
   useEffect(() => {
-    axios.post(`https://192.163.206.200:3001/updateuserplan`, {
-      id: authState.LoggedUserData.id,
-    })
-      .then((response) => {
-        if (localStorage.getItem("paymentMethodToken") === null) {
+    if ("paymentMethodToken" in localStorage) {
+      const query = new URLSearchParams(window.location.search);
+      axios
+        .post(`https://192.163.206.200:3001/getSubDetail`, {
+          id: query.get("session_id"),
+        })
+        .then((response) =>
+          axios
+            .post(`https://192.163.206.200:3001/insertPaymentData`, {
+              userId: localStorage.getItem("userId"),
+              customerId: response.data.id,
+            })
+            .then((response) => {
+              console.log(response.data[0]);
+              // axios.post(`https://192.163.206.200:3001/deleteStripe`, {
+              //   id: response.data[0].id,
+              // });
+            })
+        );
+      axios.post("https://192.163.206.200:3001/updateuserplan", {
+        id: localStorage.getItem("userId"),
+      });
+      localStorage.removeItem("paymentMethodToken");
+      setPaymentStatus(true);
+    } else {
+      setPaymentStatus(false);
+    }
+  }, []);
 
-          setPaymentStatus(false);
-        } else {
-
-          localStorage.removeItem("paymentMethodToken");
-          setPaymentStatus(true);
-        }
+  const cancelAccount = () => {
+    axios
+      .post(`https:/192.163.206.200:3001/deleteStripe`, {
+        id: "sub_1LUTVsEb5uZNNRFpjv2J0cjo",
       })
-
-  }, [])
+      .then((response) => console.log(response));
+  };
   return (
     <>
       <DashboardHeader />
@@ -47,6 +68,9 @@ const PaymentSuccess = () => {
             <h5 style={{ color: "white" }}>
               You have successfully purchased the plan.
             </h5>
+            <small>
+              Copy the code below and paste the code in your head tags
+            </small>
           </div>
           <br />
           <div

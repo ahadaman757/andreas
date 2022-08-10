@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useContext,
   useRef,
-  memo
+  memo,
 } from "react";
 import { DashboardHeader } from "../../Components/UI/MiniComponents/MiniComponent";
 import { FaUser } from "react-icons/fa";
@@ -49,10 +49,10 @@ const asyncLocalStorage = {
   },
 };
 function ActiveChat(props) {
-  const [endChatModal, setendChatModal] = useState(false)
+  const [endChatModal, setendChatModal] = useState(false);
   const navigate = useNavigate();
-  const loc = useLocation()
-  console.log(loc.pathname)
+  const loc = useLocation();
+  console.log(loc.pathname);
   const [othersChat, setothersChat] = useState(false);
   const [customerID, setcustomerID] = useState("");
   const [chatData, setchatData] = useState("");
@@ -66,9 +66,9 @@ function ActiveChat(props) {
   const [loading, setLoading] = useState(false);
   // handle end chat
   function EndChat() {
-    setchatEnd(true)
-    socket.emit("leave room", customerID)
-    setendChatModal(false)
+    setchatEnd(true);
+    socket.emit("leave room", customerID);
+    setendChatModal(false);
   }
   // handle lead form
   const SignupSchema = Yup.object().shape({
@@ -90,7 +90,7 @@ function ActiveChat(props) {
     },
 
     onSubmit: (values) => {
-      console.log("submitted")
+      console.log("submitted");
       setLoading(true);
       values.agent = loggedAgent;
       values.company_url = chatData.origin;
@@ -103,7 +103,7 @@ function ActiveChat(props) {
           c_name: values.c_name,
         })
         .then((res) => {
-          if (res.data[0].remaining_leads > 0) {
+          if (res.data[0].remaining_leads > 0 || res.data[0].membership > 1) {
             axios
               .post(`https://${constants.host}:3001/chats/addleads`, {
                 ...values,
@@ -127,7 +127,7 @@ function ActiveChat(props) {
               .then((addLeadResponse) => {
                 setLoading(false);
                 if (addLeadResponse.data.status) {
-                  formik.resetForm()
+                  formik.resetForm();
                   toast.success("🦄 Lead Added", {
                     position: "top-center",
                     autoClose: 5000,
@@ -151,7 +151,6 @@ function ActiveChat(props) {
               progress: undefined,
             });
           }
-
         });
     },
   });
@@ -175,7 +174,9 @@ function ActiveChat(props) {
   const LoadMessagesHandler = () => {
     if (customerID)
       axios
-        .post(`https://${constants.host}:3001/chats/messages`, { id: customerID })
+        .post(`https://${constants.host}:3001/chats/messages`, {
+          id: customerID,
+        })
         .then((response) => {
           const messages = response.data;
           // push all messages from database to all messages state
@@ -239,8 +240,8 @@ function ActiveChat(props) {
         .then((res) => {
           setagentName(
             res.data.f_name?.toUpperCase() +
-            " " +
-            res.data.l_name?.toUpperCase()
+              " " +
+              res.data.l_name?.toUpperCase()
           );
         })
         .catch((error) => {
@@ -272,26 +273,34 @@ function ActiveChat(props) {
   }, []);
   const chatarea = useRef();
   useEffect(() => {
-    console.log("socket:" + socket)
+    console.log("socket:" + socket);
     socket.on("NEW MESSAGE", (msg, id) => {
-      console.log("socket.id" + socket.id)
-      const time = new Date()
-      console.log("new message arrived")
-      asyncLocalStorage.getItem("selected_customer").then(response => {
-        console.log("response:" + response)
-        console.log("id:" + id)
+      console.log("socket.id" + socket.id);
+      const time = new Date();
+      console.log("new message arrived");
+      asyncLocalStorage.getItem("selected_customer").then((response) => {
+        console.log("response:" + response);
+        console.log("id:" + id);
         if (response == id)
-          setallMessages(pre => {
-            return [...pre, { message: msg, date: time, id: msg, source: "customer", id: time },]
-          })
-      })
+          setallMessages((pre) => {
+            return [
+              ...pre,
+              {
+                message: msg,
+                date: time,
+                id: msg,
+                source: "customer",
+                id: time,
+              },
+            ];
+          });
+      });
       // LoadMessagesHandler()
     });
-  }, [socket])
+  }, [socket]);
   socket.on("LEAVE ROOM", () => {
     setchatEnd(true);
   });
-
 
   return (
     <Fragment>
@@ -303,8 +312,16 @@ function ActiveChat(props) {
               <div className="d-flex  py-9 px-13 justify-content-between">
                 <div className="d-flex   flex-grow-1" style={{ gap: 10 }}>
                   <ToastContainer />
-                  <EndChatModal state={endChatModal} handleCloseDiscard={() => setendChatModal(false)} handleCloseAccept={EndChat} />
-                  {agentName ? <span className="font-500 font-18">{agentName}</span> : <span className="font-500 font-18">Loading</span>}
+                  <EndChatModal
+                    state={endChatModal}
+                    handleCloseDiscard={() => setendChatModal(false)}
+                    handleCloseAccept={EndChat}
+                  />
+                  {agentName ? (
+                    <span className="font-500 font-18">{agentName}</span>
+                  ) : (
+                    <span className="font-500 font-18">Loading</span>
+                  )}
                 </div>
                 <div className="d-flex flex-grow-1">
                   <span className="font-18">
@@ -369,10 +386,14 @@ function ActiveChat(props) {
                     >
                       Message
                     </button>
-                    <button onClick={() => {
-                      setendChatModal(true)
-                    }
-                    } className=" py-3 btn-grey-action">End Chat</button>
+                    <button
+                      onClick={() => {
+                        setendChatModal(true);
+                      }}
+                      className=" py-3 btn-grey-action"
+                    >
+                      End Chat
+                    </button>
                   </div>
                 </div>
               ) : null}
@@ -390,7 +411,7 @@ function ActiveChat(props) {
                   defaultActiveKey="details"
                   id="uncontrolled-tab-example"
                   className="mb-3 active-chat-tabs"
-                  onSelect={(event, e) => { }}
+                  onSelect={(event, e) => {}}
                 >
                   <Tab
                     eventKey="details"
@@ -497,9 +518,9 @@ function ActiveChat(props) {
                                 className="form-select"
                                 aria-label="Default select example"
                               >
-                                <option hidden >Select one...</option>
+                                <option hidden>Select one...</option>
                                 {companies.map((c) => {
-                                  console.log(c.value)
+                                  console.log(c.value);
                                   return (
                                     <option key={c.value} value={c.value}>
                                       {c.label}
@@ -530,7 +551,8 @@ function ActiveChat(props) {
                                 value={formik.values.customer_name}
                                 disabled={loading}
                               />
-                              {formik.touched.customer_name && formik.errors.customer_name ? (
+                              {formik.touched.customer_name &&
+                              formik.errors.customer_name ? (
                                 <div className={`${styles.formError}`}>
                                   {formik.errors.customer_name}
                                 </div>
@@ -585,9 +607,14 @@ function ActiveChat(props) {
                             </div>
                           </Card.Body>
                           <Card.Footer className="d-flex justify-content-between">
-                            <Button type="button" style={{ border: 0 }} variant="secondary" onClick={() => {
-                              formik.resetForm()
-                            }}>
+                            <Button
+                              type="button"
+                              style={{ border: 0 }}
+                              variant="secondary"
+                              onClick={() => {
+                                formik.resetForm();
+                              }}
+                            >
                               Cancel
                             </Button>
                             <button
@@ -596,7 +623,9 @@ function ActiveChat(props) {
                               variant="secondary"
                               disabled={loading}
                             >
-                              {loading === true ? 'Adding, Please wait...' : "Add Lead"}
+                              {loading === true
+                                ? "Adding, Please wait..."
+                                : "Add Lead"}
                             </button>
                           </Card.Footer>
                         </form>
@@ -666,19 +695,17 @@ const MessageBoxAgent = (props) => {
     localtime.getFullYear();
   return (
     <div className="msg mt-4 pt-15 dotted-border-top">
-      <div className="d-flex align-items-center justify-content-between" style={{ gap: 15, flexGrow: 1 }}>
+      <div
+        className="d-flex align-items-center justify-content-between"
+        style={{ gap: 15, flexGrow: 1 }}
+      >
         <div>
           <span className="font-500">{props.agentName}</span>
         </div>
-        <div className="d-flex flex-column " >
+        <div className="d-flex flex-column ">
+          <span style={{ color: "#1BA260" }}>{messageDate}</span>
 
-          <span style={{ color: '#1BA260' }}>
-            {messageDate}
-          </span>
-
-          <span
-            style={{ color: '#1BA260' }}
-          >{converted}</span>
+          <span style={{ color: "#1BA260" }}>{converted}</span>
         </div>
       </div>
       <p className="mt-2 font-16 fw-300">{props.message} </p>
