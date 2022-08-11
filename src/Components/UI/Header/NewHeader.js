@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import SVGS from "../../../helpers/svgs";
 import { Logo } from '../shared/shared'
 import { PrimaryButton } from '../../styledComponents.js/shared'
+import { HashLink as Link } from 'react-router-hash-link';
 function Header(props) {
     const { bgColor = "red", color = 'white' } = props;
     return (
@@ -37,7 +38,7 @@ function Header(props) {
                                             <NavLink to='/' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Home</NavLink>
                                         </li>
                                         <li className="nav-item me-lg-4">
-                                            <NavLink to='/' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Pricing</NavLink>
+                                            <Link className={`nav-link active ${styles.nav_link}`} to="/#pricing">Pricing</Link>
                                         </li>
                                         <li className="nav-item me-lg-4">
                                             <NavLink to='/aboutus' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">About Us</NavLink>

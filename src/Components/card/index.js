@@ -7,19 +7,19 @@ const data = [
     id: 1,
     cardName: "Free Trail",
     cardPrice: "Free",
-    cardDuration: "20 leads",
+    cardDuration: "20 leads or 8 Days",
     cardDisceription: "Best for learning and chatting with customers",
     benefits: ["Track up to 20 leads", "Unlimited Chat history", "Analytics"],
   },
   {
     id: 2,
-    cardName: "Starter",
-    cardPrice: "$39",
-    cardDuration: "Monthly",
+    cardName: "Premium",
+    cardPrice: "$9",
+    cardDuration: "Per Lead",
     cardDisceription:
       "Best for emerging platforms / websites with medium to high traffic and support requests.",
     benefits: [
-      "Track up to 50 leads",
+      "Track up to 10 leads",
       "Unlimited Chat history",
       "Analytics",
       "Software Engineer Support",
@@ -31,7 +31,7 @@ const data = [
     id: 3,
     cardName: "Enterprise",
     cardDisceription:
-      "Best for large corporations with high traffic and who want custom changes in the service",
+      "Large Companies have their Own Chat Agents",
     benefits: [
       "All basic features",
       "ChatReply expert technical support",

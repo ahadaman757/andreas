@@ -127,31 +127,31 @@ const OwnerDashboard = () => {
                   <tbody ref={tbody}>
                     {totalChats
                       ? totalChats.map((el) => {
-                          const startdate = new Date(el.created_date);
-                          const enddate = new Date(el.end_date);
-                          const options = {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          };
-                          const START_DATE = startdate.toLocaleTimeString(
-                            undefined,
-                            options
-                          );
-                          const END_DATE = enddate.toLocaleTimeString(
-                            undefined,
-                            options
-                          );
-                          return (
-                            <tr key={el.id}>
-                              <td>{el.customer_id}</td>
-                              <td>{el.origin}</td>
-                              <td>{START_DATE}</td>
-                              <td>{END_DATE}</td>
-                            </tr>
-                          );
-                        })
+                        const startdate = new Date(el.created_date);
+                        const enddate = new Date(el.end_date);
+                        const options = {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        };
+                        const START_DATE = startdate.toLocaleTimeString(
+                          undefined,
+                          options
+                        );
+                        const END_DATE = enddate.toLocaleTimeString(
+                          undefined,
+                          options
+                        );
+                        return (
+                          <tr key={el.id}>
+                            <td>{el.customer_id}</td>
+                            <td>{el.origin}</td>
+                            <td>{START_DATE}</td>
+                            <td>{END_DATE}</td>
+                          </tr>
+                        );
+                      })
                       : null}
                   </tbody>
                 </table>
@@ -354,8 +354,8 @@ const ClientDashboard = () => {
                   {authState.LoggedUserData.membership == "0"
                     ? "Trial Account"
                     : remianingLeads == 0
-                    ? "Trial Account"
-                    : ""}{" "}
+                      ? "Trial Account"
+                      : ""}{" "}
                   : {remianingLeads} leads remaining.
                 </p>
                 <AiOutlineClose
@@ -399,8 +399,8 @@ const ClientDashboard = () => {
                         {authState.LoggedUserData.membership == "0"
                           ? "Trial Account"
                           : remianingLeads == 0
-                          ? "Trial Account"
-                          : "Pro Member"}
+                            ? "Trial Account"
+                            : "Pro Member"}
                       </p>
                       <p>Leads: {remianingLeads}</p>
                     </div>
@@ -485,23 +485,23 @@ const ClientDashboard = () => {
                     {leadsLoading === true
                       ? "Loading"
                       : leads.map((element) => {
-                          return (
-                            <tr key={element.id} className="pt-2">
-                              <td>
-                                <span className="badge badge-curious-bold">
-                                  {element.id}
-                                </span>
-                              </td>
-                              <td>
-                                <p className="px-3 py-0">{element.lead_name}</p>
-                              </td>
-                              <td>{element.lead_email}</td>
-                              <td>{element.lead_phone}</td>
-                              <td>{element.agent_name}</td>
-                              <td>{element.date}</td>
-                            </tr>
-                          );
-                        })}
+                        return (
+                          <tr key={element.id} className="pt-2">
+                            <td>
+                              <span className="badge badge-curious-bold">
+                                {element.id}
+                              </span>
+                            </td>
+                            <td>
+                              <p className="px-3 py-0">{element.lead_name}</p>
+                            </td>
+                            <td>{element.lead_email}</td>
+                            <td>{element.lead_phone}</td>
+                            <td>{element.agent_name}</td>
+                            <td>{element.date}</td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>

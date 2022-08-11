@@ -39,15 +39,15 @@ audio.src = "https://192.163.206.200:3001/images/tone.mp3";
 try {
   var socket = io(`https://192.163.206.200:3001`, {
     transports: ["websocket"],
-    withCredentials: true,
+
     extraHeaders: {
       "my-custom-header": "abcd",
     },
   });
 } catch (error) { }
-socket.on("connect_error", () => {
+socket.on("connect_error", (err) => {
   // revert to classic upgrade
-  alert("Cant connect to socket io");
+  alert("Cant connect to socket io :" + err.message);
   socket.disconnect();
 });
 socket.on("connect_failed", (err) => {
@@ -635,6 +635,7 @@ const sendMessageHandler = () => {
   IDM.innerHTML += '<img id="img_msg_' + counter + '" src="https://i.ibb.co/W3rgsT4/image-error-icon-17.png" alt="" srcset="" style="width:20px; height: 20px;position: absolute;bottom: 0px;right: 0px; border-radius: 50%">'
   if (firstMessage === true) {
     socket.emit("first message", { msg: messageField.value, id: socket.id }, (response) => {
+      console.log(response)
       if (response.status) {
         console.log("ackh")
         const IDM = document.getElementById('l_msg_' + counter)

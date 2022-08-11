@@ -1,56 +1,67 @@
-.right_shape{
-    width:100px;
+.right_shape {
+  width: 100px;
+  height: 150px;
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+  transform: rotate(180deg);
+  /* transform: scale(.6); */
+  /* transform: scale(.5); */
+}
+
+.nav_link {
+  /* font-weight: 400 !important;
+  font-size: 14px; */
+  color: black !important;
+  font-size: 16px;
+}
+
+.first_shape {
+  width: 60%;
+  border-left: 3px solid #ffffff;
+  border-top: 3px solid #ffffff;
+  height: 100%;
+  position: absolute;
+}
+
+.second_shape {
+  top: 6.666666666666667%;
+  position: absolute;
+  width: 70%;
+  border-left: 3px solid #ffffff;
+  border-top: 3px solid #ffffff;
+  height: 93.33333333333333%;
+}
+
+.iconImg {
+  width: 150px;
+
+}
+
+.third_shape {
+  top: 13.33333333333333%;
+  position: absolute;
+  width: 80%;
+  border-left: 3px solid #ffffff;
+  border-top: 3px solid #ffffff;
+  height: 86.6666666666667%;
+
+}
+
+@media(max-width:874px) {
+  .right_shape {
+    width: 100px;
     height: 150px;
     display: flex;
     flex-direction: row-reverse;
     position: relative;
-    transform: rotate(180deg);
-    /* transform: scale(.6); */
     /* transform: scale(.5); */
   }
-  
-  .first_shape{
-    width: 60%;
-    border-left: 3px solid #ffffff;
-    border-top: 3px solid #ffffff;
-    height: 100%;
-    position: absolute;
-  }
-  .second_shape{
-    top:6.666666666666667%;
-    position: absolute;
-    width: 70%;
-    border-left: 3px solid #ffffff;
-    border-top: 3px solid #ffffff;
-   height: 93.33333333333333%;
-  
-  }
-  .iconImg{
-      width: 150px;
 
+}
+
+@media(max-width:768px) {
+  .right_shape {
+    display: none;
   }
-  .third_shape{
-    top:13.33333333333333%;
-    position: absolute;
-    width: 80%;
-    border-left: 3px solid #ffffff;
-    border-top: 3px solid #ffffff;
-  height: 86.6666666666667%;
-    
-  }
-  @media(max-width:874px){
-    .right_shape{
-      width:100px;
-      height: 150px;
-      display: flex;
-      flex-direction: row-reverse;
-      position: relative;
-      /* transform: scale(.5); */
-    }
-  
-  }
-  @media(max-width:768px){
-    .right_shape{
-      display: none;
-    }
-  }
+}

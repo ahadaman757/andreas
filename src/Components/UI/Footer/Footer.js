@@ -4,6 +4,7 @@ import main from "./footer.module.css";
 import SVGS from "../../../helpers/svgs";
 import styles from "./footer.module.css";
 import { Logo } from "../shared/shared";
+import { HashLink as Link } from 'react-router-hash-link';
 function Footer() {
   return (
     <div
@@ -43,12 +44,7 @@ function Footer() {
                   </a>
                   <a className="text-decoration-none text-black" href="">
                     <li className="mb-2 text-dark mb-md-3">
-                      <a
-                        href="#pricing"
-                        style={{ color: "black", textDecoration: "none" }}
-                      >
-                        Pricing
-                      </a>
+                      <Link className={`nav-link active ${styles.nav_link}`} to="/#pricing">Pricing</Link>
                     </li>
                   </a>
                   <a className="text-decoration-none text-black" href="">

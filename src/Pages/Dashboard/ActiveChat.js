@@ -103,7 +103,7 @@ function ActiveChat(props) {
           c_name: values.c_name,
         })
         .then((res) => {
-          if (res.data[0].remaining_leads > 0 || res.data[0].membership > 1) {
+          if (res.success) {
             axios
               .post(`https://${constants.host}:3001/chats/addleads`, {
                 ...values,
@@ -240,8 +240,8 @@ function ActiveChat(props) {
         .then((res) => {
           setagentName(
             res.data.f_name?.toUpperCase() +
-              " " +
-              res.data.l_name?.toUpperCase()
+            " " +
+            res.data.l_name?.toUpperCase()
           );
         })
         .catch((error) => {
@@ -411,7 +411,7 @@ function ActiveChat(props) {
                   defaultActiveKey="details"
                   id="uncontrolled-tab-example"
                   className="mb-3 active-chat-tabs"
-                  onSelect={(event, e) => {}}
+                  onSelect={(event, e) => { }}
                 >
                   <Tab
                     eventKey="details"
@@ -552,7 +552,7 @@ function ActiveChat(props) {
                                 disabled={loading}
                               />
                               {formik.touched.customer_name &&
-                              formik.errors.customer_name ? (
+                                formik.errors.customer_name ? (
                                 <div className={`${styles.formError}`}>
                                   {formik.errors.customer_name}
                                 </div>

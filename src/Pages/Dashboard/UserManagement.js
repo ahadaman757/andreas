@@ -575,49 +575,49 @@ const UserManagement = () => {
                       {loading == true
                         ? "Loading"
                         : usersList.map((element) => {
-                            return (
-                              <tr key={element.id}>
-                                <td>
-                                  <span className="badge badge-curious-bold">
-                                    {element.id}
-                                  </span>
-                                </td>
-                                <td>{element.f_name + " " + element.l_name}</td>
-                                <td>{element.email}</td>
-                                <td>
-                                  <span
-                                    style={{
-                                      border:
-                                        element.account_type == ""
-                                          ? ""
-                                          : element.account_type == "agent"
+                          return (
+                            <tr key={element.id}>
+                              <td>
+                                <span className="badge badge-curious-bold">
+                                  {element.id}
+                                </span>
+                              </td>
+                              <td>{element.f_name + " " + element.l_name}</td>
+                              <td>{element.email}</td>
+                              <td>
+                                <span
+                                  style={{
+                                    border:
+                                      element.account_type == ""
+                                        ? ""
+                                        : element.account_type == "agent"
                                           ? "2px solid gray"
                                           : "2px solid lightgreen",
-                                      backgroundColor:
-                                        element.account_type == "agent"
-                                          ? "gray"
-                                          : "lightgreen",
-                                      paddingLeft: "10px",
-                                      paddingRight: "10px",
-                                      borderRadius: "5px",
-                                      color: "white",
-                                    }}
-                                  >
-                                    {element.account_type == ""
-                                      ? "N / A"
-                                      : element.account_type}
-                                  </span>
-                                </td>
-                                <td>
-                                  {/* <span className="badge badge-grey-light-bold ">
+                                    backgroundColor:
+                                      element.account_type == "agent"
+                                        ? "gray"
+                                        : "lightgreen",
+                                    paddingLeft: "10px",
+                                    paddingRight: "10px",
+                                    borderRadius: "5px",
+                                    color: "white",
+                                  }}
+                                >
+                                  {element.account_type == ""
+                                    ? "N / A"
+                                    : element.account_type}
+                                </span>
+                              </td>
+                              <td>
+                                {/* <span className="badge badge-grey-light-bold ">
                                 'Ahad Aman'
                               </span> */}
-                                  {element.account_type == "agent"
-                                    ? "AGENT"
-                                    : element.c_name}
-                                </td>
-                                {/* <td> */}
-                                {/* {chat.is_end ? (
+                                {element.account_type == "agent"
+                                  ? "AGENT"
+                                  : element.c_name}
+                              </td>
+                              {/* <td> */}
+                              {/* {chat.is_end ? (
                             <span className="badge badge-grey-light-bold ">
                               Closed
                             </span>
@@ -626,34 +626,34 @@ const UserManagement = () => {
                               open
                             </span>
                           )} */}
-                                {/* <span className="badge badge-grey-light-bold ">
+                              {/* <span className="badge badge-grey-light-bold ">
                                     open
                                   </span> */}
-                                {/* </td> */}
-                                <td
-                                  onClick={() => {
-                                    setOpen(!open);
-                                    setFirstName(element.f_name);
-                                    setLastName(element.l_name);
-                                    setEmail(element.email);
-                                    setUserId(element.id);
-                                  }}
-                                  className={`${styles.editButtonHover}`}
-                                >
-                                  {/* <input type="checkbox" /> */}
-                                  Edit
-                                </td>
-                                <td
-                                  onClick={() => {
-                                    deleteUser(element.id);
-                                  }}
-                                  className={`${styles.editButtonHover}`}
-                                >
-                                  Delete
-                                </td>
-                              </tr>
-                            );
-                          })}
+                              {/* </td> */}
+                              <td
+                                onClick={() => {
+                                  setOpen(!open);
+                                  setFirstName(element.f_name);
+                                  setLastName(element.l_name);
+                                  setEmail(element.email);
+                                  setUserId(element.id);
+                                }}
+                                className={`${styles.editButtonHover}`}
+                              >
+                                {/* <input type="checkbox" /> */}
+                                Edit
+                              </td>
+                              <td
+                                onClick={() => {
+                                  deleteUser(element.id);
+                                }}
+                                className={`${styles.editButtonHover}`}
+                              >
+                                Delete
+                              </td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>

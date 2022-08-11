@@ -38,16 +38,7 @@ function ContactUs() {
                                     <p>123 newyork city United State</p>
                                 </div>
                             </div>
-                            <div className={`${styles.address_section} d-flex `}>
-                                <span>
-                                    <MdLocalPhone className="me-2" />
 
-                                </span>
-                                <div>
-                                    <h4>Cell</h4>
-                                    <p>03156847841</p>
-                                </div>
-                            </div>
                             <div className={`${styles.address_section} d-flex `}>
                                 <span>
 

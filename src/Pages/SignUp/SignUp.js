@@ -275,7 +275,7 @@ const SignUp = () => {
                 value={formik.values.confirmPassword}
               />
               {formik.touched.confirmPassword &&
-              formik.errors.confirmPassword ? (
+                formik.errors.confirmPassword ? (
                 <div className={`${styles.formError}`}>
                   {formik.errors.confirmPassword}
                 </div>
@@ -719,7 +719,7 @@ function SignUpd() {
                     value={formik.values.confirmPassword}
                   />
                   {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword ? (
+                    formik.errors.confirmPassword ? (
                     <div className={`${styles.formError}`}>
                       {formik.errors.confirmPassword}
                     </div>
