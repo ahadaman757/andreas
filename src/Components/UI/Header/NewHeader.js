@@ -60,8 +60,9 @@ function Header(props) {
                                         type="submit"
                                     >
                                         <NavLink
+                                            className={`${styles.loginLink}`}
                                             to="/signin"
-                                            style={{ textDecoration: "none", color: '#1BA160', fontWeight: 500 }}
+
                                         >
                                             Log in
                                         </NavLink>

@@ -39,3 +39,16 @@
         font-size: 14px;
         color: black !important;
 }
+
+.loginLink {
+        text-decoration: none;
+        color: #1BA160;
+        font-weight: 500;
+}
+
+@media only screen and (max-width: 1800px) and (min-width: 1441px) {
+        .loginLink {
+                color: white;
+        }
+
+}

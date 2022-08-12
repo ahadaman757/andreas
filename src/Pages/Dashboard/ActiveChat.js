@@ -103,7 +103,8 @@ function ActiveChat(props) {
           c_name: values.c_name,
         })
         .then((res) => {
-          if (res.success) {
+          console.log(res.data)
+          if (res.data.success == 1) {
             axios
               .post(`https://${constants.host}:3001/chats/addleads`, {
                 ...values,

@@ -108,7 +108,7 @@ app.post("/imageupload", async (req, res) => {
         res.json({ success: 1 });
       });
     });
-  } catch (err) {}
+  } catch (err) { }
 });
 // images upload end
 
@@ -242,7 +242,7 @@ const insertChat = (id, origin, address, plateform) => {
 // function to remove chat from active chat from database
 const deleteChat = (id) => {
   const deleteChatQuery = `DELETE FROM all_chats  WHERE customer_id = '${id}';`;
-  con.query(deleteChatQuery, (error, result) => {});
+  con.query(deleteChatQuery, (error, result) => { });
 };
 // function to add message to all messages table
 const insertMessage = (message, id, source = "customer") => {
@@ -534,7 +534,7 @@ const incrementMessageCount = (id) => {
   con.query(
     `UPDATE all_chats SET count = count+1 WHERE customer_id = ? `,
     [id],
-    function (error, result) {}
+    function (error, result) { }
   );
   con.query(
     `UPDATE all_chats SET new_message = new_message+1   WHERE customer_id =?`,
@@ -903,7 +903,7 @@ io.on("connection", (socket) => {
   //
   //   }
   // });
-  socket.on("remove chat from unanswered", (data) => {});
+  socket.on("remove chat from unanswered", (data) => { });
   socket.on("agent active", () => {
     console.log("new:" + socket.id);
     agents.indexOf(socket.id) === -1 ? agents.push(socket.id) : null;
