@@ -129,7 +129,7 @@ function ActiveChat(props) {
                 setLoading(false);
                 if (addLeadResponse.data.status) {
                   formik.resetForm();
-                  toast.success("🦄 Lead Added", {
+                  toast.success(res.data.message, {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -142,7 +142,7 @@ function ActiveChat(props) {
               });
           } else {
             setLoading(false);
-            toast.error(`Cant Add More Leads for this Company`, {
+            toast.error(res.data.message, {
               position: "top-center",
               autoClose: 5000,
               hideProgressBar: false,

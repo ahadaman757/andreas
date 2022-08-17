@@ -14,8 +14,8 @@ const data = [
   {
     id: 2,
     cardName: "Premium",
-    cardPrice: "$9",
-    cardDuration: "Per Lead",
+    cardPrice: "$39 monthly / 10 leads",
+    cardDuration: "$9 per lead onwards",
     cardDisceription:
       "Best for emerging platforms / websites with medium to high traffic and support requests.",
     benefits: [

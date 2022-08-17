@@ -79,7 +79,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
-app.post("/getcurrentplan", (req, res) => {
+app.post("/currentplan", (req, res) => {
   con.query(
     `SELECT free_activated FROM registered_users WHERE id = ?`,
     [req.body.id],

@@ -753,9 +753,7 @@ const Subscriptions = () => {
   useEffect(() => {
     // GET CURRENT PLAN
     axios
-      .post(`https://192.163.206.200:3001/getcurrentplan`, {
-        id: authState.LoggedUserData.id,
-      })
+      .get(`https://192.163.206.200:3001/currentplan/${authState.LoggedUserData.id}`)
       .then((response) => {
         setFreeActivated(response.data[0].free_activated);
       });
