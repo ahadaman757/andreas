@@ -692,25 +692,25 @@ const Subscriptions = () => {
   const cancelAccount = () => {
     setDeleteLoading(true);
     axios
-      .post(`https://192.163.206.200:3001/userCustomerId`, {
+      .post(`https://18.224.107.246:3001/userCustomerId`, {
         userId: authState.LoggedUserData.id,
       })
       .then((r) => {
         setStripeCustomerId(r.data[0].customer_id);
         console.log("CustomerID ===> " + r.data[0].customer_id);
         axios
-          .post(`https://192.163.206.200:3001/getSubList`, {
+          .post(`https://18.224.107.246:3001/getSubList`, {
             id: r.data[0].customer_id,
           })
           .then((response) => {
             console.log("Subscription ID ====> " + response.data.data[0].id);
             axios
-              .post(`https://192.163.206.200:3001/deleteStripe`, {
+              .post(`https://18.224.107.246:3001/deleteStripe`, {
                 customerId: response.data.data[0].id,
               })
               .then((response) =>
                 axios
-                  .post(`https://192.163.206.200:3001/removeCustomerId`, {
+                  .post(`https://18.224.107.246:3001/removeCustomerId`, {
                     customerID: r.data[0].customer_id,
                     userId: authState.LoggedUserData.id,
                   })
@@ -753,7 +753,7 @@ const Subscriptions = () => {
   useEffect(() => {
     // GET CURRENT PLAN
     axios
-      .get(`https://192.163.206.200:3001/currentplan/${authState.LoggedUserData.id}`)
+      .get(`https://18.224.107.246:3001/currentplan/${authState.LoggedUserData.id}`)
       .then((response) => {
         setFreeActivated(response.data[0].free_activated);
       });
@@ -789,7 +789,7 @@ const Subscriptions = () => {
                 <Button title="Current Plan" type="primaryFullWidth" />
               ) : (
                 <form
-                  action="https://192.163.206.200:3001/create-checkout-session1"
+                  action="https://18.224.107.246:3001/create-checkout-session1"
                   method="POST"
                 >
                   <Button title="Subscribe Now" type="primaryFullWidth" />
@@ -844,7 +844,7 @@ const Subscriptions = () => {
                 </button>
               ) : (
                 <form
-                  action="https://192.163.206.200:3001/create-checkout-session1"
+                  action="https://18.224.107.246:3001/create-checkout-session1"
                   method="POST"
                   onClick={() => {
                     localStorage.setItem("paymentMethodToken", makeid(30));

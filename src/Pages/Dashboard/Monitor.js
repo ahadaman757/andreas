@@ -129,7 +129,7 @@ function Monitor() {
         created_date={customer.created_date}
         plateform={customer.plateform}
         clickHandler={() => {
-          axios.post('https://192.163.206.200:3001/chats/checkchat', { id: customer.id }).then(res => {
+          axios.post('https://18.224.107.246:3001/chats/checkchat', { id: customer.id }).then(res => {
             if (res.data[0].served_by > 0) {
               console.log(res.data[0].served_by)
               alert("already joined")
@@ -193,7 +193,7 @@ function Monitor() {
         created_date={customer.created_date}
         plateform={customer.plateform}
         clickHandler={() => {
-          axios.post('https://192.163.206.200:3001/chats/checkchat', { id: customer.id }).then(res => {
+          axios.post('https://18.224.107.246:3001/chats/checkchat', { id: customer.id }).then(res => {
             if (res.data[0].served_by > 0) {
               console.log(res.data[0].served_by)
               alert("already joined")

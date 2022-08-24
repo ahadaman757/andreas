@@ -81,7 +81,7 @@ const SignInNew = () => {
   });
   function generateCodeHandler(length) {
     setcodeGenerating(true)
-    axios.post('https://192.163.206.200:3001/users/generateCode', { email: formikPassword.values.email, codeLength: length }).then(response => {
+    axios.post('https://18.224.107.246:3001/users/generateCode', { email: formikPassword.values.email, codeLength: length }).then(response => {
       setverificationCode(response.data.code)
       if (response.data.success)
         toast.success(`Code sent to your Email`, {
@@ -459,7 +459,7 @@ function SignIn() {
   });
   function generateCodeHandler(length) {
     setcodeGenerating(true)
-    axios.post('https://192.163.206.200:3001/users/generateCode', { email: formikPassword.values.email, codeLength: length }).then(response => {
+    axios.post('https://18.224.107.246:3001/users/generateCode', { email: formikPassword.values.email, codeLength: length }).then(response => {
       setverificationCode(response.data.code)
       if (response.data.success)
         toast.success(`Code sent to your Email`, {

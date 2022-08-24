@@ -16,7 +16,7 @@ function Messaging() {
   const [searchItem, setsearchItem] = useState("")
   // GET All CHAT DATA FROM DATABASE
   useEffect(() => {
-    axios.post(`https://192.163.206.200:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type, company_url: authState.LoggedUserData.company_url }).then(response => {
+    axios.post(`https://18.224.107.246:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type, company_url: authState.LoggedUserData.company_url }).then(response => {
       setchatList((pre) => {
         console.log(response.data)
         return [...response.data]
@@ -33,7 +33,7 @@ function Messaging() {
     return 0;
   }
   const getAllList = () => {
-    axios.post(`https://192.163.206.200:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type }).then(response => {
+    axios.post(`https://18.224.107.246:3001/chats/chats_by_agent`, { id: authState.LoggedUserData.id, client_status: authState.LoggedUserData.account_type }).then(response => {
       setchatList((pre) => {
         console.log(response)
         return [...response.data]

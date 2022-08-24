@@ -10,23 +10,23 @@ const PaymentSuccess = () => {
     if ("paymentMethodToken" in localStorage) {
       const query = new URLSearchParams(window.location.search);
       axios
-        .post(`https://192.163.206.200:3001/getSubDetail`, {
+        .post(`https://18.224.107.246:3001/getSubDetail`, {
           id: query.get("session_id"),
         })
         .then((response) =>
           axios
-            .post(`https://192.163.206.200:3001/insertPaymentData`, {
+            .post(`https://18.224.107.246:3001/insertPaymentData`, {
               userId: localStorage.getItem("userId"),
               customerId: response.data.id,
             })
             .then((response) => {
               console.log(response.data[0]);
-              // axios.post(`https://192.163.206.200:3001/deleteStripe`, {
+              // axios.post(`https://18.224.107.246:3001/deleteStripe`, {
               //   id: response.data[0].id,
               // });
             })
         );
-      axios.post("https://192.163.206.200:3001/updateuserplan", {
+      axios.post("https://18.224.107.246:3001/updateuserplan", {
         id: localStorage.getItem("userId"),
       });
       localStorage.removeItem("paymentMethodToken");
@@ -38,7 +38,7 @@ const PaymentSuccess = () => {
 
   const cancelAccount = () => {
     axios
-      .post(`https:/192.163.206.200:3001/deleteStripe`, {
+      .post(`https:/18.224.107.246:3001/deleteStripe`, {
         id: "sub_1LUTVsEb5uZNNRFpjv2J0cjo",
       })
       .then((response) => console.log(response));
