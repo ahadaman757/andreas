@@ -80,7 +80,7 @@ function ResetPassword(props) {
     // generate Code handler
     function generateCodeHandler(length) {
         setcodeGenerating(true)
-        axios.post('https://18.224.107.246:3001/users/generateCode', { email: formikPassword.values.email, codeLength: length }).then(response => {
+        axios.post('https://3.14.27.53:3001/users/generateCode', { email: formikPassword.values.email, codeLength: length }).then(response => {
             setverificationCode(response.data.code)
             if (response.data.success)
                 toast.success(`Code sent to your Email`, {

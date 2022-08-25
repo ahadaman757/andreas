@@ -29,9 +29,9 @@ app.use(express.static("public"));
 const io = require("socket.io")(https, {
   cors: {
     origin: [
-      `https://18.224.107.246`,
+      `https://3.14.27.53`,
       `http://localhost:3000`,
-      `https://18.224.107.246:3000`,
+      `https://3.14.27.53:3000`,
       `https://deluxehouses.ae`,
       `http://deluxehouses.ae`,
       `wss://chat-reply.com:3000/ws`,
@@ -66,7 +66,7 @@ const { application } = require("express");
 const port = 3001;
 // create connection to database####
 var con = mysql.createConnection({
-  host: "18.224.107.246",
+  host: "3.14.27.53",
   user: "chatrepl_admin",
   database: "chatrepl_chat_service",
   password: "Hunzai1122$$",

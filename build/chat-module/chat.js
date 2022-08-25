@@ -35,9 +35,9 @@ tooltip.appendChild(tooltipIcon)
 closeEndedByAgentBtn.addEventListener('click', () => {
   ChatEndedByAgent.style.display = "none"
 })
-audio.src = "https://18.224.107.246:3001/images/tone.mp3";
+audio.src = "https://3.14.27.53:3001/images/tone.mp3";
 try {
-  var socket = io(`https://18.224.107.246:3001`, {
+  var socket = io(`https://3.14.27.53:3001`, {
     transports: ["websocket"],
 
     extraHeaders: {
@@ -409,7 +409,7 @@ const fetchChatData = (ID) => {
   chatMessages.id = "chat_msg_area"
   var chatmsgarea = document.getElementById("chat_msg_area")
   chatmsgarea.innerHTML += '<span class="ld">Loading Chat </span>'
-  fetch("https://18.224.107.246:3001/chats/chatAgent", {
+  fetch("https://3.14.27.53:3001/chats/chatAgent", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -439,7 +439,7 @@ const fetchChatData = (ID) => {
         })
         // load all messages
         const LoadMessageID = { id: ID };
-        fetch("https://18.224.107.246:3001/chats/messages", {
+        fetch("https://3.14.27.53:3001/chats/messages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -542,7 +542,7 @@ const checkChat = () => {
     const join = response ?? false;
     if (join) {
       if (response !== null)
-        chatHeaderLeftImage.src = `https://18.224.107.246:3001/images/${response}`;
+        chatHeaderLeftImage.src = `https://3.14.27.53:3001/images/${response}`;
     }
   });
 };
@@ -719,7 +719,7 @@ function agentbox(name) {
 socket.on("PROFILE UPDATE", (data) => {
   console.log("data;" + data.agent)
   localStorage.setItem("image", data.image);
-  chatHeaderLeftImage.src = `https://18.224.107.246:3001/images/${data.image}`;
+  chatHeaderLeftImage.src = `https://3.14.27.53:3001/images/${data.image}`;
   chatHeaderLeftName.innerHTML = data.agent;
 
 })
@@ -728,7 +728,7 @@ socket.on("room joined", (data) => {
   if (!agentJoined) {
     localStorage.setItem("image", data.image);
     if (data.image !== null)
-      chatHeaderLeftImage.src = `https://18.224.107.246:3001/images/${data.image}`;
+      chatHeaderLeftImage.src = `https://3.14.27.53:3001/images/${data.image}`;
     else
       chatHeaderLeftImage.src = `https://www.providesupport.com/blog/wp-content/uploads/2013/04/operator-picture-300x300.png`;
     agentJoined = true;

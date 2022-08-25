@@ -113,7 +113,7 @@ const SignUp = () => {
   function generateCodeHandler(length) {
     setcodeGenerating(true);
     axios
-      .post("https://18.224.107.246:3001/users/generateCode", {
+      .post("https://3.14.27.53:3001/users/generateCode", {
         email: formik.values.email,
         codeLength: length,
       })
@@ -525,7 +525,7 @@ function SignUpd() {
   function generateCodeHandler(length) {
     setcodeGenerating(true);
     axios
-      .post("https://18.224.107.246:3001/users/generateCode", {
+      .post("https://3.14.27.53:3001/users/generateCode", {
         email: formik.values.email,
         codeLength: length,
       })

@@ -1,4 +1,4 @@
 const constants = {
-    host: "18.224.107.246"
+    host: "3.14.27.53"
 }
 export default constants
