@@ -318,7 +318,10 @@ const ClientDashboard = () => {
   const [reload, setReload] = useState(false);
   const [remianingLeads, setremianingLeads] = useState();
   const [showPlanWarning, setshowPlanWarning] = useState(true);
+  const [dueCharges, setdueCharges] = useState(false);
+
   // GET ALL LEADS
+
   useEffect(() => {
     setLeadsLoading(true);
     axios
@@ -332,14 +335,17 @@ const ClientDashboard = () => {
   }, [reload]);
   useEffect(() => {
     axios
-      .post(`https://${constants.host}:3001/users/remaining-leads`, {
+      .post(`https://${constants.host}:3001/users/check-leads`, {
         c_name: authState.LoggedUserData.c_name,
       })
       .catch((error) => {
         alert(error);
       })
       .then((response) => {
-        setremianingLeads(response.data[0].remaining_leads);
+        setremianingLeads(response.data.remaining_leads);
+        if (response.data.paid) {
+          setdueCharges(true)
+        }
       });
   }, [authState]);
   return (
@@ -356,7 +362,10 @@ const ClientDashboard = () => {
                     : remianingLeads == 0
                       ? "Trial Account"
                       : ""}{" "}
-                  : {remianingLeads} leads remaining.
+                  {remianingLeads} leads remaining.
+                </p>
+                <p className=" mb-0  text-white py-2 px-4">
+                  {dueCharges && "No more leads can be added for you,please pay charges for extra prevoius leads,  "}
                 </p>
                 <AiOutlineClose
                   onClick={() => {
