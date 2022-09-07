@@ -26,8 +26,7 @@ function Footer() {
               <div className="col-md-3 ">
                 <Logo />
                 <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Nulla quisquam, molestias sunt voluptatum, quibusdam.
+                  Everything your customers need to chat with you, self serve and chat with your customers.
                 </p>
               </div>
 
@@ -36,20 +35,23 @@ function Footer() {
                   className="d-flex flex-column justify-content-between pt-2"
                   style={{ listStyle: "none" }}
                 >
-                  <a className="text-decoration-none text-black" href="">
-                    <li className=" mb-2 mb-md-3 text-blue fw-bold">Home</li>
-                  </a>
-                  <a className="text-decoration-none text-black" href="">
-                    <li className="mb-2 text-dark mb-md-3">About Us</li>
-                  </a>
-                  <a className="text-decoration-none text-black" href="">
-                    <li className="mb-2 text-dark mb-md-3">
-                      <Link className={`nav-link active ${styles.nav_link}`} to="/#pricing">Pricing</Link>
-                    </li>
-                  </a>
-                  <a className="text-decoration-none text-black" href="">
-                    <li className="mb-2 text-dark mb-md-3">FAQ</li>
-                  </a>
+                  <li className=" mb-2 mb-md-3 text-blue fw-bold">
+
+                    <Link className={`nav-link  ${styles.nav_link}`} to="/">Home</Link>
+                  </li>
+                  <li className=" mb-2 mb-md-3 text-blue ">
+
+                    <Link className={`nav-link  ${styles.nav_link}`} to="/aboutus">About Us</Link>
+                  </li>
+                  <li className=" mb-2 mb-md-3 text-blue ">
+
+                    <Link className={`nav-link  ${styles.nav_link}`} to="/#pricing">Pricing</Link>
+                  </li>
+                  <li className=" mb-2 mb-md-3 text-blue ">
+
+                    <Link className={`nav-link  ${styles.nav_link}`} to="/#faq">Faq</Link>
+                  </li>
+
                 </ul>
               </div>
               <div className="col-md-5  d-flex align-items-around text-black h-100">
@@ -57,18 +59,20 @@ function Footer() {
                   className="d-flex flex-column justify-content-between pt-2"
                   style={{ listStyle: "none" }}
                 >
-                  <a className="text-decoration-none text-black" href="">
-                    <li className=" mb-2 mb-md-3 text-blue fw-bold">Privacy</li>
-                  </a>
-                  <a className="text-decoration-none text-black" href="">
-                    <li className="mb-2 text-dark mb-md-3">Terms</li>
-                  </a>
-                  <a className="text-decoration-none text-black" href="">
-                    <li className="mb-2 text-dark mb-md-3">Notifications</li>
-                  </a>
-                  <a className="text-decoration-none text-black" href="">
-                    <li className="mb-2 text-dark mb-md-3">Conditions</li>
-                  </a>
+                  <li className=" mb-2 mb-md-3 text-blue fw-bold">
+
+                    <Link className={`nav-link  ${styles.nav_link}`} >Contact</Link>
+                  </li>
+                  <li className=" mb-2 mb-md-3 text-blue ">
+
+                    <span className={`nav-link  ${styles.nav_link}`}>The Fastest and easiest way to get in touch is to chat with us here</span>
+                  </li>
+                  <li className=" mb-2 mb-md-3 text-blue ">
+                    <span className={`nav-link  ${styles.nav_link}`} >123 newyork city United State</span>
+                  </li>
+                  <li className=" mb-2 mb-md-3 text-blue ">
+                    <span className={`nav-link  ${styles.nav_link}`} >info@chat-reply.com</span>
+                  </li>
                 </ul>
               </div>
             </div>

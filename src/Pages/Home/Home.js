@@ -13,11 +13,8 @@ import { socket } from '../../App'
 const Policy = () => {
   const [show, setShow] = useState(false);
   const [propmtPolicy, setpropmtPolicy] = useState(true)
-
-
   const handleClose = () => {
     setShow(false)
-
   };
   const handleCloseDiscard = () => {
     setShow(false)
@@ -120,7 +117,7 @@ const FeatureSection = (props) => {
                 to="/signup"
                 style={{ textDecoration: "none", }}
               >
-                Start a free trail <i className="fas text-primary ms-2 fa-arrow-right"></i>
+                Start a free trial <i className="fas text-primary ms-2 fa-arrow-right"></i>
               </NavLink>
             </p>
           ) : (

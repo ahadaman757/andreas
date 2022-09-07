@@ -15,6 +15,7 @@ import Setting from "./Pages/Dashboard/Setting";
 import UserManagement from "./Pages/Dashboard/UserManagement";
 import constants from "../src/constants";
 import PaymentSuccess from "./Pages/Dashboard/PaymentSuccess";
+import PaymentSuccessFull from "./Pages/Dashboard/PaymentSuccessful";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 import { io } from "socket.io-client";
 import mySound from './assets/audio/Message Tone.mp3'
@@ -22,6 +23,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ContactUs from '../src/Pages/contact-us/ContactUs'
 import AboutUs from "./Pages/about-us/AboutUs";
+import Expiredpackage from './Components/ExpiredPackage/ExpiredPackage'
 
 var socket = io(`https://${constants.host}:3001`, {
   transports: ["websocket"],
@@ -32,18 +34,21 @@ var socket = io(`https://${constants.host}:3001`, {
 console.log(socket)
 const AuthContext = createContext("");
 function App() {
+
   const [playSound] = useSound(mySound)
   const loc = useLocation()
   console.log("location:" + loc.pathname)
   const navigate = useNavigate();
   const [authState, setAuthState] = useState({
-    LoggedUserData: "",
+    LoggedUserData: '',
     status: false,
+
   });
 
   const [loading, setloading] = useState(true);
   const [pageLoaded, setpageLoaded] = useState(true);
   console.log(authState.LoggedUserData);
+
   useEffect(() => {
 
     socket.onAny(e => {
@@ -96,11 +101,12 @@ function App() {
       document.body.removeChild(script);
     };
   }, []);
+  // console.log("expired" + authState.LoggedUserData.paid)
   useEffect(() => {
     setpageLoaded(false)
     console.log("requesting")
     axios
-      .get(`https://${constants.host}:3001/signin/verifyToken`, {
+      .get(`https://${constants.host}:3001/profile`, {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -129,9 +135,9 @@ function App() {
           if (response.data.error) {
             setAuthState(false);
           } else {
-            console.log(response.data.userData);
+            console.log(response.data);
             setAuthState({
-              LoggedUserData: response.data.userData,
+              LoggedUserData: response.data,
               status: true,
             });
 
@@ -170,7 +176,7 @@ function App() {
         <Route path="signup" element={<SignUp />} />
         {loading ? (
           <Route path="/dashboard" element={<Loading />} />
-        ) : authState ? (
+        ) : authState ? (authState.LoggedUserData.paid == '1') ? (<><Route path="/dashboard" element={<Expiredpackage />} /> <Route path="/dashboard/paymentSuccessful" element={<PaymentSuccessFull />} /> </>) : (
           <Route path="/dashboard" element={<MainDashboard />}>
             <Route path="" element={<DashboardContent />} />
             <Route path="monitor" element={<Monitor />} />
@@ -179,7 +185,7 @@ function App() {
             <Route path="setting" element={<Setting />} />
             <Route path="users" element={<UserManagement />} />
             <Route path="paymentSuccess" element={<PaymentSuccess />} />
-
+            <Route path="paymentSuccessful" element={<PaymentSuccessFull />} />
           </Route>
         ) : (
           <Route
@@ -199,7 +205,7 @@ function App() {
           /> : null
         }
       </Routes>
-    </AuthContext.Provider>
+    </AuthContext.Provider >
   );
 }
 export default App;

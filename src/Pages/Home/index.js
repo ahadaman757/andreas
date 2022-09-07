@@ -178,14 +178,14 @@ const Home = () => {
           <Card />
         </div>
         <div>
-          <div className="our_inner_container">
+          {/* <div className="our_inner_container">
             <h1>Our customers say it best</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
               diam nulla sapien elementum. Mauris viverra a sollicitudin egestas
               aliquam. Amet lacus, sed quis leo vulputate vitae.
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="information_main_container">
           <div className="information_inner_container">
@@ -205,7 +205,7 @@ const Home = () => {
             <h2>50+</h2>
           </div>
         </div>
-        <div className="Faq_main_container">
+        <div id="faq" className="Faq_main_container">
           <h1>FAQ</h1>
           {/* <div className="Faq_inner_container">
             <img src={addLogo} />
@@ -246,7 +246,7 @@ const Home = () => {
                   to="/signup"
                   style={{ color: "white", marginTop: "-50px" }}
                 >
-                  Start Free Trail
+                  Start Free Trial
                 </Link>
               </button>
             </div>

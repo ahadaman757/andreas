@@ -43,6 +43,54 @@ const PaymentSuccess = () => {
       })
       .then((response) => console.log(response));
   };
+  useEffect(() => {
+
+
+    return () => {
+      console.log("unmounted")
+      axios
+        .get(`https://3.14.27.53:3001/profile`, {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        })
+        .catch(function (error) {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // https.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        })
+        .then((response) => {
+          if (response) {
+
+            if (response.data.error) {
+              setAuthState(false);
+            } else {
+              console.log(response.data);
+              setAuthState({
+                LoggedUserData: response.data,
+                status: true,
+              });
+
+            }
+          }
+
+        });
+    }
+  }, [])
+
   return (
     <>
       <DashboardHeader />
