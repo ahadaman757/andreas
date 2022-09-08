@@ -9,10 +9,10 @@ function ContactUs() {
     return (
         <Fullpage >
             <Navbar color='black' bgColor='white' />
-            <div class={`jumbotron text-white py-lg-5 py-md-4 py-3  jumbotron-fluid ${styles.contact_background_image}`}>
+            <div class={`jumbotron d-flex align-items-center text-white py-lg-5 py-md-4 py-3  jumbotron-fluid ${styles.contact_background_image}`}>
                 <div class="container text-center">
                     <h1 class="display-4 text-white fw-600">Contact Us</h1>
-                    <p class="lead text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
+                    {/* <p class="lead text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p> */}
                 </div>
             </div>
             <div className="container">
@@ -24,7 +24,7 @@ function ContactUs() {
                                 Any Help !
                             </h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
+                                The Fastest and easiest way to get in touch is to chat with us here
                             </p>
                         </div>
 
@@ -35,7 +35,7 @@ function ContactUs() {
                                 </span>
                                 <div>
                                     <h4>Address</h4>
-                                    <p>123 newyork city United State</p>
+                                    <p>Street 16. Al Barsha.Lama Building 1 floor</p>
                                 </div>
                             </div>
 
@@ -46,7 +46,7 @@ function ContactUs() {
                                 </span>
                                 <div>
                                     <h4>Email</h4>
-                                    <p>asdf@gmail.com</p>
+                                    <p>info@chat-reply.com</p>
                                 </div>
                             </div>
                         </div>

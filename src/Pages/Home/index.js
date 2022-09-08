@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import main from "./main.module.css";
 import Navbar from "../../Components/navbar";
 import bg1 from "../../assets/Images/Vector1.png";
 import mobile from "../../assets/logos/Vector.svg";
+import { Modal, Button } from "react-bootstrap";
 import "./styles.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Wrapper from "../../Components/wapper";
@@ -22,9 +24,60 @@ import Footer from "../../Components/UI/Footer/Footer";
 import ControlledAccordions from "../../Components/accordion";
 import Header from "../../Components/UI/Header/NewHeader";
 import { Link } from "react-router-dom";
+const Policy = () => {
+  const [show, setShow] = useState(false);
+  const [propmtPolicy, setpropmtPolicy] = useState(true)
+  const handleClose = () => {
+    setShow(false)
+  };
+  const handleCloseDiscard = () => {
+    setShow(false)
+    setpropmtPolicy(true)
+  };
+
+  const handleCloseAccept = () => {
+    setShow(false)
+    setpropmtPolicy(false)
+  };
+  const handleShow = () => setShow(true);
+  if (propmtPolicy)
+    return <div className={`${main.policyContianer}`}>
+      This site uses Cookies for more information and to manage cookies read our <button className={`${main.policyOpen} `} onClick={handleShow}>Privacy policy</button>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>PRIVACY POLICY</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <bold>PRIVACY POLICY</bold>
+          <br />
+          <p>
+            We are committed to protecting our users' privacy. Keeping the information you share with us on the site, secure and ensuring your understanding of how we collect, use and maintain your information is important to us at Chat-Reply. We maintain physical, electronic and procedural safeguards to protect your information and while no data transmission over the Internet is 100% secure from intrusion, we have used and will continue to use commercially reasonable efforts to ensure the protection of your information. We continually assess new technology for protecting information and, when appropriate, we upgrade our information security systems.
+
+            Because of its importance and to make it easier for you to find and review it, we have made this Privacy Policy into a separate document on the site. However, bear in mind it is a part of our agreement with you and when we may make changes to these statements and terms, and how they become binding upon you. We reserve the right to modify this policy. Any changes to the policy will be posted on this page. Users are encouraged to check the page regularly as they will be bound by the changes once posted on the site.
+
+            Please read this Privacy Policy before using this service or submitting personal information to us.
+          </p>
+
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDiscard}>
+            Discard
+          </Button>
+          <Button variant="primary" onClick={handleCloseAccept}>
+            Accept
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  else
+    return null
+}
 const Home = () => {
   return (
     <div>
+      <Policy />
       <div className="contentdisplay">
         <Header bgColor="transparent" />
         <Wrapper bgInvisible>
@@ -178,14 +231,14 @@ const Home = () => {
           <Card />
         </div>
         <div>
-          <div className="our_inner_container">
+          {/* <div className="our_inner_container">
             <h1>Our customers say it best</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
               diam nulla sapien elementum. Mauris viverra a sollicitudin egestas
               aliquam. Amet lacus, sed quis leo vulputate vitae.
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="information_main_container">
           <div className="information_inner_container">
@@ -205,7 +258,7 @@ const Home = () => {
             <h2>50+</h2>
           </div>
         </div>
-        <div className="Faq_main_container">
+        <div id="faq" className="Faq_main_container">
           <h1>FAQ</h1>
           {/* <div className="Faq_inner_container">
             <img src={addLogo} />
@@ -246,7 +299,7 @@ const Home = () => {
                   to="/signup"
                   style={{ color: "white", marginTop: "-50px" }}
                 >
-                  Start Free Trail
+                  Start Free Trial
                 </Link>
               </button>
             </div>

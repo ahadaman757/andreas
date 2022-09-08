@@ -11,8 +11,7 @@ const Footer = () => {
             <h1>ChatReply</h1>
           </div>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultrices
-            nunc lobortis libero egestas lacus aliquet.
+            Everything your customers need to chat with you, self serve and chat with your customers.
           </p>
         </div>
         <div className="links_home">

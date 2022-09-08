@@ -2,17 +2,17 @@
 <html lang="en">
 <link rel="stylesheet" href="../src/index.css">
 <script>
-  function startLoad() {
-    console.log("stared")
-  }
-  console.log(document.querySelector(".loader"))
-  function showLoading() {
-    document.querySelector('.loader').remove();
+  // function startLoad() {
+  //   console.log("stared")
+  // }
+  // console.log(document.querySelector(".loader"))
+  // function showLoading() {
+  //   document.querySelector('.loader').remove();
 
-  }
-  function rootLoad() {
-    alert("loading")
-  }
+  // }
+  // function rootLoad() {
+  //   alert("loading")
+  // }
 </script>
 
 <head>
@@ -34,10 +34,12 @@
     crossorigin="anonymous"></script>
 </head>
 
-<body onloadstart="startLoad()" onload="showLoading()">
+<!-- <body onloadstart="startLoad()" onload="showLoading()"> -->
+
+<body>
 
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div class="loader" style=" position: absolute;
+  <!-- <div class="loader" style=" position: absolute;
   text-align: center;
   height: 100vh;
   width: 100vw;
@@ -53,8 +55,8 @@
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;"></div>
-  </div>
-  <div onload="rootLoad()" id="root"></div>
+  </div> -->
+  <div id="root"></div>
   <!-- <script src="./Chat.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

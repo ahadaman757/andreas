@@ -5,8 +5,8 @@ import React from "react";
 const data = [
   {
     id: 1,
-    cardName: "Free Trail",
-    cardPrice: "Free",
+    cardName: "Free Trial",
+    cardPrice: "",
     cardDuration: "20 leads or 8 Days",
     cardDisceription: "Best for learning and chatting with customers",
     benefits: ["Track up to 20 leads", "Unlimited Chat history", "Analytics"],
@@ -14,7 +14,7 @@ const data = [
   {
     id: 2,
     cardName: "Premium",
-    cardPrice: "$39 monthly / 10 leads",
+    cardPrice: "$39 monthly",
     cardDuration: "$9 per lead onwards",
     cardDisceription:
       "Best for emerging platforms / websites with medium to high traffic and support requests.",
@@ -31,7 +31,7 @@ const data = [
     id: 3,
     cardName: "Enterprise",
     cardDisceription:
-      "Large Companies have their Own Chat Agents",
+      "For Companies who have their own support team",
     benefits: [
       "All basic features",
       "ChatReply expert technical support",

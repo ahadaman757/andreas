@@ -34,19 +34,19 @@ function AboutUs() {
                         <p >
                             Want to join us? It might not be easy, but check out current openings and get in touch.
                         </p>
-                        <figure>
+                        {/* <figure>
                             <video width="100%" height="240" controls>
                                 <source src="https://www.youtube.com/watch?v=0uurZYdmA6M" type="video/mp4" />
                                 <source src="movie.ogg" type="video/ogg" />
                                 Your browser does not support the video tag.
                             </video>
                             <figcaption>Want to join us? It might not be easy, but check out current openings and get in touch.</figcaption>
-                        </figure>
+                        </figure> */}
                         <h1 className={`${styles.h1}`}>
                             Mission statement
                         </h1>
                         <p className={`${styles.content}`}>
-                            We’ve built ChatReplyon the idea that helping others is as much important as creating a great product. While turning simple live chat app into a robust business platform, we’ve gained tons of knowledge about growth and customer relations. Our mission is to share our knowledge, bring personal touch to online communication and never stop loving what we do.
+                            We’ve built ChatReply on the idea that helping others is as much important as creating a great product. While turning simple live chat app into a robust business platform, we’ve gained tons of knowledge about growth and customer relations. Our mission is to share our knowledge, bring personal touch to online communication and never stop loving what we do.
                         </p>
                         <p className={`${styles.content}`}>Authorize.Net Merchant - Click to Verify <br />
                             ChatReply, Inc.  BBB Business Review</p>
@@ -54,7 +54,7 @@ function AboutUs() {
                             The history
                         </h1>
                         <p className={`${styles.content}`}>
-                            When we founded LiveChat, we knew we want to create something extraordinary. We had passion, we were ambitious, we believed we would move mountains. We wanted to re-shape the face of online communication.
+                            When we founded ChatReply, we knew we want to create something extraordinary. We had passion, we were ambitious, we believed we would move mountains. We wanted to re-shape the face of online communication.
                         </p>
                         <p>
                             We just needed to learn how. Our history dates to 2002, when we sat down and decided to change how businesses communicate with their customers. Back then, we had no idea how hard it would be – we just knew we wanted to build the best live chat app on the market. Easier said than done!

@@ -47,7 +47,7 @@ function Header(props) {
                                             <NavLink to='/contactus' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">Contact Us</NavLink>
                                         </li>
                                         <li className="nav-item me-lg-4">
-                                            <NavLink to='/' className={`nav-link active ${styles.nav_link}`} aria-current="page" href="#">FAQ's</NavLink>
+                                            <Link className={`nav-link active ${styles.nav_link}`} to="/#faq">FAQs</Link>
                                         </li>
                                     </ul>
                                 </div>
