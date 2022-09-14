@@ -369,7 +369,8 @@ const UserManagement = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [searchValue, setSearchValue] = useState("");
-
+  const [allLeads, setallLeads] = useState([])
+  const [userLeads, setuserLeads] = useState([])
   const closeModal = (e, d) => {
     // e.preventDefault();
     d == 1 ? setOpen(!open) : setAddAgentOpen(!addAgentOpen);
@@ -398,18 +399,40 @@ const UserManagement = () => {
         setLoading(true);
       });
   };
+
   useEffect(() => {
+    let allusersLeads = []
     axios
       .post(`https://${constants.host}:3001/userslist`, {
         role: role,
       })
+
       .then((response) => {
         setUsersList((usersList) => [...response.data]);
 
+        if (role == 'client') {
+          axios.get(`https://${constants.host}:3001/all-leads`, {
+            headers: {
+              accessToken: localStorage.getItem("accessToken")
+            }
+          }).then(leadsResponse => {
+            response.data.map(user => {
+              const temp = leadsResponse.data.filter(lead => {
+                return lead.c_name == user.c_name
+              })
+              console.log("temp:")
+              console.log(temp)
+              allusersLeads.push(temp)
+
+            })
+            setallLeads(allusersLeads)
+          })
+        }
         setLoading(false);
+
       });
   }, [loading, role]);
-
+  console.log(usersList)
   return (
     <Fragment>
       <DashboardHeader />
@@ -566,6 +589,10 @@ const UserManagement = () => {
                         <th>Type</th>
                         <th>Company Name</th>
                         {/* <th>Membership</th> */}
+                        {
+                          role == 'client' ? <><th>Total Leads</th> <th>Expiry Date</th><th>Extra Leads</th> </> : null
+                        }
+
                         <th>Edit</th>
                         <th>Delete</th>
                       </tr>
@@ -574,7 +601,9 @@ const UserManagement = () => {
                     <tbody>
                       {loading == true
                         ? "Loading"
-                        : usersList.map((element) => {
+                        : usersList.map((element, index) => {
+                          const d = element.expiry_date
+                          const date = new Date(d)
                           return (
                             <tr key={element.id}>
                               <td>
@@ -616,6 +645,20 @@ const UserManagement = () => {
                                   ? "AGENT"
                                   : element.c_name}
                               </td>
+                              {role == 'client' ? <td>
+                                {allLeads[index] && allLeads[index].length}
+                              </td> : null}
+                              {
+                                role == 'client' ? <td>
+                                  {Intl.DateTimeFormat('en-US').format(date)}
+                                </td> : null
+                              }
+                              {
+                                role == 'client' ? <td>
+                                  {element.extra_leads}
+                                </td> : null
+                              }
+
                               {/* <td> */}
                               {/* {chat.is_end ? (
                             <span className="badge badge-grey-light-bold ">
