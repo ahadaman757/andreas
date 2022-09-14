@@ -34,7 +34,7 @@ const SignUp = () => {
       .max(50, "Too Long!")
       .required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
-    code: Yup.string().required("Required"),
+    // code: Yup.string().required("Required"),
     password: Yup.string().required("Password is required"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -64,8 +64,6 @@ const SignUp = () => {
       axios
         .post(`https://${constants.host}:3001/signup`, {
           ...values,
-          realCode: verificationCode,
-          enteredCode: formik.values.code,
         })
         .catch((err) => {
           toast.error(`Error:${err}`, {
@@ -110,41 +108,41 @@ const SignUp = () => {
         });
     },
   });
-  function generateCodeHandler(length) {
-    setcodeGenerating(true);
-    axios
-      .post("https://3.14.27.53:3001/users/generateCode", {
-        email: formik.values.email,
-        codeLength: length,
-      })
-      .then((response) => {
-        setverificationCode(response.data.code);
-        if (response.data.success)
-          toast.success(`Code sent to your Email`, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        setcodeGenerating(false);
-      })
-      .catch((error) => {
-        toast.error(`Error:${error}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setcodeGenerating(false);
-      });
-    // return result;
-  }
+  // function generateCodeHandler(length) {
+  //   setcodeGenerating(true);
+  //   axios
+  //     .post("https://3.14.27.53:3001/users/generateCode", {
+  //       email: formik.values.email,
+  //       codeLength: length,
+  //     })
+  //     .then((response) => {
+  //       setverificationCode(response.data.code);
+  //       if (response.data.success)
+  //         toast.success(`Code sent to your Email`, {
+  //           position: "top-center",
+  //           autoClose: 5000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: true,
+  //           draggable: true,
+  //           progress: undefined,
+  //         });
+  //       setcodeGenerating(false);
+  //     })
+  //     .catch((error) => {
+  //       toast.error(`Error:${error}`, {
+  //         position: "top-center",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //         progress: undefined,
+  //       });
+  //       setcodeGenerating(false);
+  //     });
+  //   // return result;
+  // }
   return (
     <Fullpage>
       <PrivacyModal open={showPrivacyModal} handleClose={handleClose} />
@@ -320,7 +318,7 @@ const SignUp = () => {
                 </div>
               ) : null}
             </div>
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <label
                 for="v-code"
                 className={`form-label ${styles.inputLable_text}`}
@@ -369,7 +367,7 @@ const SignUp = () => {
                   {formik.errors.code}
                 </div>
               ) : null}
-            </div>
+            </div> */}
             <div className="col-12 col-md-6">
               <div className="form-check">
                 <input
@@ -476,8 +474,6 @@ function SignUpd() {
       axios
         .post(`https://${constants.host}:3001/signup`, {
           ...values,
-          realCode: verificationCode,
-          enteredCode: formik.values.code,
         })
         .catch((err) => {
           toast.error(`Error:${err}`, {
